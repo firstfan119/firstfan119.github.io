@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/favicon.png" color="#222">
+  <link rel="alternate" href="/atom.xml" title="first's blog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="动态规划入门篇~">
+<meta name="keywords" content="动态规划">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动态规划入门">
+<meta property="og:url" content="https:&#x2F;&#x2F;firstfan119.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%A5%E9%97%A8&#x2F;index.html">
+<meta property="og:site_name" content="first&#39;s blog">
+<meta property="og:description" content="动态规划入门篇~">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;upload-images.jianshu.io&#x2F;upload_images&#x2F;13681871-5e793aa7d967f719.png?imageMogr2&#x2F;auto-orient&#x2F;strip%7CimageView2&#x2F;2&#x2F;w&#x2F;939&#x2F;format&#x2F;webp">
+<meta property="og:updated_time" content="2019-11-17T05:40:09.581Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;upload-images.jianshu.io&#x2F;upload_images&#x2F;13681871-5e793aa7d967f719.png?imageMogr2&#x2F;auto-orient&#x2F;strip%7CimageView2&#x2F;2&#x2F;w&#x2F;939&#x2F;format&#x2F;webp">
+
+<link rel="canonical" href="https://firstfan119.github.io/2019/11/23/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%A5%E9%97%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>动态规划入门 | first's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">first's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://firstfan119.github.io/2019/11/23/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%A5%E9%97%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/first.png">
+      <meta itemprop="name" content="first_fan">
+      <meta itemprop="description" content="Just Do It,But Not Just Do It.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="first's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          动态规划入门
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-23 23:14:50" itemprop="dateCreated datePublished" datetime="2019-11-23T23:14:50+08:00">2019-11-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-17 13:40:09" itemprop="dateModified" datetime="2019-11-17T13:40:09+08:00">2019-11-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DP/" itemprop="url" rel="index">
+                    <span itemprop="name">DP</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">动态规划入门篇~</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Content"><a href="#Content" class="headerlink" title="Content"></a>Content</h1><h2 id="1-从乘方和谚语说起"><a href="#1-从乘方和谚语说起" class="headerlink" title="1. 从乘方和谚语说起"></a>1. 从乘方和谚语说起</h2><h2 id="2-斐波那契数列：递归受到了挑战"><a href="#2-斐波那契数列：递归受到了挑战" class="headerlink" title="2. 斐波那契数列：递归受到了挑战"></a>2. 斐波那契数列：递归受到了挑战</h2><h2 id="3-动态规划的原理"><a href="#3-动态规划的原理" class="headerlink" title="3. 动态规划的原理"></a>3. 动态规划的原理</h2><h3 id="–3-1最优子结构"><a href="#–3-1最优子结构" class="headerlink" title="–3.1最优子结构"></a>–3.1最优子结构</h3><h3 id="–3-2重叠子问题"><a href="#–3-2重叠子问题" class="headerlink" title="–3.2重叠子问题"></a>–3.2重叠子问题</h3><h2 id="4-动态规划的应用"><a href="#4-动态规划的应用" class="headerlink" title="4.动态规划的应用"></a>4.动态规划的应用</h2><h3 id="–4-1背包模型"><a href="#–4-1背包模型" class="headerlink" title="–4.1背包模型"></a>–4.1背包模型</h3><h5 id="–4-1-1-零一背包"><a href="#–4-1-1-零一背包" class="headerlink" title="–4.1.1 零一背包"></a>–4.1.1 零一背包</h5><h5 id="–4-1-2-完全背包"><a href="#–4-1-2-完全背包" class="headerlink" title="–4.1.2 完全背包"></a>–4.1.2 完全背包</h5><h5 id="–4-1-3-多重背包"><a href="#–4-1-3-多重背包" class="headerlink" title="–4.1.3 多重背包"></a>–4.1.3 多重背包</h5><h3 id="–4-2线性动规"><a href="#–4-2线性动规" class="headerlink" title="–4.2线性动规"></a>–4.2线性动规</h3><h3 id="–4-3区间动规"><a href="#–4-3区间动规" class="headerlink" title="–4.3区间动规"></a>–4.3区间动规</h3><h2 id="5-入土"><a href="#5-入土" class="headerlink" title="5.入土"></a>5.入土</h2><hr><h1 id="1-从乘方和谚语说起-1"><a href="#1-从乘方和谚语说起-1" class="headerlink" title="1.从乘方和谚语说起"></a>1.从乘方和谚语说起</h1><h2 id="相信你们都学习过乘方，那么我们知道"><a href="#相信你们都学习过乘方，那么我们知道" class="headerlink" title="相信你们都学习过乘方，那么我们知道:"></a>相信你们都学习过乘方，那么我们知道:</h2><a id="more"></a>
+<h3 id="2-X-2-X-2-X-2-X-2-X-2-X-2-X-2-X-2-X-2-2-10-1024"><a href="#2-X-2-X-2-X-2-X-2-X-2-X-2-X-2-X-2-X-2-2-10-1024" class="headerlink" title="2 X 2 X 2 X 2 X 2 X 2 X 2 X 2 X 2 X 2 =2^10=1024"></a>2 X 2 X 2 X 2 X 2 X 2 X 2 X 2 X 2 X 2 =2^10=1024</h3><h3 id="那么2-11是多少呢？你会自然而然地答出2048"><a href="#那么2-11是多少呢？你会自然而然地答出2048" class="headerlink" title="那么2^11是多少呢？你会自然而然地答出2048!"></a>那么2^11是多少呢？你会自然而然地答出2048!</h3><h3 id="好的，祝贺你已经学会了动规初步！"><a href="#好的，祝贺你已经学会了动规初步！" class="headerlink" title="好的，祝贺你已经学会了动规初步！"></a>好的，祝贺你已经学会了动规初步！</h3><h1 id="为什么？"><a href="#为什么？" class="headerlink" title="为什么？"></a>为什么？</h1><h3 id="我们作为人，计算2-11自然不是2X2……X2-2048这样算的"><a href="#我们作为人，计算2-11自然不是2X2……X2-2048这样算的" class="headerlink" title="我们作为人，计算2^11自然不是2X2……X2=2048这样算的"></a>我们作为人，计算2^11自然不是2X2……X2=2048这样算的</h3><h3 id="而是通过已经给出的2-10-1024计算的：2X1024-2048。"><a href="#而是通过已经给出的2-10-1024计算的：2X1024-2048。" class="headerlink" title="而是通过已经给出的2^10=1024计算的：2X1024=2048。"></a>而是通过已经给出的2^10=1024计算的：2X1024=2048。</h3><h3 id="这个过程就包括了动规的核心思想之一："><a href="#这个过程就包括了动规的核心思想之一：" class="headerlink" title="这个过程就包括了动规的核心思想之一："></a>这个过程就包括了动规的核心思想之一：</h3><h3 id="记住子问题的解。"><a href="#记住子问题的解。" class="headerlink" title="记住子问题的解。"></a>记住子问题的解。</h3><h3 id="一句谚语解释："><a href="#一句谚语解释：" class="headerlink" title="一句谚语解释："></a>一句谚语解释：</h3><h5 id="Those-who-cannot-remember-the-past-are-doomed-to-repeat-it-–George-Santayana"><a href="#Those-who-cannot-remember-the-past-are-doomed-to-repeat-it-–George-Santayana" class="headerlink" title="Those who cannot remember the past, are doomed to repeat it.–George Santayana"></a>Those who cannot remember the past, are doomed to repeat it.–George Santayana</h5><h5 id="那些忘记过去的人注定要重蹈覆辙。"><a href="#那些忘记过去的人注定要重蹈覆辙。" class="headerlink" title="那些忘记过去的人注定要重蹈覆辙。"></a>那些忘记过去的人注定要重蹈覆辙。</h5><hr>
+<h1 id="2-斐波那契数列：递归受到了挑战-1"><a href="#2-斐波那契数列：递归受到了挑战-1" class="headerlink" title="2. 斐波那契数列：递归受到了挑战"></a>2. 斐波那契数列：递归受到了挑战</h1><h2 id="对于斐波那契数列的求解，递归往往是最先考虑的解法，但是在1000ms的苛求下，递归O-2-n-的时间复杂度就比较麻烦了。"><a href="#对于斐波那契数列的求解，递归往往是最先考虑的解法，但是在1000ms的苛求下，递归O-2-n-的时间复杂度就比较麻烦了。" class="headerlink" title="对于斐波那契数列的求解，递归往往是最先考虑的解法，但是在1000ms的苛求下，递归O(2^n)的时间复杂度就比较麻烦了。"></a>对于斐波那契数列的求解，递归往往是最先考虑的解法，但是在1000ms的苛求下，递归O(2^n)的时间复杂度就比较麻烦了。</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//递归解斐波那契</span><br><span class="line">long long Fib(long long n)</span><br><span class="line">&#123;</span><br><span class="line">    if (n==1||n==2)</span><br><span class="line">        return 1;</span><br><span class="line">    else</span><br><span class="line">        return Fib(n - 1) + Fib(n - 2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="图解"><a href="#图解" class="headerlink" title="图解?"></a>图解?</h3><p><img src="https://upload-images.jianshu.io/upload_images/13681871-5e793aa7d967f719.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/939/format/webp" alt></p>
+<h3 id="从图中可以看到，光是算fib-6-，就要重新算3遍fib-3-，时间复杂度就比较恶心了。对了，你想起什么没有？记住子问题的答案–动规登场！"><a href="#从图中可以看到，光是算fib-6-，就要重新算3遍fib-3-，时间复杂度就比较恶心了。对了，你想起什么没有？记住子问题的答案–动规登场！" class="headerlink" title="从图中可以看到，光是算fib(6)，就要重新算3遍fib(3)，时间复杂度就比较恶心了。对了，你想起什么没有？记住子问题的答案–动规登场！"></a>从图中可以看到，光是算fib(6)，就要重新算3遍fib(3)，时间复杂度就比较恶心了。对了，你想起什么没有？记住子问题的答案–动规登场！</h3><h4 id="1-子问题记忆法"><a href="#1-子问题记忆法" class="headerlink" title="1.子问题记忆法"></a>1.子问题记忆法</h4><h5 id="使用一个数组来记录各个子问题的解，当再一次遇到这一问题的时候直接查找数组来获得解避免多次计算子问题。"><a href="#使用一个数组来记录各个子问题的解，当再一次遇到这一问题的时候直接查找数组来获得解避免多次计算子问题。" class="headerlink" title="使用一个数组来记录各个子问题的解，当再一次遇到这一问题的时候直接查找数组来获得解避免多次计算子问题。"></a>使用一个数组来记录各个子问题的解，当再一次遇到这一问题的时候直接查找数组来获得解避免多次计算子问题。</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">//动规解决斐波那契(子问题记忆法)</span><br><span class="line">int fib(int a[],int n)</span><br><span class="line">&#123;</span><br><span class="line">    if (n == 0)</span><br><span class="line">    &#123;</span><br><span class="line">        a[0] = 0;</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br><span class="line">    if (n == 1)</span><br><span class="line">    &#123;</span><br><span class="line">        a[1] = 1;</span><br><span class="line">        return 1;</span><br><span class="line">    &#125;</span><br><span class="line">    if (a[n] &gt;= 0)</span><br><span class="line">    &#123;</span><br><span class="line">        return a[n];</span><br><span class="line">    &#125;</span><br><span class="line">    a[n] = fib(a, n - 1) + fib(a, n - 2);</span><br><span class="line">    return fib(a, n - 1) + fib(a, n - 2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2、自底向上解决方案"><a href="#2、自底向上解决方案" class="headerlink" title="2、自底向上解决方案"></a>2、自底向上解决方案</h4><h5 id="先求解子问题再根据子问题的解来求解父问题，斐波那契数列的子问题图如下："><a href="#先求解子问题再根据子问题的解来求解父问题，斐波那契数列的子问题图如下：" class="headerlink" title="先求解子问题再根据子问题的解来求解父问题，斐波那契数列的子问题图如下："></a>先求解子问题再根据子问题的解来求解父问题，斐波那契数列的子问题图如下：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//动规解决斐波那契(自底向上解决)</span><br><span class="line">int fib(int a[],int n)</span><br><span class="line">&#123;</span><br><span class="line">    a[0] = 0;</span><br><span class="line">    a[1] = 1;</span><br><span class="line">    for (int i = 2; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        a[i] = a[i - 1] + a[i - 2];</span><br><span class="line">    &#125;</span><br><span class="line">    return a[n];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="自底向上的计算方法实现起来非常容易，分析算法，仅从形式上面分析算法可知，算法的时间主要消耗在计算数据规模为n的数组里面的数上面了，所以时间复杂度仅为-color-red-text-O-n-。递归在斐波那契的地位不保了！！"><a href="#自底向上的计算方法实现起来非常容易，分析算法，仅从形式上面分析算法可知，算法的时间主要消耗在计算数据规模为n的数组里面的数上面了，所以时间复杂度仅为-color-red-text-O-n-。递归在斐波那契的地位不保了！！" class="headerlink" title="自底向上的计算方法实现起来非常容易，分析算法，仅从形式上面分析算法可知，算法的时间主要消耗在计算数据规模为n的数组里面的数上面了，所以时间复杂度仅为:$\color{red}\text{O(n)}$。递归在斐波那契的地位不保了！！"></a>自底向上的计算方法实现起来非常容易，分析算法，仅从形式上面分析算法可知，算法的时间主要消耗在计算数据规模为n的数组里面的数上面了，所以时间复杂度仅为:$\color{red}\text{O(n)}$。递归在斐波那契的地位不保了！！</h4><h3 id="但是我们可以看到，在使用动规的时候，我们似乎多开了一个数组，那么空间是否会受到影响？答案是肯定的！但是在1000ms-256Mb的条件下，牺牲空间换取时间绝对是一笔很值的交♂易！"><a href="#但是我们可以看到，在使用动规的时候，我们似乎多开了一个数组，那么空间是否会受到影响？答案是肯定的！但是在1000ms-256Mb的条件下，牺牲空间换取时间绝对是一笔很值的交♂易！" class="headerlink" title="但是我们可以看到，在使用动规的时候，我们似乎多开了一个数组，那么空间是否会受到影响？答案是肯定的！但是在1000ms,256Mb的条件下，牺牲空间换取时间绝对是一笔很值的交♂易！"></a>但是我们可以看到，在使用动规的时候，我们似乎多开了一个数组，那么空间是否会受到影响？答案是肯定的！但是在1000ms,256Mb的条件下，牺牲空间换取时间绝对是一笔很值的交♂易！</h3><h3 id="练习-LuoGu3986-amp-钢条切割"><a href="#练习-LuoGu3986-amp-钢条切割" class="headerlink" title="练习:LuoGu3986&amp;钢条切割"></a>练习:<a href="https://www.luogu.org/problemnew/show/P3986" target="_blank" rel="noopener">LuoGu3986</a>&amp;<a href="https://www.cnblogs.com/mengwang024/p/4342796.html" target="_blank" rel="noopener">钢条切割</a></h3><hr>
+<h1 id="3-动态规划的原理-1"><a href="#3-动态规划的原理-1" class="headerlink" title="3.动态规划的原理"></a>3.动态规划的原理</h1><h2 id="最优子结构"><a href="#最优子结构" class="headerlink" title="最优子结构"></a>最优子结构</h2><h4 id="用动态规划求解最优化问题的第一步就是刻画最优解的结构，如果一个问题的解结构包含其子问题的最优解，就称此问题具有最优子结构性质。因此，某个问题是否适合应用动态规划算法，它是否具有最优子结构性质是一个很好的线索。使用动态规划算法时，用子问题的最优解来构造原问题的最优解。因此必须考查最优解中用到的所有子问题。"><a href="#用动态规划求解最优化问题的第一步就是刻画最优解的结构，如果一个问题的解结构包含其子问题的最优解，就称此问题具有最优子结构性质。因此，某个问题是否适合应用动态规划算法，它是否具有最优子结构性质是一个很好的线索。使用动态规划算法时，用子问题的最优解来构造原问题的最优解。因此必须考查最优解中用到的所有子问题。" class="headerlink" title="用动态规划求解最优化问题的第一步就是刻画最优解的结构，如果一个问题的解结构包含其子问题的最优解，就称此问题具有最优子结构性质。因此，某个问题是否适合应用动态规划算法，它是否具有最优子结构性质是一个很好的线索。使用动态规划算法时，用子问题的最优解来构造原问题的最优解。因此必须考查最优解中用到的所有子问题。"></a>用动态规划求解最优化问题的第一步就是刻画最优解的结构，如果一个问题的解结构包含其子问题的最优解，就称此问题具有最优子结构性质。因此，某个问题是否适合应用动态规划算法，它是否具有最优子结构性质是一个很好的线索。使用动态规划算法时，用子问题的最优解来构造原问题的最优解。因此必须考查最优解中用到的所有子问题。</h4><h2 id="重叠子问题"><a href="#重叠子问题" class="headerlink" title="重叠子问题"></a>重叠子问题</h2><h4 id="在斐波拉契和钢条切割中，可以看到大量的重叠子问题，比如说在求fib-6-的时候，fib-2-被调用了5次。如果使用递归算法的时候会反复求解相同的子问题，不停的调用函数，而不是生成新的子问题。如果递归算法反复求解相同的子问题，就称为具有重叠子问题性质。在动态规划算法中使用数组来保存子问题的解，问题多次求解的时候可以直接查表不用调用函数递归。"><a href="#在斐波拉契和钢条切割中，可以看到大量的重叠子问题，比如说在求fib-6-的时候，fib-2-被调用了5次。如果使用递归算法的时候会反复求解相同的子问题，不停的调用函数，而不是生成新的子问题。如果递归算法反复求解相同的子问题，就称为具有重叠子问题性质。在动态规划算法中使用数组来保存子问题的解，问题多次求解的时候可以直接查表不用调用函数递归。" class="headerlink" title="在斐波拉契和钢条切割中，可以看到大量的重叠子问题，比如说在求fib(6)的时候，fib(2)被调用了5次。如果使用递归算法的时候会反复求解相同的子问题，不停的调用函数，而不是生成新的子问题。如果递归算法反复求解相同的子问题，就称为具有重叠子问题性质。在动态规划算法中使用数组来保存子问题的解，问题多次求解的时候可以直接查表不用调用函数递归。"></a>在斐波拉契和钢条切割中，可以看到大量的重叠子问题，比如说在求fib(6)的时候，fib(2)被调用了5次。如果使用递归算法的时候会反复求解相同的子问题，不停的调用函数，而不是生成新的子问题。如果递归算法反复求解相同的子问题，就称为具有重叠子问题性质。在动态规划算法中使用数组来保存子问题的解，问题多次求解的时候可以直接查表不用调用函数递归。</h4><h2 id="简单来说，动规就是递归再加上记录。"><a href="#简单来说，动规就是递归再加上记录。" class="headerlink" title="简单来说，动规就是递归再加上记录。"></a>简单来说，动规就是递归再加上记录。</h2><h2 id="花小部分空间，省大部分时间。"><a href="#花小部分空间，省大部分时间。" class="headerlink" title="花小部分空间，省大部分时间。"></a>花小部分空间，省大部分时间。</h2><hr>
+<h1 id="4-动态规划的应用-1"><a href="#4-动态规划的应用-1" class="headerlink" title="4.动态规划的应用"></a>4.动态规划的应用</h1><h2 id="4-1背包问题"><a href="#4-1背包问题" class="headerlink" title="4.1背包问题"></a>4.1背包问题</h2><h2 id="1-零一背包"><a href="#1-零一背包" class="headerlink" title="1.零一背包"></a>1.零一背包</h2><h4 id="有N件物品和一个容量为V的背包。第i件物品的体积是w-i-，价值是c-i-。求解将哪些物品装入背包可使这些物品的费用总和不超过背包容量，每个物品只能选用一次-使得价值总和最大。"><a href="#有N件物品和一个容量为V的背包。第i件物品的体积是w-i-，价值是c-i-。求解将哪些物品装入背包可使这些物品的费用总和不超过背包容量，每个物品只能选用一次-使得价值总和最大。" class="headerlink" title="有N件物品和一个容量为V的背包。第i件物品的体积是w[i]，价值是c[i]。求解将哪些物品装入背包可使这些物品的费用总和不超过背包容量，每个物品只能选用一次,使得价值总和最大。"></a>有N件物品和一个容量为V的背包。第i件物品的体积是w[i]，价值是c[i]。求解将哪些物品装入背包可使这些物品的费用总和不超过背包容量，每个物品只能选用一次,使得价值总和最大。</h4><h4 id="这是最基础的背包问题，总的来说就是：选还是不选"><a href="#这是最基础的背包问题，总的来说就是：选还是不选" class="headerlink" title="这是最基础的背包问题，总的来说就是：选还是不选"></a>这是最基础的背包问题，总的来说就是：选还是不选</h4><h3 id="例题-LuoGu1048"><a href="#例题-LuoGu1048" class="headerlink" title="例题:LuoGu1048"></a>例题:<a href="https://www.luogu.org/problemnew/show/P1048" target="_blank" rel="noopener">LuoGu1048</a></h3><h3 id="显然，这道题并不能用贪心，因为假设你要在100时间内采药，有三个药：71时间，89价值；30时间，44价值；40时间，45价值。如果是贪心，就会果断选-71-89-，但事实上-30-44-和-40-45-更优。此时请出动规，怎么用呢？"><a href="#显然，这道题并不能用贪心，因为假设你要在100时间内采药，有三个药：71时间，89价值；30时间，44价值；40时间，45价值。如果是贪心，就会果断选-71-89-，但事实上-30-44-和-40-45-更优。此时请出动规，怎么用呢？" class="headerlink" title="显然，这道题并不能用贪心，因为假设你要在100时间内采药，有三个药：71时间，89价值；30时间，44价值；40时间，45价值。如果是贪心，就会果断选(71,89)，但事实上(30,44)和(40,45)更优。此时请出动规，怎么用呢？"></a>显然，这道题并不能用贪心，因为假设你要在100时间内采药，有三个药：71时间，89价值；30时间，44价值；40时间，45价值。如果是贪心，就会果断选(71,89)，但事实上(30,44)和(40,45)更优。此时请出动规，怎么用呢？</h3><h3 id="列出状态转移方程"><a href="#列出状态转移方程" class="headerlink" title="列出状态转移方程!"></a>列出状态转移方程!</h3><h3 id="对于一个物品，只有两种情况"><a href="#对于一个物品，只有两种情况" class="headerlink" title="对于一个物品，只有两种情况"></a>对于一个物品，只有两种情况</h3><h4 id="1-第i件不放进去，这时所得价值为-dp-i-1-v"><a href="#1-第i件不放进去，这时所得价值为-dp-i-1-v" class="headerlink" title="1.第i件不放进去，这时所得价值为:dp[i-1][v]"></a>1.第i件不放进去，这时所得价值为:dp[i-1][v]</h4><h4 id="2-第i件放进去，这时所得价值为-dp-i-1-v-c-i-w-i"><a href="#2-第i件放进去，这时所得价值为-dp-i-1-v-c-i-w-i" class="headerlink" title="2.第i件放进去，这时所得价值为:dp[i-1][v-c[i]]+w[i]"></a>2.第i件放进去，这时所得价值为:dp[i-1][v-c[i]]+w[i]</h4><h3 id="故状态转移方程为"><a href="#故状态转移方程为" class="headerlink" title="故状态转移方程为:"></a>故状态转移方程为:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dp[i][v] = max(dp[i-1][v], dp[i-1][v-w[i]]+c[i])</span><br></pre></td></tr></table></figure>
+<h5 id="注-零一背包可以用一维数组记录最优计划dp-v-表示不超过v体积的最大价值。"><a href="#注-零一背包可以用一维数组记录最优计划dp-v-表示不超过v体积的最大价值。" class="headerlink" title="注:零一背包可以用一维数组记录最优计划dp[v],表示不超过v体积的最大价值。"></a>注:零一背包可以用一维数组记录最优计划dp[v],表示不超过v体积的最大价值。</h5><h4 id="背包退火-了解一下？"><a href="#背包退火-了解一下？" class="headerlink" title="背包退火?了解一下？"></a><a href="https://www.luogu.org/blog/firstfan/post-shi-yan-shi-ep1-bei-bao-tui-huo-post" target="_blank" rel="noopener">背包退火</a>?了解一下？</h4><h2 id="2-完全背包"><a href="#2-完全背包" class="headerlink" title="2.完全背包"></a>2.完全背包</h2><h4 id="有N种物品和一个容量为V的背包，每种物品都有无限件可用。第i种物品的体积是w-i-，价值是c-i-。求解将哪些物品装入背包可使这些物品的费用总和不超过背包容量，且价值总和最大。"><a href="#有N种物品和一个容量为V的背包，每种物品都有无限件可用。第i种物品的体积是w-i-，价值是c-i-。求解将哪些物品装入背包可使这些物品的费用总和不超过背包容量，且价值总和最大。" class="headerlink" title="有N种物品和一个容量为V的背包，每种物品都有无限件可用。第i种物品的体积是w[i]，价值是c[i]。求解将哪些物品装入背包可使这些物品的费用总和不超过背包容量，且价值总和最大。"></a>有N种物品和一个容量为V的背包，每种物品都有无限件可用。第i种物品的体积是w[i]，价值是c[i]。求解将哪些物品装入背包可使这些物品的费用总和不超过背包容量，且价值总和最大。</h4><h4 id="完全背包和01背包十分相像，-区别就是完全背包物品有无限件。总的来说就是选还是不选，选几件。"><a href="#完全背包和01背包十分相像，-区别就是完全背包物品有无限件。总的来说就是选还是不选，选几件。" class="headerlink" title="完全背包和01背包十分相像， 区别就是完全背包物品有无限件。总的来说就是选还是不选，选几件。"></a>完全背包和01背包十分相像， 区别就是完全背包物品有无限件。总的来说就是选还是不选，选几件。</h4><h3 id="例题：LuoGu1616"><a href="#例题：LuoGu1616" class="headerlink" title="例题：LuoGu1616"></a>例题：<a href="https://www.luogu.org/problemnew/show/P1616" target="_blank" rel="noopener">LuoGu1616</a></h3><h3 id="列出状态转移方程-1"><a href="#列出状态转移方程-1" class="headerlink" title="列出状态转移方程"></a>列出状态转移方程</h3><h4 id="若不采这种草药，则时间花费没有增多-经过的-草药种数增加了1-采到草药价格不变-所以-dp-i-j-dp-i-1-j"><a href="#若不采这种草药，则时间花费没有增多-经过的-草药种数增加了1-采到草药价格不变-所以-dp-i-j-dp-i-1-j" class="headerlink" title="若不采这种草药，则时间花费没有增多,经过的 草药种数增加了1,采到草药价格不变,所以 dp[i][j]=dp[i-1][j];"></a>若不采这种草药，则时间花费没有增多,经过的 草药种数增加了1,采到草药价格不变,所以 dp[i][j]=dp[i-1][j];</h4><h4 id="若采这种草药-则-时间花费增加了t-i-种数增加1-采到草药价格增加了p-i-所以-dp-i-j-dp-i-1-j-t-i-p-i-。"><a href="#若采这种草药-则-时间花费增加了t-i-种数增加1-采到草药价格增加了p-i-所以-dp-i-j-dp-i-1-j-t-i-p-i-。" class="headerlink" title="若采这种草药,则 时间花费增加了t[i],种数增加1,采到草药价格增加了p[i],所以 dp[i][j]=dp[i-1][j-t[i]]+p[i]。"></a>若采这种草药,则 时间花费增加了t[i],种数增加1,采到草药价格增加了p[i],所以 dp[i][j]=dp[i-1][j-t[i]]+p[i]。</h4><h4 id="我们要使dp-i-j-color-red-text-尽可能大-即"><a href="#我们要使dp-i-j-color-red-text-尽可能大-即" class="headerlink" title="我们要使dp[i][j]$\color{red}\text{尽可能大}$,即?"></a>我们要使dp[i][j]$\color{red}\text{尽可能大}$,即?</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dp[i][j]=max(dp[i-1][j],f[i-1][j-t[i]]+p[i])</span><br></pre></td></tr></table></figure>
+<h3 id="这道题对于药就没有限制了，每种都无限多，所以优化出现了："><a href="#这道题对于药就没有限制了，每种都无限多，所以优化出现了：" class="headerlink" title="这道题对于药就没有限制了，每种都无限多，所以优化出现了："></a>这道题对于药就没有限制了，每种都无限多，所以优化出现了：</h3><h4 id="当一个药品的价值小于另一个药品的价值，并且时间高于另一个药品，我们就可以不去考虑这个药品。既然我们不是地主家的傻孩子，为什么还要花更多的时间采更少价值的药呢"><a href="#当一个药品的价值小于另一个药品的价值，并且时间高于另一个药品，我们就可以不去考虑这个药品。既然我们不是地主家的傻孩子，为什么还要花更多的时间采更少价值的药呢" class="headerlink" title="当一个药品的价值小于另一个药品的价值，并且时间高于另一个药品，我们就可以不去考虑这个药品。既然我们不是地主家的傻孩子，为什么还要花更多的时间采更少价值的药呢??"></a>当一个药品的价值小于另一个药品的价值，并且时间高于另一个药品，我们就可以不去考虑这个药品。既然我们不是地主家的傻孩子，为什么还要花更多的时间采更少价值的药呢??</h4><h5 id="注-该问题也可以压缩到一维最优计划dp-v-我们可以将药的种类i省略-，用后面算的值覆盖掉前面算的值"><a href="#注-该问题也可以压缩到一维最优计划dp-v-我们可以将药的种类i省略-，用后面算的值覆盖掉前面算的值" class="headerlink" title="注:该问题也可以压缩到一维最优计划dp[v],我们可以将药的种类i省略 ，用后面算的值覆盖掉前面算的值."></a>注:该问题也可以压缩到一维最优计划dp[v],我们可以将药的种类i省略 ，用后面算的值覆盖掉前面算的值.</h5><h4 id="巨佬们，背包退火-了解一下？"><a href="#巨佬们，背包退火-了解一下？" class="headerlink" title="巨佬们，背包退火?了解一下？"></a>巨佬们，<a href="https://www.luogu.org/blog/firstfan/post-shi-yan-shi-ep1-bei-bao-tui-huo-post" target="_blank" rel="noopener">背包退火</a>?了解一下？</h4><h2 id="3-多重背包"><a href="#3-多重背包" class="headerlink" title="3.多重背包"></a>3.多重背包</h2><h4 id="有N种物品和一个容量为V的背包。第i种物品有n-i-个可用，每件费用是w-i-，价值是c-i-。求解将哪些物品装入背包可使这些物品的费用总和不超过背包容量，且价值总和最大。"><a href="#有N种物品和一个容量为V的背包。第i种物品有n-i-个可用，每件费用是w-i-，价值是c-i-。求解将哪些物品装入背包可使这些物品的费用总和不超过背包容量，且价值总和最大。" class="headerlink" title="有N种物品和一个容量为V的背包。第i种物品有n[i]个可用，每件费用是w[i]，价值是c[i]。求解将哪些物品装入背包可使这些物品的费用总和不超过背包容量，且价值总和最大。"></a>有N种物品和一个容量为V的背包。第i种物品有n[i]个可用，每件费用是w[i]，价值是c[i]。求解将哪些物品装入背包可使这些物品的费用总和不超过背包容量，且价值总和最大。</h4><h4 id="这里又多了一个限制条件，每个物品规定了可用的次数。"><a href="#这里又多了一个限制条件，每个物品规定了可用的次数。" class="headerlink" title="这里又多了一个限制条件，每个物品规定了可用的次数。"></a>这里又多了一个限制条件，每个物品规定了可用的次数。</h4><h3 id="例题：LuoGu2347"><a href="#例题：LuoGu2347" class="headerlink" title="例题：LuoGu2347"></a>例题：<a href="https://www.luogu.org/problemnew/show/P2347" target="_blank" rel="noopener">LuoGu2347</a></h3><h5 id="我才不会告诉你我把多重背包拆成01背包来做的呢"><a href="#我才不会告诉你我把多重背包拆成01背包来做的呢" class="headerlink" title="我才不会告诉你我把多重背包拆成01背包来做的呢"></a><del>我才不会告诉你我把多重背包拆成01背包来做的呢</del></h5><h4 id="没错，对于一般的多重背包，换成01背包水就行了，至于不一般的嘛……则可以利用倍增思想把2-i个该物品用心的一个捆绑包表示出来。"><a href="#没错，对于一般的多重背包，换成01背包水就行了，至于不一般的嘛……则可以利用倍增思想把2-i个该物品用心的一个捆绑包表示出来。" class="headerlink" title="没错，对于一般的多重背包，换成01背包水就行了，至于不一般的嘛……则可以利用倍增思想把2^i个该物品用心的一个捆绑包表示出来。"></a>没错，对于一般的多重背包，换成01背包水就行了，至于不一般的嘛……则可以利用倍增思想把2^i个该物品用心的一个捆绑包表示出来。</h4><h3 id="列出状态转移方程-2"><a href="#列出状态转移方程-2" class="headerlink" title="列出状态转移方程"></a>列出状态转移方程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f[i][v]=max(f[i-1][v-k*w[i]]+ k*c[i]|0&lt;=k&lt;=n[i])</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="4-2线性动规"><a href="#4-2线性动规" class="headerlink" title="4.2线性动规"></a>4.2线性动规</h2><h3 id="其实线性动规是动规中较简单的一类题目，重点有三："><a href="#其实线性动规是动规中较简单的一类题目，重点有三：" class="headerlink" title="其实线性动规是动规中较简单的一类题目，重点有三："></a>其实线性动规是动规中较简单的一类题目，重点有三：</h3><h2 id="1-选对算法，正确维护"><a href="#1-选对算法，正确维护" class="headerlink" title="1.选对算法，正确维护"></a>1.选对算法，正确维护</h2><h3 id="例题-LuoGu1115"><a href="#例题-LuoGu1115" class="headerlink" title="例题:LuoGu1115"></a>例题:<a href="https://www.luogu.org/problemnew/show/P1115" target="_blank" rel="noopener">LuoGu1115</a></h3><h2 id="2-巧妙利用前缀和"><a href="#2-巧妙利用前缀和" class="headerlink" title="2.巧妙利用前缀和"></a>2.巧妙利用前缀和</h2><h3 id="例题-LuoGu1387"><a href="#例题-LuoGu1387" class="headerlink" title="例题:LuoGu1387"></a>例题:<a href="https://www.luogu.org/problemnew/show/P1387" target="_blank" rel="noopener">LuoGu1387</a></h3><h2 id="3-别忘了合理递推"><a href="#3-别忘了合理递推" class="headerlink" title="3.别忘了合理递推"></a>3.别忘了合理递推</h2><h3 id="例题-LuoGu1052"><a href="#例题-LuoGu1052" class="headerlink" title="例题:LuoGu1052"></a>例题:<a href="https://www.luogu.org/problemnew/show/P1052" target="_blank" rel="noopener">LuoGu1052</a></h3><h4 id="线性递归的题个人觉得要多练，所以放了几道题，希望在刷题的过程中，你能够领悟其精髓。同时，你可以参考一个近乎万能的线性模板博客-线性动态规划"><a href="#线性递归的题个人觉得要多练，所以放了几道题，希望在刷题的过程中，你能够领悟其精髓。同时，你可以参考一个近乎万能的线性模板博客-线性动态规划" class="headerlink" title="线性递归的题个人觉得要多练，所以放了几道题，希望在刷题的过程中，你能够领悟其精髓。同时，你可以参考一个近乎万能的线性模板博客?线性动态规划"></a>线性递归的题个人觉得要多练，所以放了几道题，希望在刷题的过程中，你能够领悟其精髓。同时，你可以参考一个近乎万能的线性模板博客?<a href="https://blog.csdn.net/weixin_40317006/article/details/81195479" target="_blank" rel="noopener">线性动态规划</a></h4><hr>
+<h2 id="4-3区间动规"><a href="#4-3区间动规" class="headerlink" title="4.3区间动规"></a>4.3区间动规</h2><h3 id="例题-LuoGu1435"><a href="#例题-LuoGu1435" class="headerlink" title="例题:LuoGu1435"></a>例题:<a href="https://www.luogu.org/problemnew/show/P1435" target="_blank" rel="noopener">LuoGu1435</a></h3><h4 id="典型的区间模型，回文串拥有很明显的子结构特征，即当字符串s是一个回文串时，在X两边各添加一个字符’a’后，a-s-a仍然是一个回文串，我们用d-i-j-来表示A-i…j-这个子串变成回文串所需要添加的最少的字符数，那么对于A-i-A-j-的情况，很明显有"><a href="#典型的区间模型，回文串拥有很明显的子结构特征，即当字符串s是一个回文串时，在X两边各添加一个字符’a’后，a-s-a仍然是一个回文串，我们用d-i-j-来表示A-i…j-这个子串变成回文串所需要添加的最少的字符数，那么对于A-i-A-j-的情况，很明显有" class="headerlink" title="典型的区间模型，回文串拥有很明显的子结构特征，即当字符串s是一个回文串时，在X两边各添加一个字符’a’后，a s a仍然是一个回文串，我们用d[i][j]来表示A[i…j]这个子串变成回文串所需要添加的最少的字符数，那么对于A[i] == A[j]的情况，很明显有"></a>典型的区间模型，回文串拥有很明显的子结构特征，即当字符串s是一个回文串时，在X两边各添加一个字符’a’后，a s a仍然是一个回文串，我们用d[i][j]来表示A[i…j]这个子串变成回文串所需要添加的最少的字符数，那么对于A[i] == A[j]的情况，很明显有</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d[i][j] = d[i+1][j-1]</span><br></pre></td></tr></table></figure>
+<h4 id="这里需要明确一点，当i-1-gt-j-1时也是有意义的，它代表的是空串，空串也是一个回文串，所以这种情况下d-i-1-j-1-0；"><a href="#这里需要明确一点，当i-1-gt-j-1时也是有意义的，它代表的是空串，空串也是一个回文串，所以这种情况下d-i-1-j-1-0；" class="headerlink" title="这里需要明确一点，当i+1 &gt; j-1时也是有意义的，它代表的是空串，空串也是一个回文串，所以这种情况下d[i+1][j-1] = 0；"></a>这里需要明确一点，当i+1 &gt; j-1时也是有意义的，它代表的是空串，空串也是一个回文串，所以这种情况下d[i+1][j-1] = 0；</h4><h4 id="当A-i-A-j-时，我们将它变成更小的子问题求解，我们有两种决策："><a href="#当A-i-A-j-时，我们将它变成更小的子问题求解，我们有两种决策：" class="headerlink" title="当A[i] != A[j]时，我们将它变成更小的子问题求解，我们有两种决策："></a>当A[i] != A[j]时，我们将它变成更小的子问题求解，我们有两种决策：</h4><h4 id="1-在A-j-后面添加一个字符A-i-；"><a href="#1-在A-j-后面添加一个字符A-i-；" class="headerlink" title="1.在A[j]后面添加一个字符A[i]；"></a>1.在A[j]后面添加一个字符A[i]；</h4><h4 id="2-在A-i-前面添加一个字符A-j-；"><a href="#2-在A-i-前面添加一个字符A-j-；" class="headerlink" title="2.在A[i]前面添加一个字符A[j]；"></a>2.在A[i]前面添加一个字符A[j]；</h4><h3 id="列出状态转移方程-3"><a href="#列出状态转移方程-3" class="headerlink" title="列出状态转移方程"></a>列出状态转移方程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">d[i][j] = min&#123; d[i+1][j], d[i][j-1] &#125; + 1; </span><br><span class="line">//每次状态转移，区间长度增加1</span><br></pre></td></tr></table></figure>
+<h5 id="注：此算法空间复杂度O-n-2-，时间复杂度O-n-2-。存在优化方法，此处不与给出。"><a href="#注：此算法空间复杂度O-n-2-，时间复杂度O-n-2-。存在优化方法，此处不与给出。" class="headerlink" title="注：此算法空间复杂度O(n^2)，时间复杂度O(n^2)。存在优化方法，此处不与给出。"></a>注：此算法空间复杂度O(n^2)，时间复杂度O(n^2)。存在优化方法，此处不与给出。</h5>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag"># 动态规划</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/11/23/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E4%BC%98%E5%8C%96/" rel="next" title="动态规划优化">
+                  <i class="fa fa-chevron-left"></i> 动态规划优化
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/11/23/%E5%8A%A8%E8%A7%84%E9%80%92%E6%8E%A8%E5%BC%8F%E6%B5%85%E8%A7%A3/" rel="prev" title="动规递推式浅解">
+                  动规递推式浅解 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Content"><span class="nav-number">1.</span> <span class="nav-text">Content</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-从乘方和谚语说起"><span class="nav-number">1.1.</span> <span class="nav-text">1. 从乘方和谚语说起</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-斐波那契数列：递归受到了挑战"><span class="nav-number">1.2.</span> <span class="nav-text">2. 斐波那契数列：递归受到了挑战</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-动态规划的原理"><span class="nav-number">1.3.</span> <span class="nav-text">3. 动态规划的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#–3-1最优子结构"><span class="nav-number">1.3.1.</span> <span class="nav-text">–3.1最优子结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#–3-2重叠子问题"><span class="nav-number">1.3.2.</span> <span class="nav-text">–3.2重叠子问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-动态规划的应用"><span class="nav-number">1.4.</span> <span class="nav-text">4.动态规划的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#–4-1背包模型"><span class="nav-number">1.4.1.</span> <span class="nav-text">–4.1背包模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#–4-1-1-零一背包"><span class="nav-number">1.4.1.0.1.</span> <span class="nav-text">–4.1.1 零一背包</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#–4-1-2-完全背包"><span class="nav-number">1.4.1.0.2.</span> <span class="nav-text">–4.1.2 完全背包</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#–4-1-3-多重背包"><span class="nav-number">1.4.1.0.3.</span> <span class="nav-text">–4.1.3 多重背包</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#–4-2线性动规"><span class="nav-number">1.4.2.</span> <span class="nav-text">–4.2线性动规</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#–4-3区间动规"><span class="nav-number">1.4.3.</span> <span class="nav-text">–4.3区间动规</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-入土"><span class="nav-number">1.5.</span> <span class="nav-text">5.入土</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-从乘方和谚语说起-1"><span class="nav-number">2.</span> <span class="nav-text">1.从乘方和谚语说起</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#相信你们都学习过乘方，那么我们知道"><span class="nav-number">2.1.</span> <span class="nav-text">相信你们都学习过乘方，那么我们知道:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-X-2-X-2-X-2-X-2-X-2-X-2-X-2-X-2-X-2-2-10-1024"><span class="nav-number">2.1.1.</span> <span class="nav-text">2 X 2 X 2 X 2 X 2 X 2 X 2 X 2 X 2 X 2 =2^10=1024</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#那么2-11是多少呢？你会自然而然地答出2048"><span class="nav-number">2.1.2.</span> <span class="nav-text">那么2^11是多少呢？你会自然而然地答出2048!</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#好的，祝贺你已经学会了动规初步！"><span class="nav-number">2.1.3.</span> <span class="nav-text">好的，祝贺你已经学会了动规初步！</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么？"><span class="nav-number">3.</span> <span class="nav-text">为什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#我们作为人，计算2-11自然不是2X2……X2-2048这样算的"><span class="nav-number">3.0.1.</span> <span class="nav-text">我们作为人，计算2^11自然不是2X2……X2=2048这样算的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#而是通过已经给出的2-10-1024计算的：2X1024-2048。"><span class="nav-number">3.0.2.</span> <span class="nav-text">而是通过已经给出的2^10=1024计算的：2X1024=2048。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#这个过程就包括了动规的核心思想之一："><span class="nav-number">3.0.3.</span> <span class="nav-text">这个过程就包括了动规的核心思想之一：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#记住子问题的解。"><span class="nav-number">3.0.4.</span> <span class="nav-text">记住子问题的解。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一句谚语解释："><span class="nav-number">3.0.5.</span> <span class="nav-text">一句谚语解释：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Those-who-cannot-remember-the-past-are-doomed-to-repeat-it-–George-Santayana"><span class="nav-number">3.0.5.0.1.</span> <span class="nav-text">Those who cannot remember the past, are doomed to repeat it.–George Santayana</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#那些忘记过去的人注定要重蹈覆辙。"><span class="nav-number">3.0.5.0.2.</span> <span class="nav-text">那些忘记过去的人注定要重蹈覆辙。</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-斐波那契数列：递归受到了挑战-1"><span class="nav-number">4.</span> <span class="nav-text">2. 斐波那契数列：递归受到了挑战</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#对于斐波那契数列的求解，递归往往是最先考虑的解法，但是在1000ms的苛求下，递归O-2-n-的时间复杂度就比较麻烦了。"><span class="nav-number">4.1.</span> <span class="nav-text">对于斐波那契数列的求解，递归往往是最先考虑的解法，但是在1000ms的苛求下，递归O(2^n)的时间复杂度就比较麻烦了。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#图解"><span class="nav-number">4.1.1.</span> <span class="nav-text">图解?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从图中可以看到，光是算fib-6-，就要重新算3遍fib-3-，时间复杂度就比较恶心了。对了，你想起什么没有？记住子问题的答案–动规登场！"><span class="nav-number">4.1.2.</span> <span class="nav-text">从图中可以看到，光是算fib(6)，就要重新算3遍fib(3)，时间复杂度就比较恶心了。对了，你想起什么没有？记住子问题的答案–动规登场！</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-子问题记忆法"><span class="nav-number">4.1.2.1.</span> <span class="nav-text">1.子问题记忆法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#使用一个数组来记录各个子问题的解，当再一次遇到这一问题的时候直接查找数组来获得解避免多次计算子问题。"><span class="nav-number">4.1.2.1.1.</span> <span class="nav-text">使用一个数组来记录各个子问题的解，当再一次遇到这一问题的时候直接查找数组来获得解避免多次计算子问题。</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、自底向上解决方案"><span class="nav-number">4.1.2.2.</span> <span class="nav-text">2、自底向上解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#先求解子问题再根据子问题的解来求解父问题，斐波那契数列的子问题图如下："><span class="nav-number">4.1.2.2.1.</span> <span class="nav-text">先求解子问题再根据子问题的解来求解父问题，斐波那契数列的子问题图如下：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自底向上的计算方法实现起来非常容易，分析算法，仅从形式上面分析算法可知，算法的时间主要消耗在计算数据规模为n的数组里面的数上面了，所以时间复杂度仅为-color-red-text-O-n-。递归在斐波那契的地位不保了！！"><span class="nav-number">4.1.2.3.</span> <span class="nav-text">自底向上的计算方法实现起来非常容易，分析算法，仅从形式上面分析算法可知，算法的时间主要消耗在计算数据规模为n的数组里面的数上面了，所以时间复杂度仅为:$\color{red}\text{O(n)}$。递归在斐波那契的地位不保了！！</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#但是我们可以看到，在使用动规的时候，我们似乎多开了一个数组，那么空间是否会受到影响？答案是肯定的！但是在1000ms-256Mb的条件下，牺牲空间换取时间绝对是一笔很值的交♂易！"><span class="nav-number">4.1.3.</span> <span class="nav-text">但是我们可以看到，在使用动规的时候，我们似乎多开了一个数组，那么空间是否会受到影响？答案是肯定的！但是在1000ms,256Mb的条件下，牺牲空间换取时间绝对是一笔很值的交♂易！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#练习-LuoGu3986-amp-钢条切割"><span class="nav-number">4.1.4.</span> <span class="nav-text">练习:LuoGu3986&amp;钢条切割</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-动态规划的原理-1"><span class="nav-number">5.</span> <span class="nav-text">3.动态规划的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#最优子结构"><span class="nav-number">5.1.</span> <span class="nav-text">最优子结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#用动态规划求解最优化问题的第一步就是刻画最优解的结构，如果一个问题的解结构包含其子问题的最优解，就称此问题具有最优子结构性质。因此，某个问题是否适合应用动态规划算法，它是否具有最优子结构性质是一个很好的线索。使用动态规划算法时，用子问题的最优解来构造原问题的最优解。因此必须考查最优解中用到的所有子问题。"><span class="nav-number">5.1.0.1.</span> <span class="nav-text">用动态规划求解最优化问题的第一步就是刻画最优解的结构，如果一个问题的解结构包含其子问题的最优解，就称此问题具有最优子结构性质。因此，某个问题是否适合应用动态规划算法，它是否具有最优子结构性质是一个很好的线索。使用动态规划算法时，用子问题的最优解来构造原问题的最优解。因此必须考查最优解中用到的所有子问题。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重叠子问题"><span class="nav-number">5.2.</span> <span class="nav-text">重叠子问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在斐波拉契和钢条切割中，可以看到大量的重叠子问题，比如说在求fib-6-的时候，fib-2-被调用了5次。如果使用递归算法的时候会反复求解相同的子问题，不停的调用函数，而不是生成新的子问题。如果递归算法反复求解相同的子问题，就称为具有重叠子问题性质。在动态规划算法中使用数组来保存子问题的解，问题多次求解的时候可以直接查表不用调用函数递归。"><span class="nav-number">5.2.0.1.</span> <span class="nav-text">在斐波拉契和钢条切割中，可以看到大量的重叠子问题，比如说在求fib(6)的时候，fib(2)被调用了5次。如果使用递归算法的时候会反复求解相同的子问题，不停的调用函数，而不是生成新的子问题。如果递归算法反复求解相同的子问题，就称为具有重叠子问题性质。在动态规划算法中使用数组来保存子问题的解，问题多次求解的时候可以直接查表不用调用函数递归。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单来说，动规就是递归再加上记录。"><span class="nav-number">5.3.</span> <span class="nav-text">简单来说，动规就是递归再加上记录。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#花小部分空间，省大部分时间。"><span class="nav-number">5.4.</span> <span class="nav-text">花小部分空间，省大部分时间。</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-动态规划的应用-1"><span class="nav-number">6.</span> <span class="nav-text">4.动态规划的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1背包问题"><span class="nav-number">6.1.</span> <span class="nav-text">4.1背包问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-零一背包"><span class="nav-number">6.2.</span> <span class="nav-text">1.零一背包</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#有N件物品和一个容量为V的背包。第i件物品的体积是w-i-，价值是c-i-。求解将哪些物品装入背包可使这些物品的费用总和不超过背包容量，每个物品只能选用一次-使得价值总和最大。"><span class="nav-number">6.2.0.1.</span> <span class="nav-text">有N件物品和一个容量为V的背包。第i件物品的体积是w[i]，价值是c[i]。求解将哪些物品装入背包可使这些物品的费用总和不超过背包容量，每个物品只能选用一次,使得价值总和最大。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#这是最基础的背包问题，总的来说就是：选还是不选"><span class="nav-number">6.2.0.2.</span> <span class="nav-text">这是最基础的背包问题，总的来说就是：选还是不选</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例题-LuoGu1048"><span class="nav-number">6.2.1.</span> <span class="nav-text">例题:LuoGu1048</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#显然，这道题并不能用贪心，因为假设你要在100时间内采药，有三个药：71时间，89价值；30时间，44价值；40时间，45价值。如果是贪心，就会果断选-71-89-，但事实上-30-44-和-40-45-更优。此时请出动规，怎么用呢？"><span class="nav-number">6.2.2.</span> <span class="nav-text">显然，这道题并不能用贪心，因为假设你要在100时间内采药，有三个药：71时间，89价值；30时间，44价值；40时间，45价值。如果是贪心，就会果断选(71,89)，但事实上(30,44)和(40,45)更优。此时请出动规，怎么用呢？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列出状态转移方程"><span class="nav-number">6.2.3.</span> <span class="nav-text">列出状态转移方程!</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对于一个物品，只有两种情况"><span class="nav-number">6.2.4.</span> <span class="nav-text">对于一个物品，只有两种情况</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-第i件不放进去，这时所得价值为-dp-i-1-v"><span class="nav-number">6.2.4.1.</span> <span class="nav-text">1.第i件不放进去，这时所得价值为:dp[i-1][v]</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-第i件放进去，这时所得价值为-dp-i-1-v-c-i-w-i"><span class="nav-number">6.2.4.2.</span> <span class="nav-text">2.第i件放进去，这时所得价值为:dp[i-1][v-c[i]]+w[i]</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#故状态转移方程为"><span class="nav-number">6.2.5.</span> <span class="nav-text">故状态转移方程为:</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#注-零一背包可以用一维数组记录最优计划dp-v-表示不超过v体积的最大价值。"><span class="nav-number">6.2.5.0.1.</span> <span class="nav-text">注:零一背包可以用一维数组记录最优计划dp[v],表示不超过v体积的最大价值。</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#背包退火-了解一下？"><span class="nav-number">6.2.5.1.</span> <span class="nav-text">背包退火?了解一下？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-完全背包"><span class="nav-number">6.3.</span> <span class="nav-text">2.完全背包</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#有N种物品和一个容量为V的背包，每种物品都有无限件可用。第i种物品的体积是w-i-，价值是c-i-。求解将哪些物品装入背包可使这些物品的费用总和不超过背包容量，且价值总和最大。"><span class="nav-number">6.3.0.1.</span> <span class="nav-text">有N种物品和一个容量为V的背包，每种物品都有无限件可用。第i种物品的体积是w[i]，价值是c[i]。求解将哪些物品装入背包可使这些物品的费用总和不超过背包容量，且价值总和最大。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#完全背包和01背包十分相像，-区别就是完全背包物品有无限件。总的来说就是选还是不选，选几件。"><span class="nav-number">6.3.0.2.</span> <span class="nav-text">完全背包和01背包十分相像， 区别就是完全背包物品有无限件。总的来说就是选还是不选，选几件。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例题：LuoGu1616"><span class="nav-number">6.3.1.</span> <span class="nav-text">例题：LuoGu1616</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列出状态转移方程-1"><span class="nav-number">6.3.2.</span> <span class="nav-text">列出状态转移方程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#若不采这种草药，则时间花费没有增多-经过的-草药种数增加了1-采到草药价格不变-所以-dp-i-j-dp-i-1-j"><span class="nav-number">6.3.2.1.</span> <span class="nav-text">若不采这种草药，则时间花费没有增多,经过的 草药种数增加了1,采到草药价格不变,所以 dp[i][j]=dp[i-1][j];</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#若采这种草药-则-时间花费增加了t-i-种数增加1-采到草药价格增加了p-i-所以-dp-i-j-dp-i-1-j-t-i-p-i-。"><span class="nav-number">6.3.2.2.</span> <span class="nav-text">若采这种草药,则 时间花费增加了t[i],种数增加1,采到草药价格增加了p[i],所以 dp[i][j]=dp[i-1][j-t[i]]+p[i]。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#我们要使dp-i-j-color-red-text-尽可能大-即"><span class="nav-number">6.3.2.3.</span> <span class="nav-text">我们要使dp[i][j]$\color{red}\text{尽可能大}$,即?</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#这道题对于药就没有限制了，每种都无限多，所以优化出现了："><span class="nav-number">6.3.3.</span> <span class="nav-text">这道题对于药就没有限制了，每种都无限多，所以优化出现了：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#当一个药品的价值小于另一个药品的价值，并且时间高于另一个药品，我们就可以不去考虑这个药品。既然我们不是地主家的傻孩子，为什么还要花更多的时间采更少价值的药呢"><span class="nav-number">6.3.3.1.</span> <span class="nav-text">当一个药品的价值小于另一个药品的价值，并且时间高于另一个药品，我们就可以不去考虑这个药品。既然我们不是地主家的傻孩子，为什么还要花更多的时间采更少价值的药呢??</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#注-该问题也可以压缩到一维最优计划dp-v-我们可以将药的种类i省略-，用后面算的值覆盖掉前面算的值"><span class="nav-number">6.3.3.1.1.</span> <span class="nav-text">注:该问题也可以压缩到一维最优计划dp[v],我们可以将药的种类i省略 ，用后面算的值覆盖掉前面算的值.</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#巨佬们，背包退火-了解一下？"><span class="nav-number">6.3.3.2.</span> <span class="nav-text">巨佬们，背包退火?了解一下？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-多重背包"><span class="nav-number">6.4.</span> <span class="nav-text">3.多重背包</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#有N种物品和一个容量为V的背包。第i种物品有n-i-个可用，每件费用是w-i-，价值是c-i-。求解将哪些物品装入背包可使这些物品的费用总和不超过背包容量，且价值总和最大。"><span class="nav-number">6.4.0.1.</span> <span class="nav-text">有N种物品和一个容量为V的背包。第i种物品有n[i]个可用，每件费用是w[i]，价值是c[i]。求解将哪些物品装入背包可使这些物品的费用总和不超过背包容量，且价值总和最大。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#这里又多了一个限制条件，每个物品规定了可用的次数。"><span class="nav-number">6.4.0.2.</span> <span class="nav-text">这里又多了一个限制条件，每个物品规定了可用的次数。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例题：LuoGu2347"><span class="nav-number">6.4.1.</span> <span class="nav-text">例题：LuoGu2347</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#我才不会告诉你我把多重背包拆成01背包来做的呢"><span class="nav-number">6.4.1.0.1.</span> <span class="nav-text">我才不会告诉你我把多重背包拆成01背包来做的呢</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#没错，对于一般的多重背包，换成01背包水就行了，至于不一般的嘛……则可以利用倍增思想把2-i个该物品用心的一个捆绑包表示出来。"><span class="nav-number">6.4.1.1.</span> <span class="nav-text">没错，对于一般的多重背包，换成01背包水就行了，至于不一般的嘛……则可以利用倍增思想把2^i个该物品用心的一个捆绑包表示出来。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列出状态转移方程-2"><span class="nav-number">6.4.2.</span> <span class="nav-text">列出状态转移方程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2线性动规"><span class="nav-number">6.5.</span> <span class="nav-text">4.2线性动规</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#其实线性动规是动规中较简单的一类题目，重点有三："><span class="nav-number">6.5.1.</span> <span class="nav-text">其实线性动规是动规中较简单的一类题目，重点有三：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-选对算法，正确维护"><span class="nav-number">6.6.</span> <span class="nav-text">1.选对算法，正确维护</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#例题-LuoGu1115"><span class="nav-number">6.6.1.</span> <span class="nav-text">例题:LuoGu1115</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-巧妙利用前缀和"><span class="nav-number">6.7.</span> <span class="nav-text">2.巧妙利用前缀和</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#例题-LuoGu1387"><span class="nav-number">6.7.1.</span> <span class="nav-text">例题:LuoGu1387</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-别忘了合理递推"><span class="nav-number">6.8.</span> <span class="nav-text">3.别忘了合理递推</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#例题-LuoGu1052"><span class="nav-number">6.8.1.</span> <span class="nav-text">例题:LuoGu1052</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#线性递归的题个人觉得要多练，所以放了几道题，希望在刷题的过程中，你能够领悟其精髓。同时，你可以参考一个近乎万能的线性模板博客-线性动态规划"><span class="nav-number">6.8.1.1.</span> <span class="nav-text">线性递归的题个人觉得要多练，所以放了几道题，希望在刷题的过程中，你能够领悟其精髓。同时，你可以参考一个近乎万能的线性模板博客?线性动态规划</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3区间动规"><span class="nav-number">6.9.</span> <span class="nav-text">4.3区间动规</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#例题-LuoGu1435"><span class="nav-number">6.9.1.</span> <span class="nav-text">例题:LuoGu1435</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#典型的区间模型，回文串拥有很明显的子结构特征，即当字符串s是一个回文串时，在X两边各添加一个字符’a’后，a-s-a仍然是一个回文串，我们用d-i-j-来表示A-i…j-这个子串变成回文串所需要添加的最少的字符数，那么对于A-i-A-j-的情况，很明显有"><span class="nav-number">6.9.1.1.</span> <span class="nav-text">典型的区间模型，回文串拥有很明显的子结构特征，即当字符串s是一个回文串时，在X两边各添加一个字符’a’后，a s a仍然是一个回文串，我们用d[i][j]来表示A[i…j]这个子串变成回文串所需要添加的最少的字符数，那么对于A[i] == A[j]的情况，很明显有</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#这里需要明确一点，当i-1-gt-j-1时也是有意义的，它代表的是空串，空串也是一个回文串，所以这种情况下d-i-1-j-1-0；"><span class="nav-number">6.9.1.2.</span> <span class="nav-text">这里需要明确一点，当i+1 &gt; j-1时也是有意义的，它代表的是空串，空串也是一个回文串，所以这种情况下d[i+1][j-1] = 0；</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#当A-i-A-j-时，我们将它变成更小的子问题求解，我们有两种决策："><span class="nav-number">6.9.1.3.</span> <span class="nav-text">当A[i] != A[j]时，我们将它变成更小的子问题求解，我们有两种决策：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-在A-j-后面添加一个字符A-i-；"><span class="nav-number">6.9.1.4.</span> <span class="nav-text">1.在A[j]后面添加一个字符A[i]；</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-在A-i-前面添加一个字符A-j-；"><span class="nav-number">6.9.1.5.</span> <span class="nav-text">2.在A[i]前面添加一个字符A[j]；</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列出状态转移方程-3"><span class="nav-number">6.9.2.</span> <span class="nav-text">列出状态转移方程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#注：此算法空间复杂度O-n-2-，时间复杂度O-n-2-。存在优化方法，此处不与给出。"><span class="nav-number">6.9.2.0.1.</span> <span class="nav-text">注：此算法空间复杂度O(n^2)，时间复杂度O(n^2)。存在优化方法，此处不与给出。</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="first_fan"
+      src="/images/first.png">
+  <p class="site-author-name" itemprop="name">first_fan</p>
+  <div class="site-description" itemprop="description">Just Do It,But Not Just Do It.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="chat motion-element"><i class="fa fa-comment"></i>
+    Chat
+  </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/firstfan119" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;firstfan119" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://first_Fan@outlook.com/" title="E-Mail → https:&#x2F;&#x2F;first_Fan@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.luogu.org/user/126484" title="Luogu → https:&#x2F;&#x2F;www.luogu.org&#x2F;user&#x2F;126484" rel="noopener" target="_blank"><i class="fa fa-fw fa-coffee"></i>Luogu</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=3425811925&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v=3&amp;uin=3425811925&amp;site=qq&amp;menu=yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-qq"></i>QQ</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+      <div id="music163player">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=730859&auto=1&height=66"></iframe>
+</div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">first_fan</span>
+</div>
+
+<div>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv" style='display:none'>
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    <span class="post-meta-divider">|</span>
+</span>
+<span id="busuanzi_container_site_uv" style='display:none'>
+    <span id="busuanzi_value_site_uv"></span>人在此留下了足迹
+</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='255,255,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+
+
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+
+</body>
+</html>

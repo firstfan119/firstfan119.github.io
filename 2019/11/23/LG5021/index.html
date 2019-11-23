@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/favicon.png" color="#222">
+  <link rel="alternate" href="/atom.xml" title="first's blog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="二分答案，树的直径，树形dp">
+<meta name="keywords" content="二分,动态规划">
+<meta property="og:type" content="article">
+<meta property="og:title" content="题解-LuoGu5021">
+<meta property="og:url" content="https:&#x2F;&#x2F;firstfan119.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;LG5021&#x2F;index.html">
+<meta property="og:site_name" content="first&#39;s blog">
+<meta property="og:description" content="二分答案，树的直径，树形dp">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;04&#x2F;09&#x2F;5cacb4ae5237f.png">
+<meta property="og:updated_time" content="2019-11-17T09:04:41.839Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;04&#x2F;09&#x2F;5cacb4ae5237f.png">
+
+<link rel="canonical" href="https://firstfan119.github.io/2019/11/23/LG5021/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>题解-LuoGu5021 | first's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">first's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://firstfan119.github.io/2019/11/23/LG5021/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/first.png">
+      <meta itemprop="name" content="first_fan">
+      <meta itemprop="description" content="Just Do It,But Not Just Do It.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="first's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          题解-LuoGu5021
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-23 23:14:50" itemprop="dateCreated datePublished" datetime="2019-11-23T23:14:50+08:00">2019-11-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-17 17:04:41" itemprop="dateModified" datetime="2019-11-17T17:04:41+08:00">2019-11-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%A2%98%E8%A7%A3/" itemprop="url" rel="index">
+                    <span itemprop="name">题解</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">二分答案，树的直径，树形dp</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>$\tiny\text{似乎巨佬都没有翻译题目，其实部分难度在于题目翻译，所以:}$</p><h2 id="先翻译下本题的题意："><a href="#先翻译下本题的题意：" class="headerlink" title="先翻译下本题的题意："></a>先翻译下本题的题意：</h2><ul>
+<li>$n$个点，$n-1$条边，任意两点可以互相到达，每条道路仅从属于一条“赛道”。</li>
+</ul><p>眼熟？$\color{blue}\text{其实就是一棵树。}$</p><ul>
+<li>要建$m$条“赛道”，赛道无环，<strong>最大化</strong>最短道路。</li>
+</ul><a id="more"></a>
+
+
+
+<p>对了！$\color{red}\text{就是二分答案！}$</p>
+<p>那么整道题翻译出来就很简洁了：</p>
+<ul>
+<li>给出有$n$个节点的一棵树的信息，从中选出$m$条链，满足链之间互不相交，并最大化最短链长。</li>
+</ul>
+<hr>
+<p>进入二分前，先想想二分什么，二分所需要的上界在哪。</p>
+<ul>
+<li><p>二分什么？明显：二分最小链长。</p>
+</li>
+<li><p>二分上界？明显：树的直径。<a href="https://firstfan.blog.luogu.org/post-xue-xi-ji-lu-dong-tai-gui-hua" target="_blank" rel="noopener">(树的直径的概念)</a></p>
+</li>
+</ul>
+<p>那么我们可以树形$DP$一次求出树的直径。</p>
+<p>比如我们拿$Sample\ 2$来讲：($len$是边长）</p>
+<p><img src="https://i.loli.net/2019/04/09/5cacb4ae5237f.png" alt></p>
+<p>那么我们可以看到，这棵树被切成了$3$条无交集的链，其中最短链是$1-&gt;2-&gt;7$，它的长度是$15$，此时最大化。</p>
+<p>这棵树的直径是$7-&gt;2-&gt;3-&gt;4-&gt;5$长度为$27$，那么二分最短边的长度就好了。</p>
+<ul>
+<li>$Check()$怎么写？</li>
+</ul>
+<p>回到这幅图，我们可以看到对于每条链，我们可以找到其上一个点（以下简称<strong>特征点</strong>），使得此<strong>链</strong>与该点的<strong>上方树</strong>无交集。即是说，该链为<strong>特征点子树的子集</strong>。</p>
+<p>那么对于上图，特征点分别为（按颜色）：$\color{red}\text{1}$,$\color{lime}\text{2}$,$\color{darkblue}\text{4}$</p>
+<p>下面是<del>废话</del>时间：</p>
+<p>如果一个链，它经过了结点$i$的<strong>父结点</strong>，同时包含了$i$<strong>到子结点的某条边</strong>，那么它只能包含$i$到所有子结点的边<strong>当中的一条</strong>。</p>
+<p>这句<del>废话</del>推广一下的话就很有用了：</p>
+<p>对于任意节点$i$及其子节点$j,k$以及其中的一条链$i-&gt;j$，有$3$种情况需要讨论：(设$i$的父结点为$f_i$)</p>
+<ul>
+<li><p>弃置</p>
+</li>
+<li><p>使用为$j-&gt;i-&gt;k$的链<code>（儿子找父亲说另外一个儿子惹祸）</code></p>
+</li>
+<li><p>使用为$f_i-&gt;i-&gt;j$的链</p>
+</li>
+</ul>
+<p>那么分类就很简单了：</p>
+<p>对于每个结点$i$进行连边的尝试（连一个或两个）:</p>
+<p>如果连一个的话就<strong>把新边长向上传递并与父结点合并入同一链</strong>（<code>连两个的话说明它就是特征点</code>）</p>
+<p>似乎思路走远了？不是要二分吗？</p>
+<p>再看看？我们有一个二分链长$len$，就可以按照上面的步骤连了，如果连出来的链长大于$len$就计数重开一条新链，如果统计下来链数不够，我们就缩小$len$二分，反之类比。</p>
+<p>似乎忘了什么？我们不仅要保证链的数量最多，还要保证最短的链最大化！那么我们每次传回父结点的边长一定要尽量长。</p>
+<p>所以我们就有加链条件：</p>
+<p>$len_pre+len_now&gt;=binary_len$</p>
+<p>这里采用$multiset$进行维护。</p>
+<p><del>复杂度？不好说</del></p>
+<p>下面是代码，有简洁的注释，又不懂的欢迎在评论区提问，即时$Update!$</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ri register int</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">read</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> num=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> flg=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">char</span> c=getchar();</span><br><span class="line">        <span class="keyword">while</span>(!<span class="built_in">isdigit</span>(c))</span><br><span class="line">        &#123;</span><br><span class="line">                <span class="keyword">if</span>(c==<span class="string">'-'</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                        flg=<span class="number">-1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                c=getchar();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(<span class="built_in">isdigit</span>(c))</span><br><span class="line">        &#123;</span><br><span class="line">                num=(num&lt;&lt;<span class="number">1</span>)+(num&lt;&lt;<span class="number">3</span>)+(c^<span class="number">48</span>);</span><br><span class="line">                c=getchar();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> num*flg;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn=<span class="number">20031125</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> n,m;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">edge</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> to;</span><br><span class="line">	<span class="keyword">int</span> nex;</span><br><span class="line">	<span class="keyword">int</span> val;</span><br><span class="line">&#125; e[maxn&lt;&lt;<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> head[maxn];</span><br><span class="line"><span class="keyword">int</span> edge_cnt;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> v,<span class="keyword">int</span> val)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	e[++edge_cnt].to=v;</span><br><span class="line">	e[edge_cnt].nex=head[u];</span><br><span class="line">	e[edge_cnt].val=val;</span><br><span class="line">	head[u]=edge_cnt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">bool</span> vis[maxn];</span><br><span class="line"><span class="keyword">int</span> dia,dp[maxn];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">diameter</span><span class="params">(<span class="keyword">int</span> u)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	vis[u]=<span class="literal">true</span>;</span><br><span class="line">	<span class="keyword">for</span>(ri i=head[u];i;i=e[i].nex)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">int</span> to=e[i].to;</span><br><span class="line">		<span class="keyword">int</span> val=e[i].val;</span><br><span class="line">		<span class="keyword">if</span> (vis[to])</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">continue</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		diameter(to);</span><br><span class="line">		dia=max(dia,dp[u]+dp[to]+val);</span><br><span class="line">		dp[u]=max(dp[u],dp[to]+val);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;<span class="comment">//树形dp求直径</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> cnt,edge;</span><br><span class="line">	node(<span class="keyword">int</span> cnt_,<span class="keyword">int</span> edge_)</span><br><span class="line">	&#123;</span><br><span class="line">		cnt=cnt_;</span><br><span class="line">		edge=edge_;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> flg;</span><br><span class="line"></span><br><span class="line"><span class="function">node <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> fa,<span class="keyword">int</span> binary_len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> cnt=<span class="number">0</span>,edge=<span class="number">0</span>;</span><br><span class="line">	<span class="built_in">multiset</span>&lt;<span class="keyword">int</span>&gt; _set;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span>(ri i=head[x];i;i=e[i].nex)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">int</span> to=e[i].to;</span><br><span class="line">		<span class="keyword">int</span> val=e[i].val;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">if</span> (to == fa)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">continue</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		node son=dfs(to,x,binary_len);</span><br><span class="line">		<span class="keyword">if</span> (val+son.edge &gt;= binary_len)</span><br><span class="line">		&#123;</span><br><span class="line">			++cnt;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			_set.insert(val+son.edge);</span><br><span class="line">		&#125;</span><br><span class="line">		cnt += son.cnt;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span> (!_set.empty())</span><br><span class="line">	&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="built_in">multiset</span>&lt;<span class="keyword">int</span>&gt;::iterator it=_set.upper_bound(<span class="number">0</span>);<span class="comment">//迭代器</span></span><br><span class="line">		</span><br><span class="line">		<span class="keyword">int</span> top=*it;<span class="comment">//迭代器的值</span></span><br><span class="line">		_set.erase(it);</span><br><span class="line">		it=_set.lower_bound(binary_len-top);</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">if</span> (it == _set.end())</span><br><span class="line">		&#123;</span><br><span class="line">			edge=top;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			_set.erase(it);</span><br><span class="line">			++cnt;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (cnt &gt;= m)</span><br><span class="line">	&#123;</span><br><span class="line">		flg=<span class="literal">true</span>;<span class="comment">//个数过多</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> node(cnt,edge);<span class="comment">//推进去</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> ans;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	srand((time)(<span class="number">0</span>));</span><br><span class="line">	n=read();</span><br><span class="line">	m=read();</span><br><span class="line">	<span class="keyword">for</span>(ri i=<span class="number">1</span>; i &lt;= n<span class="number">-1</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">int</span> u=read();</span><br><span class="line">		<span class="keyword">int</span> v=read();</span><br><span class="line">		<span class="keyword">int</span> val=read();</span><br><span class="line">		add(u,v,val);</span><br><span class="line">		add(v,u,val);</span><br><span class="line">	&#125;</span><br><span class="line">	diameter(<span class="number">1</span>);<span class="comment">//直径</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">int</span> l=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> r=dia;</span><br><span class="line">	<span class="keyword">int</span> mid;</span><br><span class="line">	<span class="keyword">while</span> (l&lt;=r)<span class="comment">//二分最短长</span></span><br><span class="line">	&#123;</span><br><span class="line">		mid=(l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">		flg=<span class="literal">false</span>;</span><br><span class="line">		dfs(<span class="number">1</span>,<span class="number">0</span>,mid);<span class="comment">//flg赋值</span></span><br><span class="line">		<span class="keyword">if</span> (flg)</span><br><span class="line">		&#123;</span><br><span class="line">			l=mid+rand()%<span class="number">2</span>;</span><br><span class="line">			ans=mid;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			r=mid-rand()%<span class="number">2</span>;<span class="comment">//原谅我至今不知道是否要加减。</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>&amp;<span class="built_in">printf</span>(<span class="string">"%d"</span>,ans);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">7 1</span></span><br><span class="line"><span class="comment">1 2 10</span></span><br><span class="line"><span class="comment">1 3 5</span></span><br><span class="line"><span class="comment">2 4 9</span></span><br><span class="line"><span class="comment">2 5 8</span></span><br><span class="line"><span class="comment">3 6 6</span></span><br><span class="line"><span class="comment">3 7 7</span></span><br><span class="line"><span class="comment">out:</span></span><br><span class="line"><span class="comment">31</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>反思与小结：（前面浪费时间系列）</p>
+<p>其实根本不需要求直径，无脑取一个大值就好了（所有边长之和就不错），求直径的时间可以用来多二分几次，并且此题时间卡得并不很紧，否则必须要用平衡树维护链长和特征点了。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E4%BA%8C%E5%88%86/" rel="tag"># 二分</a>
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag"># 动态规划</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/11/23/LG3496/" rel="next" title="题解-LuoGu3496">
+                  <i class="fa fa-chevron-left"></i> 题解-LuoGu3496
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/11/23/menhera/" rel="prev" title="七濑胡桃❤">
+                  七濑胡桃❤ <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#先翻译下本题的题意："><span class="nav-number">1.</span> <span class="nav-text">先翻译下本题的题意：</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="first_fan"
+      src="/images/first.png">
+  <p class="site-author-name" itemprop="name">first_fan</p>
+  <div class="site-description" itemprop="description">Just Do It,But Not Just Do It.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="chat motion-element"><i class="fa fa-comment"></i>
+    Chat
+  </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/firstfan119" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;firstfan119" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://first_Fan@outlook.com/" title="E-Mail → https:&#x2F;&#x2F;first_Fan@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.luogu.org/user/126484" title="Luogu → https:&#x2F;&#x2F;www.luogu.org&#x2F;user&#x2F;126484" rel="noopener" target="_blank"><i class="fa fa-fw fa-coffee"></i>Luogu</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=3425811925&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v=3&amp;uin=3425811925&amp;site=qq&amp;menu=yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-qq"></i>QQ</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+      <div id="music163player">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=730859&auto=1&height=66"></iframe>
+</div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">first_fan</span>
+</div>
+
+<div>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv" style='display:none'>
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    <span class="post-meta-divider">|</span>
+</span>
+<span id="busuanzi_container_site_uv" style='display:none'>
+    <span id="busuanzi_value_site_uv"></span>人在此留下了足迹
+</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='255,255,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+
+
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/favicon.png" color="#222">
+  <link rel="alternate" href="/atom.xml" title="first's blog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="关于解圆锥曲线大题，lxjの奇淫技巧">
+<meta name="keywords" content="思路,数学">
+<meta property="og:type" content="article">
+<meta property="og:title" content="圆锥曲线-东风快递">
+<meta property="og:url" content="https:&#x2F;&#x2F;firstfan119.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;%E5%9C%86%E9%94%A5%E6%9B%B2%E7%BA%BF-%E4%B8%9C%E9%A3%8E%E5%BF%AB%E9%80%92&#x2F;index.html">
+<meta property="og:site_name" content="first&#39;s blog">
+<meta property="og:description" content="关于解圆锥曲线大题，lxjの奇淫技巧">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;10&#x2F;10&#x2F;VacEM8XY4DyRqZC.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;10&#x2F;10&#x2F;MtOoXUTBS1fWbLE.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;10&#x2F;10&#x2F;pHlXCkEBqsmyeO2.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;10&#x2F;10&#x2F;KncCdR4exGLuyfw.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;10&#x2F;11&#x2F;skRMdO4oX3YF1Cm.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;10&#x2F;11&#x2F;6iO7nS1wgU5HRqN.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;10&#x2F;11&#x2F;gAqQtjXDMHmcpUe.png">
+<meta property="og:updated_time" content="2019-11-17T08:52:59.670Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;10&#x2F;10&#x2F;VacEM8XY4DyRqZC.png">
+
+<link rel="canonical" href="https://firstfan119.github.io/2019/11/23/%E5%9C%86%E9%94%A5%E6%9B%B2%E7%BA%BF-%E4%B8%9C%E9%A3%8E%E5%BF%AB%E9%80%92/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>圆锥曲线-东风快递 | first's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">first's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://firstfan119.github.io/2019/11/23/%E5%9C%86%E9%94%A5%E6%9B%B2%E7%BA%BF-%E4%B8%9C%E9%A3%8E%E5%BF%AB%E9%80%92/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/first.png">
+      <meta itemprop="name" content="first_fan">
+      <meta itemprop="description" content="Just Do It,But Not Just Do It.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="first's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          圆锥曲线-东风快递
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-23 23:14:50" itemprop="dateCreated datePublished" datetime="2019-11-23T23:14:50+08:00">2019-11-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-17 16:52:59" itemprop="dateModified" datetime="2019-11-17T16:52:59+08:00">2019-11-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9A%8F%E6%83%B3/" itemprop="url" rel="index">
+                    <span itemprop="name">随想</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">关于解圆锥曲线大题，lxjの奇淫技巧</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="1-序言"><a href="#1-序言" class="headerlink" title="1.序言"></a>1.序言</h1><p>听名字就知道，本文要讲的是一些圆锥曲线的结论或计算技巧，能够有效加速解题效率。</p><h1 id="2-椭圆-sf-frac-x-2-a-2-frac-y-2-b-2-1"><a href="#2-椭圆-sf-frac-x-2-a-2-frac-y-2-b-2-1" class="headerlink" title="2.椭圆$\sf\frac{x^2}{a^2}+\frac{y^2}{b^2}=1$"></a>2.椭圆$\sf\frac{x^2}{a^2}+\frac{y^2}{b^2}=1$</h1><h2 id="1-对于-a-b-其中较大的一个所在的那个分数的分子所代表的轴就是椭圆的长轴"><a href="#1-对于-a-b-其中较大的一个所在的那个分数的分子所代表的轴就是椭圆的长轴" class="headerlink" title="1.对于$a$,$b$,其中较大的一个所在的那个分数的分子所代表的轴就是椭圆的长轴"></a>1.对于$a$,$b$,其中较大的一个所在的那个分数的分子所代表的轴就是椭圆的长轴</h2><h2 id="2-椭圆上点的性质"><a href="#2-椭圆上点的性质" class="headerlink" title="2.椭圆上点的性质"></a>2.椭圆上点的性质</h2><ul>
+<li>到两焦点的距离和相等($\sf|PF_1|+|PF_2|=2a$)</li>
+<li>到焦点和准线的距离比值一定($\sf\frac{\text{焦点距}}{\text{准线距}}=e$)</li>
+<li>与两焦点连线的斜率之积为固定负值($\sf k_1k_2=-\frac{b^2}{a^2}$)</li>
+</ul><a id="more"></a>
+
+<p><img src="https://i.loli.net/2019/10/10/VacEM8XY4DyRqZC.png" alt="ZZNGR_3_AX_4SB57B_ZN_HS.png"></p>
+<h2 id="3-焦半径的计算"><a href="#3-焦半径的计算" class="headerlink" title="3.焦半径的计算"></a>3.焦半径的计算</h2><h3 id="I-坐标法"><a href="#I-坐标法" class="headerlink" title="I.坐标法"></a>I.坐标法</h3><p>$\sf|PF_\text{左}|=a+ex_0$</p>
+<p>$\sf|PF_\text{右}|=a-ex_0$</p>
+<p>=&gt;两个分别以$\sf PF$为直径和长轴为直径的圆内切。</p>
+<p><img src="https://i.loli.net/2019/10/10/MtOoXUTBS1fWbLE.png" alt="_BSFD_1RF_DN_HX47M_UOEA.png"></p>
+<h3 id="II-极坐标法"><a href="#II-极坐标法" class="headerlink" title="II.极坐标法"></a>II.极坐标法</h3><p>$\sf|PF|=\frac{ep}{1-e\cos{\alpha}}$</p>
+<p>焦半径的范围：[a-c,a+c]</p>
+<p>$\sf||PF_1|-|PF_2||\leq2c$</p>
+<h2 id="4-焦点弦的计算"><a href="#4-焦点弦的计算" class="headerlink" title="4.焦点弦的计算"></a>4.焦点弦的计算</h2><ul>
+<li>坐标法：$\sf|AB|=|2a+e(x_1+x_2)|$</li>
+<li>极坐标法：$\sf|AB|=\frac{2ep}{1-e^2\cos^2{\alpha}}$</li>
+</ul>
+<p>其中$\sf ep=\frac{b^2}{a}$，即半通径</p>
+<h2 id="5-焦点弦的性质"><a href="#5-焦点弦的性质" class="headerlink" title="5.焦点弦的性质"></a>5.焦点弦的性质</h2><p>$\sf\frac{1}{|AF|}+\frac{1}{|BF|}=\frac{2}{ep}$</p>
+<p>以焦点弦为直径的圆与最近的准线相离</p>
+<p>做AB在准线上的投影，以这段投影为直径的圆与AB相离</p>
+<p><img src="https://i.loli.net/2019/10/10/pHlXCkEBqsmyeO2.png" alt="0~DG04_M~7A_UX3Y_1XU44B.png"></p>
+<h2 id="6-焦点三角形的面积"><a href="#6-焦点三角形的面积" class="headerlink" title="6.焦点三角形的面积"></a>6.焦点三角形的面积</h2><p>$\sf S=b^2\tan{\theta}=c*y_P$</p>
+<p><img src="https://i.loli.net/2019/10/10/KncCdR4exGLuyfw.png" alt></p>
+<h2 id="7-弦中点性质"><a href="#7-弦中点性质" class="headerlink" title="7.弦中点性质"></a>7.弦中点性质</h2><p>$\sf M=mid(A,B)$，则$\sf k_{AB}k_{OM}=-\frac{b^2}{a^2}$</p>
+<h2 id="8-弦长公式"><a href="#8-弦长公式" class="headerlink" title="8.弦长公式"></a>8.弦长公式</h2><p>$\sf\begin{cases}y=mx+n\\sf\frac{x^2}{a^2}+\frac{y^2}{b^2}=1\end{cases}$</p>
+<p>$\Large\sf |AB|=\sqrt{m^2+1}*\frac{\sqrt{\frac{1}{a^2}+\frac{m^2}{b^2}-\frac{n^2}{a^2b^2}}}{\frac{1}{a^2}+\frac{m^2}{b^2}}$</p>
+<p>$\sf\begin{cases}x=my+n\\sf\frac{x^2}{a^2}+\frac{y^2}{b^2}=1\end{cases}$</p>
+<p>$\Large\sf |AB|=\sqrt{m^2+1}*\frac{\sqrt{\frac{m^2}{a^2}+\frac{1}{b^2}-\frac{n^2}{a^2b^2}}}{\frac{m^2}{a^2}+\frac{1}{b^2}}$</p>
+<h2 id="8-极点极线"><a href="#8-极点极线" class="headerlink" title="8.极点极线"></a>8.极点极线</h2><ul>
+<li>用$x_0x$换掉$x^2$，用$y_0y$换掉$y^2$</li>
+<li>用$\sf\frac{x_0+x}{2}$换掉$x$，用$\sf\frac{y_0+y}{2}$换掉$y$</li>
+</ul>
+<p>即可得到极线(切点弦)</p>
+<p>过椭圆外一点$P$做其弦$AB$，并作出其极线与$AB$交于$Q$，此时$A,B;P,Q$成<code>调和点列</code>。</p>
+<p><img src="https://i.loli.net/2019/10/11/skRMdO4oX3YF1Cm.png" alt="0_C0_A13D_6_1X9G_L3Q75T.png"></p>
+<h2 id="9-焦点弦三角形的性质"><a href="#9-焦点弦三角形的性质" class="headerlink" title="9.焦点弦三角形的性质"></a>9.焦点弦三角形的性质</h2><p><code>待补</code></p>
+<p><img src="https://i.loli.net/2019/10/11/6iO7nS1wgU5HRqN.png" alt></p>
+<hr>
+<h1 id="2-双曲线-sf-frac-x-2-a-2-frac-y-2-b-2-1"><a href="#2-双曲线-sf-frac-x-2-a-2-frac-y-2-b-2-1" class="headerlink" title="2.双曲线$\sf\frac{x^2}{a^2}-\frac{y^2}{b^2}=1$"></a>2.双曲线$\sf\frac{x^2}{a^2}-\frac{y^2}{b^2}=1$</h1><h2 id="1-对于-a-b-其中为正的一个所在的那个分数的分子所代表的轴就是双曲线的实轴"><a href="#1-对于-a-b-其中为正的一个所在的那个分数的分子所代表的轴就是双曲线的实轴" class="headerlink" title="1.对于$a$,$b$,其中为正的一个所在的那个分数的分子所代表的轴就是双曲线的实轴"></a>1.对于$a$,$b$,其中为正的一个所在的那个分数的分子所代表的轴就是双曲线的实轴</h2><h2 id="2-双曲线上点的性质"><a href="#2-双曲线上点的性质" class="headerlink" title="2.双曲线上点的性质"></a>2.双曲线上点的性质</h2><ul>
+<li>到两焦点的距离差的绝对值相等($\sf||PF_1|-|PF_2||=2a$)</li>
+<li>到焦点和准线的距离比值一定($\sf\frac{\text{焦点距}}{\text{准线距}}=e$)</li>
+</ul>
+<p>此处有$\sf a^2+b^2=c^2$</p>
+<p><img src="https://i.loli.net/2019/10/11/gAqQtjXDMHmcpUe.png" alt></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%80%9D%E8%B7%AF/" rel="tag"># 思路</a>
+              <a href="/tags/%E6%95%B0%E5%AD%A6/" rel="tag"># 数学</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/11/23/%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/" rel="next" title="博客_config.yml文件的配置">
+                  <i class="fa fa-chevron-left"></i> 博客_config.yml文件的配置
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/11/23/%E5%B9%B6%E4%B8%8D%E5%85%A8%E7%9A%84%E6%A8%A1%E6%9D%BF%E5%A4%A7%E5%85%A8/" rel="prev" title="一个并不全的提高组算法模板大全">
+                  一个并不全的提高组算法模板大全 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-序言"><span class="nav-number">1.</span> <span class="nav-text">1.序言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-椭圆-sf-frac-x-2-a-2-frac-y-2-b-2-1"><span class="nav-number">2.</span> <span class="nav-text">2.椭圆$\sf\frac{x^2}{a^2}+\frac{y^2}{b^2}=1$</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-对于-a-b-其中较大的一个所在的那个分数的分子所代表的轴就是椭圆的长轴"><span class="nav-number">2.1.</span> <span class="nav-text">1.对于$a$,$b$,其中较大的一个所在的那个分数的分子所代表的轴就是椭圆的长轴</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-椭圆上点的性质"><span class="nav-number">2.2.</span> <span class="nav-text">2.椭圆上点的性质</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-焦半径的计算"><span class="nav-number">2.3.</span> <span class="nav-text">3.焦半径的计算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#I-坐标法"><span class="nav-number">2.3.1.</span> <span class="nav-text">I.坐标法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#II-极坐标法"><span class="nav-number">2.3.2.</span> <span class="nav-text">II.极坐标法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-焦点弦的计算"><span class="nav-number">2.4.</span> <span class="nav-text">4.焦点弦的计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-焦点弦的性质"><span class="nav-number">2.5.</span> <span class="nav-text">5.焦点弦的性质</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-焦点三角形的面积"><span class="nav-number">2.6.</span> <span class="nav-text">6.焦点三角形的面积</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-弦中点性质"><span class="nav-number">2.7.</span> <span class="nav-text">7.弦中点性质</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-弦长公式"><span class="nav-number">2.8.</span> <span class="nav-text">8.弦长公式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-极点极线"><span class="nav-number">2.9.</span> <span class="nav-text">8.极点极线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-焦点弦三角形的性质"><span class="nav-number">2.10.</span> <span class="nav-text">9.焦点弦三角形的性质</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-双曲线-sf-frac-x-2-a-2-frac-y-2-b-2-1"><span class="nav-number">3.</span> <span class="nav-text">2.双曲线$\sf\frac{x^2}{a^2}-\frac{y^2}{b^2}=1$</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-对于-a-b-其中为正的一个所在的那个分数的分子所代表的轴就是双曲线的实轴"><span class="nav-number">3.1.</span> <span class="nav-text">1.对于$a$,$b$,其中为正的一个所在的那个分数的分子所代表的轴就是双曲线的实轴</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-双曲线上点的性质"><span class="nav-number">3.2.</span> <span class="nav-text">2.双曲线上点的性质</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="first_fan"
+      src="/images/first.png">
+  <p class="site-author-name" itemprop="name">first_fan</p>
+  <div class="site-description" itemprop="description">Just Do It,But Not Just Do It.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="chat motion-element"><i class="fa fa-comment"></i>
+    Chat
+  </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/firstfan119" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;firstfan119" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://first_Fan@outlook.com/" title="E-Mail → https:&#x2F;&#x2F;first_Fan@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.luogu.org/user/126484" title="Luogu → https:&#x2F;&#x2F;www.luogu.org&#x2F;user&#x2F;126484" rel="noopener" target="_blank"><i class="fa fa-fw fa-coffee"></i>Luogu</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=3425811925&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v=3&amp;uin=3425811925&amp;site=qq&amp;menu=yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-qq"></i>QQ</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+      <div id="music163player">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=730859&auto=1&height=66"></iframe>
+</div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">first_fan</span>
+</div>
+
+<div>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv" style='display:none'>
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    <span class="post-meta-divider">|</span>
+</span>
+<span id="busuanzi_container_site_uv" style='display:none'>
+    <span id="busuanzi_value_site_uv"></span>人在此留下了足迹
+</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='255,255,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+
+
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+
+</body>
+</html>

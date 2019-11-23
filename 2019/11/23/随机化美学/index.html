@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/favicon.png" color="#222">
+  <link rel="alternate" href="/atom.xml" title="first's blog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="简单归纳了一下OI可能用到的随机算法~">
+<meta name="keywords" content="思路,随机化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="随机化の美学">
+<meta property="og:url" content="https:&#x2F;&#x2F;firstfan119.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;%E9%9A%8F%E6%9C%BA%E5%8C%96%E7%BE%8E%E5%AD%A6&#x2F;index.html">
+<meta property="og:site_name" content="first&#39;s blog">
+<meta property="og:description" content="简单归纳了一下OI可能用到的随机算法~">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;timgsa.baidu.com&#x2F;timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1557488778286&amp;di=baa6b0b13ca38563b89bb0a08ddacf43&amp;imgtype=0&amp;src=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_gif%2FFQd8gQcyN26rb6zJucxaycvJvllG32bxENtPZickocKIBfkSVSQia0noDUVtnicjC2PkIVy0S5ptuwhiafLZVKjK0A%2F640%3Fwx_fmt%3Dgif">
+<meta property="og:image" content="https:&#x2F;&#x2F;upload.wikimedia.org&#x2F;wikipedia&#x2F;commons&#x2F;d&#x2F;d5&#x2F;Hill_Climbing_with_Simulated_Annealing.gif">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;08&#x2F;04&#x2F;htxTKI1jnqQwSfe.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;08&#x2F;05&#x2F;oe3mv7bUIXz2yQP.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;08&#x2F;04&#x2F;4xpnNXb2efE8Y7F.png">
+<meta property="og:updated_time" content="2019-11-17T08:42:21.653Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;timgsa.baidu.com&#x2F;timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1557488778286&amp;di=baa6b0b13ca38563b89bb0a08ddacf43&amp;imgtype=0&amp;src=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_gif%2FFQd8gQcyN26rb6zJucxaycvJvllG32bxENtPZickocKIBfkSVSQia0noDUVtnicjC2PkIVy0S5ptuwhiafLZVKjK0A%2F640%3Fwx_fmt%3Dgif">
+
+<link rel="canonical" href="https://firstfan119.github.io/2019/11/23/%E9%9A%8F%E6%9C%BA%E5%8C%96%E7%BE%8E%E5%AD%A6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>随机化の美学 | first's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">first's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://firstfan119.github.io/2019/11/23/%E9%9A%8F%E6%9C%BA%E5%8C%96%E7%BE%8E%E5%AD%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/first.png">
+      <meta itemprop="name" content="first_fan">
+      <meta itemprop="description" content="Just Do It,But Not Just Do It.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="first's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          随机化の美学
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-23 23:14:50" itemprop="dateCreated datePublished" datetime="2019-11-23T23:14:50+08:00">2019-11-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-17 16:42:21" itemprop="dateModified" datetime="2019-11-17T16:42:21+08:00">2019-11-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9A%8F%E6%9C%BA%E5%8C%96/" itemprop="url" rel="index">
+                    <span itemprop="name">随机化</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">简单归纳了一下OI可能用到的随机算法~</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="0-Brief-Intro"><a href="#0-Brief-Intro" class="headerlink" title="0.Brief Intro"></a>0.Brief Intro</h1><p>随机化算法在我们日常做题当中的应用可谓是少之又少，如遇<a href="https://www.luogu.org/problemnew/show/P1337" target="_blank" rel="noopener">LuoGu1337</a>这样的题目，我们往往不会考虑模拟退火，而是去考虑<a href="https://www.luogu.org/blog/user54214/solution-p1337" target="_blank" rel="noopener">半平面切割凸包</a>这样正常的解法。</p><p>但随机化在日常生活中应用广泛：从决定命运的$\sf \text{掷骰子}$到较为复杂而高效的$\sf \text{Pollard\ Rho因数分解算法}$，随处可见随机化的身影。</p><a id="more"></a>
+
+<h1 id="1-First-impression"><a href="#1-First-impression" class="headerlink" title="1.First impression"></a>1.First impression</h1><p>恰如其名，随机化就是一种特殊的暴力，打个比方：</p>
+<p><code>假如你要做一篇阅读题，普通暴力是逐字逐句读找到答案，随机化是一目十行寻找答案。</code></p>
+<p>我在做阅读题时使用的是第二种方法，只不过随机范围较小。这种方法的利弊就不必多言：</p>
+<ul>
+<li><p>利：对于某些有序数据（好比是含有一段无用文字的文章），随机化能够概率跳过不看，从而更快地找到答案。</p>
+</li>
+<li><p>弊：对于差异很大的数据（好比是字字珠玑的一段），随机化可能浅尝辄止。</p>
+</li>
+</ul>
+<p>至于百科上则是这样描述它的：</p>
+<blockquote>
+<p>只是由于随机化算法比较难于掌控，所以并不是很多人都接触过。</p>
+</blockquote>
+<blockquote>
+<p>随机化算法是一个很好的概率算法，但是它并不能保证正确。</p>
+</blockquote>
+<p>这两句话就好像在说：<code>你人很好,但你是个好人。</code></p>
+<p>随机化真的如此危险？竞赛中宁可暴力也不随机？抬头看标题：$\Large\sf\text{随机化美学}$</p>
+<h1 id="2-随机化算法串讲"><a href="#2-随机化算法串讲" class="headerlink" title="2.随机化算法串讲"></a>2.随机化算法串讲</h1><p>显然，随机化的应用并不罕见，如果要我列出一个算法的集子来，我会说：<code>I can do this all day.</code>接下来将对随机化算法进行讲解（非难度排序）</p>
+<h2 id="1°是非状态随机化"><a href="#1°是非状态随机化" class="headerlink" title="1°是非状态随机化"></a>1°是非状态随机化</h2><p>所谓是非状态，就是说类似背包内的取与不取两种状态，不是取就是不取。显然，最原始暴力，我们只要对每个物体枚举2种可能，那么最差（全放下）也就$\Large{2^n}$种可能性而已。</p>
+<p>先不讨论背包的正解（无价值），我们来拿另一个例子想想如何随机化。（背包的随机化稍后与模拟退火同讲）</p>
+<p><a href="https://www.luogu.org/problemnew/show/CF888E" target="_blank" rel="noopener">CF888E</a></p>
+<p>另：此题详细题解在<a href="https://firstfan.blog.luogu.org/solution-cf888e" target="_blank" rel="noopener">我的另一文章</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">给一个数列和m，在数列任选若干个数，使得他们的和对m取模后最大</span><br></pre></td></tr></table></figure>
+
+<p>我们发现，这种序列选数求某个最值的题目往往可以随机拿分。</p>
+<p>我们可以随机每个数选或者不选，并且如法炮制<code>数万甚至数十万次</code>并且<code>不断与之前最值打擂台</code>，在数十万次尝试下最值出现的概率很高。</p>
+<p>针对此题，我们可以随机两回，随机选多少个数，随机每次选哪个数，再加个$vis[]$记录下是否使用就行。</p>
+<p>如果看过我的题解，你可能会惊叹于$for()$循环的常数：50000！这就是是非状态随机化的一大特点：<code>多试几次</code>。</p>
+<p>你不必担心跑得慢，因为正解那边折半搜索也是指数级的，稳妥为上。</p>
+<p>总结一下，是非状态随机化适用于$\large\sf\text{数据大 时间不紧 对象状态少 要求输出“统计数据”}$的题目（可以看出，它并不只适用于仅有是非状态的题），而此时的正解有可能也较慢。</p>
+<h2 id="2°爬山算法"><a href="#2°爬山算法" class="headerlink" title="2°爬山算法"></a>2°爬山算法</h2><p>严格意义上来讲，爬山算法的随机化过程很少。此处提到它仅仅是为了下方的模拟退火做铺垫。</p>
+<p>看名字，这个算法的最基础应用就是求函数极值，即从当前点开始，每个点的值与相邻点的值比较，把指针挪至接近极值的那一个。</p>
+<p>扔个图解，图片来源于网络。</p>
+<p><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1557488778286&di=baa6b0b13ca38563b89bb0a08ddacf43&imgtype=0&src=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_gif%2FFQd8gQcyN26rb6zJucxaycvJvllG32bxENtPZickocKIBfkSVSQia0noDUVtnicjC2PkIVy0S5ptuwhiafLZVKjK0A%2F640%3Fwx_fmt%3Dgif" alt></p>
+<h2 id="3°模拟退火"><a href="#3°模拟退火" class="headerlink" title="3°模拟退火"></a>3°模拟退火</h2><p>概念此处仅简单讲解。如需详解请<a href="http://baidu.physton.com/?q=%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB" target="_blank" rel="noopener">下楼右转</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">模拟退火（SA）</span><br><span class="line">模拟退火是基于物理中固体退火过程的随机化算法。它是一种通用算法，其主要操作是在冷却过程中按照Metropolis算法计算的概率随机跳出当前解。</span><br></pre></td></tr></table></figure>
+
+<p>上面那块太长，换一个说法：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">模拟退火就是进行多次循环，每次循环会以一个与当前答案正确度相关联的概率跳出当前域的算法。</span><br></pre></td></tr></table></figure>
+
+<p>模拟退火的应用可谓是<code>远在天边，近在眼前</code>，你想用它时仿佛处处都是它，关键时刻你又常常想不到它。</p>
+<p>作为一个随机化算法，模拟退火优于一般的随机，因为它不仅仅是像取随机数那样真正意义上的随机，而是在降温的过程中逐渐逼近答案，并且<code>偶尔地</code>出界探索更优解。</p>
+<p>模拟退火比爬山就优秀在这里，模拟退火在温度较高时跳动概率大，而温度低时（逼近正解）跳动概率小。</p>
+<p>因此模拟退火很大程度上改良了爬山算法会卡在一个小峰的尴尬弱点，也同时比乱序随机来得更准。</p>
+<p>退火能够应用的范围很广。下至<a href="https://www.luogu.org/problem/P1049" target="_blank" rel="noopener">装箱问题</a>这样的01背包，上至<a href="https://www.luogu.org/problem/P2210" target="_blank" rel="noopener">Haywire</a>这样的难题（貌似没有平衡点难），都能见到它的身影，甚至在严谨的省选赛中SA也能占有一席之地(四川、江苏、河南、天津,etc)。</p>
+<p>最后简单讲解一下模拟退火的实现，就以下图的求极值为例。</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Hill_Climbing_with_Simulated_Annealing.gif" alt></p>
+<p>第一步，定初温$\mathcal T$，不能太低（$1000^+$）。</p>
+<p>第二步，定降温系数$\Delta$，一般在0.997，<del>有些题粗放到0.92也行</del>。</p>
+<p>第三步，利用<a href="https://baike.baidu.com/item/Metropolis%E6%8E%A5%E5%8F%97%E5%87%86%E5%88%99/14678977" target="_blank" rel="noopener">metro_polis接受准则</a>产生当前温度能接受的随机值。</p>
+<ul>
+<li>关于metro_polis接受准则</li>
+</ul>
+<blockquote>
+<p>若在温度T，当前状态i → 新状态j</p>
+</blockquote>
+<blockquote>
+<p>若Ej&lt;Ei，则接受 j 为当前状态</p>
+</blockquote>
+<blockquote>
+<p>否则，若概率 p大于[0,1)区间的随机数，则仍接受状态j为当前状态；若不成立，则保留状态i为当前状态。</p>
+</blockquote>
+<p>这个概率p的产生又是随机化的一大美学了：exp的巧用。</p>
+<p><img src="https://i.loli.net/2019/08/04/htxTKI1jnqQwSfe.png" alt></p>
+<p>图中我们可以看出，温度越高则跳出概率越高，温度越低则p也越低，即<code>p与T正相关</code>，且这个函数的值总是在[0,1)内，也就是说我们在这个区间内随便取数，比p小的概率就是p所代表的概率。</p>
+<h2 id="4°数论中的随机化"><a href="#4°数论中的随机化" class="headerlink" title="4°数论中的随机化"></a>4°数论中的随机化</h2><p>判断素数一直是数论界的热门话题之一，如何高效地查找因数也是人们热衷的研究。</p>
+<h3 id="1-从费马小定理说起"><a href="#1-从费马小定理说起" class="headerlink" title="1)从费马小定理说起"></a>1)从费马小定理说起</h3><blockquote>
+<p>费马小定理</p>
+</blockquote>
+<blockquote>
+<p>对于质数p和整数a，有$a^p$ ≡ a(mod p)。</p>
+</blockquote>
+<blockquote>
+<p>这个结论大概率可以视作反之亦然（几乎充要）。</p>
+</blockquote>
+<blockquote>
+<p>反推有$a^{p-1}$ ≡ 1(mod p)</p>
+</blockquote>
+<p>由上式我们可以得到费马测试的方案：</p>
+<p>随机取多个整数a，对p进行同余测试，如果均通过则为质数。</p>
+<p>但费马测试还是有小概率出错的，如下式</p>
+<p>$2^{340}\ mod\ 341=1$显然成立</p>
+<p>然而341是合数！对于341这样奇怪的反例，我们称为伪素数。</p>
+<p>据研究，在1e12范围内共有5597个伪素数，这可不是小概率事件（出错率在0.00011，引自Matirx67的blog）。</p>
+<h3 id="2-Miller-amp-Rabin"><a href="#2-Miller-amp-Rabin" class="headerlink" title="2)Miller&amp;Rabin"></a>2)Miller&amp;Rabin</h3><p>在发现这个bug以后，Miller和Rabin二人为费马测试的bug打上了补丁：<strong>二次探测定理</strong></p>
+<p>按照上述，费马测试需要更换多个a，而二次探测定理则换了一个角度检查。</p>
+<blockquote>
+<p>如果p是奇素数，则 $x^2 ≡ 1(mod\ p)$的解为 $x ≡ 1$ 或 $x ≡ p - 1(mod\ p)$</p>
+</blockquote>
+<blockquote>
+<p>——二次探测定理</p>
+</blockquote>
+<p>那么我们来手动模拟一下M_R的做法：</p>
+<p>$I.$得到$a^{n-1} ≡ 1 (mod\ n)$</p>
+<p>$II.$看指数n-1是否为偶，若为偶，则将其指数折半，用二次探测定理检查。</p>
+<p>那我们回头看看上面的那组卡掉费马测试的数据：</p>
+<p>$2^{340}\ mod\ 341=1$</p>
+<p>我们得到式子后进行如下的操作：</p>
+<p>$2^{170}\ mod\ 341=1$<code>二次探测也被突破？</code></p>
+<p>那么再进行一次呢？</p>
+<p>$2^{85}\ mod\ 341=32$</p>
+<p>显然，341在第二次的二次探测定理下被排除。可见M_R也具有出错率，但可以通过多次探测缩小错误率。</p>
+<ul>
+<li>研究发现，M_R素数检测n次的错误率仅有($\frac{1}{4}$)$^n$，所以多来几次就好。</li>
+</ul>
+<h3 id="3-sf-rm-Pollard-Large-rho-（科普向）"><a href="#3-sf-rm-Pollard-Large-rho-（科普向）" class="headerlink" title="3)$\sf\rm\ Pollard_\Large\rho$（科普向）"></a>3)$\sf\rm\ Pollard_\Large\rho$（科普向）</h3><p>Pollard_rho，是当今最为优秀的随机化分解因数算法，由于其高效且随机，其模板是黑题，OI界也几乎用不到如此高效却复杂的因数分解算法。</p>
+<p>下面简单介绍一下$\rho$的算法流程。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">第一步，先判断给出的数是否为素数。</span><br><span class="line">第二步，尝试找出一个数的因数（不一定是质数），并且除得对应的另一个因数。</span><br><span class="line">第三步，递归寻找每个因数的因数，直到整个数分解完毕。</span><br></pre></td></tr></table></figure>
+
+<p>具体地，我们不会单纯地寻找一个数的因数，而是利用上了随机化的加持。</p>
+<p>对于数n，假设要找的因数为t，我们先随机取一个$x_1$，再构造$x_2$，使条件$t|(x1-x2)$成立，并且条件$(x_1-x_2)|n$不成立（|:整除）。</p>
+<p>此时有一个结论：若$gcd(x_1-x_2,n)$不为1，则该值为t。</p>
+<p>如果值为1，则调整$x_2$使其再次符合条件（调整方式可以为$x_2=x_2*x_2+\phi$)（其中的$\phi$为随机值）。我们在调整的过程中如果出现了$x_1=x_2$的情况，则说明$x_1$选取不当，须重新选$x_1$。</p>
+<p>pollard发现，在调整$x_1$的过程中，$x_1$与$x_2$最终会形成$\huge\rho$循环。</p>
+<p><img src="https://i.loli.net/2019/08/05/oe3mv7bUIXz2yQP.png" alt></p>
+<p>计算出因数后只需要判断下是否为质数就行了，此处就要引进上文的M_R判素法了。</p>
+<h2 id="5°随机化的其他运用"><a href="#5°随机化的其他运用" class="headerlink" title="5°随机化的其他运用"></a>5°随机化的其他运用</h2><p>随机化在很多不起眼的地方也起着巨大的作用，看上去傻乎乎的决策却也有着猴子打字写出成书的可能。</p>
+<p>或许随机化不能称为优化，有人甚至认为它是劣化，但不得不说的一点是：<code>没有人能卡掉随机优化</code>，除了坏运气。</p>
+<h3 id="1-spfa？"><a href="#1-spfa？" class="headerlink" title="1)spfa？"></a>1)spfa？</h3><p>众所周知，spfa有个双端队列优化，那么到底把新来的点放队头还是队尾呢？<code>rand()%2</code>就是这样的01决策的利器。</p>
+<h3 id="2-排序？"><a href="#2-排序？" class="headerlink" title="2)排序？"></a>2)排序？</h3><blockquote>
+<p>真的，真的请各位不要再嘲笑random_shuffle了</p>
+</blockquote>
+<blockquote>
+<p>——fst</p>
+</blockquote>
+<p>什么？比$O(NlogN)$更猛？（应该不会快过桶排）</p>
+<p>对于随机化排序，我只能说：这是可能发生的。</p>
+<p>因为对于一串相当有序的序列，随机化的效率还是很出色的。</p>
+<p>引用<code>平凡的幸福</code>的一次测试结果，</p>
+<p><img src="https://i.loli.net/2019/08/04/4xpnNXb2efE8Y7F.png" alt></p>
+<p>此处的所有数据均为随机产生，不具有有序性。</p>
+<ul>
+<li>经在下测试，对于1e5的较有序数据，随机排序的效率最高可达快排的1.2倍！</li>
+</ul>
+<h1 id="3-一些细节"><a href="#3-一些细节" class="headerlink" title="3.一些细节"></a>3.一些细节</h1><ul>
+<li><p>随机化的时候，一定要考虑好数据的大小，如果能够估计出正解复杂度更好（谁会知道正解还写随机QwQ），如果正解是搜索一类的较暴力的算法，且具有01决策性或是一些别致的可随机的提示，则可以用随机化加以解决。</p>
+</li>
+<li><p>随机化很重要的一点是：循环的次数一定要多，在上面的例子中，我们可以发现一个较为稳定的随机化算法一定是有一定准则的，并且往往需要多次取优处理。</p>
+</li>
+<li><p>在省选以下的比赛中，尽量不要考虑使用随机化，因为随机严格意义上不属于考纲。</p>
+</li>
+<li><p>随机化程序好写，但是千万不能让随机成为定式，它永远只是备胎，一定要有十分把握（无论是此题爆零把握还是已知正解把握），否则随机化会用运气来压制你的分数。</p>
+</li>
+</ul>
+<h1 id="4-结语"><a href="#4-结语" class="headerlink" title="4.结语"></a>4.结语</h1><p>随机化很美，不是么？</p>
+<p>它似算法，却又非算法；</p>
+<p>它永不是正解，有时却可以爆踩std。</p>
+<p>随机化，就像生活，你还来不及做选择，就已经被随机地剪去了通往平行宇宙的枝；</p>
+<p>随机化，不像生活，它可以一次次地重来，直到让你满意，而这却只存在于《奇异博士》中。</p>
+<p>随机化，像极了爱情，一次次的01决策令人昏了头，却又陶醉其中；</p>
+<p>随机化，又不像爱情，因为生活里，没有哪一个备胎会像它那样，静静地坐在你的脑海深处——</p>
+<p>你想与不想，它总在那里，不曾离去。</p>
+<p>有人说，选择非儿戏。</p>
+<p>我说，随机，美得不像儿戏，而像世界。</p>
+<p>游戏的魅力，不正在于胜负的随机性么？有胜有负才是最美。</p>
+<p>失败的苦痛，不正在于随机么？</p>
+<p>毕竟胜败这种非黑即白的东西，</p>
+<p>运气总喜欢插手。</p>
+<hr>
+<p>$\Huge\mathcal T$ $\Huge\mathcal h$ $\Huge\mathcal e$ $\ $ $\ $ $\Huge\mathcal E$ $\Huge\mathcal n$ $\Huge\mathcal d$</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%80%9D%E8%B7%AF/" rel="tag"># 思路</a>
+              <a href="/tags/%E9%9A%8F%E6%9C%BA%E5%8C%96/" rel="tag"># 随机化</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/11/23/%E9%80%80%E5%BD%B9%E5%B0%8F%E8%AE%B0/" rel="next" title="退役小记">
+                  <i class="fa fa-chevron-left"></i> 退役小记
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0-Brief-Intro"><span class="nav-number">1.</span> <span class="nav-text">0.Brief Intro</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-First-impression"><span class="nav-number">2.</span> <span class="nav-text">1.First impression</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-随机化算法串讲"><span class="nav-number">3.</span> <span class="nav-text">2.随机化算法串讲</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1°是非状态随机化"><span class="nav-number">3.1.</span> <span class="nav-text">1°是非状态随机化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2°爬山算法"><span class="nav-number">3.2.</span> <span class="nav-text">2°爬山算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3°模拟退火"><span class="nav-number">3.3.</span> <span class="nav-text">3°模拟退火</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4°数论中的随机化"><span class="nav-number">3.4.</span> <span class="nav-text">4°数论中的随机化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-从费马小定理说起"><span class="nav-number">3.4.1.</span> <span class="nav-text">1)从费马小定理说起</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Miller-amp-Rabin"><span class="nav-number">3.4.2.</span> <span class="nav-text">2)Miller&amp;Rabin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-sf-rm-Pollard-Large-rho-（科普向）"><span class="nav-number">3.4.3.</span> <span class="nav-text">3)$\sf\rm\ Pollard_\Large\rho$（科普向）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5°随机化的其他运用"><span class="nav-number">3.5.</span> <span class="nav-text">5°随机化的其他运用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-spfa？"><span class="nav-number">3.5.1.</span> <span class="nav-text">1)spfa？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-排序？"><span class="nav-number">3.5.2.</span> <span class="nav-text">2)排序？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-一些细节"><span class="nav-number">4.</span> <span class="nav-text">3.一些细节</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-结语"><span class="nav-number">5.</span> <span class="nav-text">4.结语</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="first_fan"
+      src="/images/first.png">
+  <p class="site-author-name" itemprop="name">first_fan</p>
+  <div class="site-description" itemprop="description">Just Do It,But Not Just Do It.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="chat motion-element"><i class="fa fa-comment"></i>
+    Chat
+  </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/firstfan119" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;firstfan119" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://first_Fan@outlook.com/" title="E-Mail → https:&#x2F;&#x2F;first_Fan@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.luogu.org/user/126484" title="Luogu → https:&#x2F;&#x2F;www.luogu.org&#x2F;user&#x2F;126484" rel="noopener" target="_blank"><i class="fa fa-fw fa-coffee"></i>Luogu</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=3425811925&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v=3&amp;uin=3425811925&amp;site=qq&amp;menu=yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-qq"></i>QQ</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+      <div id="music163player">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=730859&auto=1&height=66"></iframe>
+</div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">first_fan</span>
+</div>
+
+<div>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv" style='display:none'>
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    <span class="post-meta-divider">|</span>
+</span>
+<span id="busuanzi_container_site_uv" style='display:none'>
+    <span id="busuanzi_value_site_uv"></span>人在此留下了足迹
+</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='255,255,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+
+
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+
+</body>
+</html>

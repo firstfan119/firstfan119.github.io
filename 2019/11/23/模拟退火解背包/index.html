@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/favicon.png" color="#222">
+  <link rel="alternate" href="/atom.xml" title="first's blog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="DP又双叒叕被随机吊打了？">
+<meta name="keywords" content="思路,随机化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="模拟退火解背包">
+<meta property="og:url" content="https:&#x2F;&#x2F;firstfan119.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB%E8%A7%A3%E8%83%8C%E5%8C%85&#x2F;index.html">
+<meta property="og:site_name" content="first&#39;s blog">
+<meta property="og:description" content="DP又双叒叕被随机吊打了？">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.postimg.cc&#x2F;Gpw8rX42&#x2F;yls.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.postimg.cc&#x2F;05TCX1vM&#x2F;fst.png">
+<meta property="og:updated_time" content="2019-11-17T08:49:00.178Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;i.postimg.cc&#x2F;Gpw8rX42&#x2F;yls.png">
+
+<link rel="canonical" href="https://firstfan119.github.io/2019/11/23/%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB%E8%A7%A3%E8%83%8C%E5%8C%85/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>模拟退火解背包 | first's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">first's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://firstfan119.github.io/2019/11/23/%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB%E8%A7%A3%E8%83%8C%E5%8C%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/first.png">
+      <meta itemprop="name" content="first_fan">
+      <meta itemprop="description" content="Just Do It,But Not Just Do It.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="first's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          模拟退火解背包
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-23 23:14:50" itemprop="dateCreated datePublished" datetime="2019-11-23T23:14:50+08:00">2019-11-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-17 16:49:00" itemprop="dateModified" datetime="2019-11-17T16:49:00+08:00">2019-11-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9A%8F%E6%9C%BA%E5%8C%96/" itemprop="url" rel="index">
+                    <span itemprop="name">随机化</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">DP又双叒叕被随机吊打了？</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="本文所包含的思路来自于NCC79601"><a href="#本文所包含的思路来自于NCC79601" class="headerlink" title="本文所包含的思路来自于NCC79601"></a>本文所包含的思路来自于<a href="https://ncc79601.blog.luogu.org/solution-p1049" target="_blank" rel="noopener">NCC79601</a></h3><h1 id="算法剖析"><a href="#算法剖析" class="headerlink" title="* 算法剖析"></a>* 算法剖析</h1><p> 简单来讲，背包退火就是用模拟退火的思路解决某些类型的背包问题，继承了模拟退火的<strong>玄学复杂度</strong>，<em><del>也继承了它的不稳定性</del>_，所以能够有效地解决大背包问题的TLE问题。这个算法能够把数十行的代码优化部分转移为 _<del>洗把脸</del></em> 调参的问题。</p><h1 id="例题-：LuoGuP1049【装箱问题】"><a href="#例题-：LuoGuP1049【装箱问题】" class="headerlink" title="例题 ：LuoGuP1049【装箱问题】"></a><em>例题 ：LuoGuP1049【装箱问题】</em></h1><a id="more"></a>
+<h1 id="有一个箱子容量为V，同时有n个物品，每个物品有一个体积vi。要求n个物品中，任取若干个装入箱内，使箱子的剩余空间为最小。"><a href="#有一个箱子容量为V，同时有n个物品，每个物品有一个体积vi。要求n个物品中，任取若干个装入箱内，使箱子的剩余空间为最小。" class="headerlink" title="有一个箱子容量为V，同时有n个物品，每个物品有一个体积vi。要求n个物品中，任取若干个装入箱内，使箱子的剩余空间为最小。"></a>有一个箱子容量为V，同时有n个物品，每个物品有一个体积vi。要求n个物品中，任取若干个装入箱内，使箱子的剩余空间为最小。</h1><h1 id="·算法过程"><a href="#·算法过程" class="headerlink" title="·算法过程"></a>·<em>算法过程</em></h1><h2 id="首先就是模拟退火的随机设置自然就是把随机数种子设置好，别忘了先洗脸，然后通过模拟退火原理设置好转移概率表达式"><a href="#首先就是模拟退火的随机设置自然就是把随机数种子设置好，别忘了先洗脸，然后通过模拟退火原理设置好转移概率表达式" class="headerlink" title="首先就是模拟退火的随机设置自然就是把随机数种子设置好，别忘了先洗脸，然后通过模拟退火原理设置好转移概率表达式:"></a>首先就是模拟退火的随机设置自然就是把随机数种子设置好，<del>别忘了先洗脸</del>，然后通过模拟退火原理设置好转移概率表达式:</h2> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">bool accept(int del)</span><br><span class="line">&#123;</span><br><span class="line">    return ((del&gt;0)||exp(-del/T) &gt; (double)rand()/RAND_MAX);</span><br><span class="line">&#125; //转移概率表达式</span><br></pre></td></tr></table></figure>
+<h2 id="然鹅蒟蒻的我很难解释清楚为什么随着T的减小他接受更劣解的概率会越来越小，只知道利用这个概率是e-dE-kT）。"><a href="#然鹅蒟蒻的我很难解释清楚为什么随着T的减小他接受更劣解的概率会越来越小，只知道利用这个概率是e-dE-kT）。" class="headerlink" title="然鹅蒟蒻的我很难解释清楚为什么随着T的减小他接受更劣解的概率会越来越小，只知道利用这个概率是e^(-dE/kT）。"></a>然鹅蒟蒻的我很难解释清楚为什么随着T的减小他接受更劣解的概率会越来越小，只知道利用这个概率是e^(-dE/kT）。</h2><h3 id="使用这个概率从而达到刚开始退火，跳出当前最优解的概率大，而当靠近答案时跳出正确答案的可能性又逐渐减小。如有不懂请挪步模拟退火详解"><a href="#使用这个概率从而达到刚开始退火，跳出当前最优解的概率大，而当靠近答案时跳出正确答案的可能性又逐渐减小。如有不懂请挪步模拟退火详解" class="headerlink" title="使用这个概率从而达到刚开始退火，跳出当前最优解的概率大，而当靠近答案时跳出正确答案的可能性又逐渐减小。如有不懂请挪步模拟退火详解"></a>使用这个概率从而达到刚开始退火，跳出当前最优解的概率大，而当靠近答案时跳出正确答案的可能性又逐渐减小。如有不懂请挪步<a href="http://www.cnblogs.com/heaad/archive/2010/12/20/1911614.html" target="_blank" rel="noopener">模拟退火详解</a></h3><h1 id="·偏移过程"><a href="#·偏移过程" class="headerlink" title="·偏移过程"></a>·<em>偏移过程</em></h1><h2 id="这就是上述问题的用武之地了-以一定的概率不选当前最优解中的那个物品，从而衍生出另一种方案，如果比刚刚的更好，那么说明运气很好，跳到了一个更优解范围附近"><a href="#这就是上述问题的用武之地了-以一定的概率不选当前最优解中的那个物品，从而衍生出另一种方案，如果比刚刚的更好，那么说明运气很好，跳到了一个更优解范围附近" class="headerlink" title="这就是上述问题的用武之地了:以一定的概率不选当前最优解中的那个物品，从而衍生出另一种方案，如果比刚刚的更好，那么说明运气很好，跳到了一个更优解范围附近"></a>这就是上述问题的用武之地了:以一定的概率不选当前最优解中的那个物品，从而衍生出另一种方案，如果比刚刚的更好，那么说明运气很好，跳到了一个更优解范围附近</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">if(accept(dE)) </span><br><span class="line">		&#123;//以上述概率发生转移</span><br><span class="line">            if(vis[a])</span><br><span class="line">			&#123;</span><br><span class="line">                vis[a] = false;</span><br><span class="line">                tot -= v[a];</span><br><span class="line">            &#125;//在当前物品已选的情况下放弃选用当前物品</span><br><span class="line">			else</span><br><span class="line">			&#123;</span><br><span class="line">                if(tot + v[a] &gt; V)</span><br><span class="line">				&#123;</span><br><span class="line">					continue;</span><br><span class="line">				&#125;</span><br><span class="line">                vis[a] = true;</span><br><span class="line">                tot += v[a];</span><br><span class="line">            &#125;//在当前物品未选的情况下尝试选用当前物品</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="·退火步骤"><a href="#·退火步骤" class="headerlink" title="·退火步骤"></a>·退火步骤</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">while(T &gt; 1e-14) &#123;</span><br><span class="line">        ans=max(ans,tot); //维护最优答案，以防非酋情况发生</span><br><span class="line">        a = rd; //进行随机</span><br><span class="line">        int dE = v[a];</span><br><span class="line">        if(vis[a])</span><br><span class="line">		&#123;</span><br><span class="line">			dE *= -1; //产生能量差</span><br><span class="line">		&#125;</span><br><span class="line">        if(accept(dE)) </span><br><span class="line">		&#123;//发生转移</span><br><span class="line">            if(vis[a])</span><br><span class="line">			&#123;</span><br><span class="line">                vis[a] = false;</span><br><span class="line">                tot -= v[a];</span><br><span class="line">            &#125;</span><br><span class="line">			else</span><br><span class="line">			&#123;</span><br><span class="line">                if(tot + v[a] &gt; V)</span><br><span class="line">				&#123;</span><br><span class="line">					continue;</span><br><span class="line">				&#125;</span><br><span class="line">                vis[a] = true;</span><br><span class="line">                tot += v[a];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        T *= delta; //降温</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="该过程通过降温系数delta对初温为T的物体降温，直到物体温度冷却接近0。但是不能直接将tot作为答案输出，否则没洗脸的话可能会出现跳到了较劣解的情况。"><a href="#该过程通过降温系数delta对初温为T的物体降温，直到物体温度冷却接近0。但是不能直接将tot作为答案输出，否则没洗脸的话可能会出现跳到了较劣解的情况。" class="headerlink" title="该过程通过降温系数delta对初温为T的物体降温，直到物体温度冷却接近0。但是不能直接将tot作为答案输出，否则没洗脸的话可能会出现跳到了较劣解的情况。"></a>该过程通过降温系数delta对初温为T的物体降温，直到物体温度冷却接近0。但是不能直接将tot作为答案输出，否则<del>没洗脸的话</del>可能会出现跳到了较劣解的情况。</h2><h1 id="退火的一些小技巧"><a href="#退火的一些小技巧" class="headerlink" title="退火的一些小技巧"></a>退火的一些小技巧</h1><h3 id="1-降温系数用0-99789（玄学参数）"><a href="#1-降温系数用0-99789（玄学参数）" class="headerlink" title="1. 降温系数用0.99789（玄学参数）"></a>1. 降温系数用0.99789（玄学参数）</h3><h3 id="2-初温设置为1926（玄学参数）"><a href="#2-初温设置为1926（玄学参数）" class="headerlink" title="2. 初温设置为1926（玄学参数）"></a>2. 初温设置为1926（玄学参数）</h3><h3 id="3-退火的转移概率计算式-e-dE-kT）"><a href="#3-退火的转移概率计算式-e-dE-kT）" class="headerlink" title="3. 退火的转移概率计算式:e^(-dE/kT）"></a>3. 退火的转移概率计算式:e^(-dE/kT）</h3><h3 id="del-gt-0-exp-del-T-gt-double-rand-RAND-MAX"><a href="#del-gt-0-exp-del-T-gt-double-rand-RAND-MAX" class="headerlink" title="(del&gt;0)||exp(-del/T) &gt; (double)rand()/RAND_MAX"></a>(del&gt;0)||exp(-del/T) &gt; (double)rand()/RAND_MAX</h3><h3 id="4-最低温不要调的太低，不然妥妥的TLE"><a href="#4-最低温不要调的太低，不然妥妥的TLE" class="headerlink" title="4.最低温不要调的太低，不然妥妥的TLE"></a>4.最低温不要调的太低，不然妥妥的TLE</h3><h3 id="5-交一次不行说明rp不够你的时间不好，原代码再交一次也许-就行了呢"><a href="#5-交一次不行说明rp不够你的时间不好，原代码再交一次也许-就行了呢" class="headerlink" title="5.交一次不行说明rp不够你的时间不好，原代码再交一次也许 就行了呢"></a>5.交一次不行说明<del>rp不够</del>你的时间不好，原代码再交一次也许 就行了呢</h3><h3 id="6-别忘了洗脸rp"><a href="#6-别忘了洗脸rp" class="headerlink" title="6.别忘了洗脸rp++"></a><del>6.别忘了洗脸rp++</del></h3><h1 id="番外篇-论欧皇的养成"><a href="#番外篇-论欧皇的养成" class="headerlink" title="番外篇:论欧皇的养成"></a>番外篇:论欧皇的养成</h1><p>iewqufhiwefdiweduiqwediuqedwedjewui</p>
+<h3 id="被某个非酋网友摁在键盘上打-笑哭"><a href="#被某个非酋网友摁在键盘上打-笑哭" class="headerlink" title="(被某个非酋网友摁在键盘上打/笑哭)"></a>(被某个非酋网友摁在键盘上打/笑哭)</h3><p><img src="https://i.postimg.cc/Gpw8rX42/yls.png" alt></p>
+<h1 id="这是某个没洗脸的基佬的↑"><a href="#这是某个没洗脸的基佬的↑" class="headerlink" title="这是某个没洗脸的基佬的↑"></a>这是某个没洗脸的基佬的↑</h1><h1 id="这是我的↓"><a href="#这是我的↓" class="headerlink" title="这是我的↓"></a>这是我的↓</h1><p><img src="https://i.postimg.cc/05TCX1vM/fst.png" alt></p>
+<h2 id="溜了溜了……"><a href="#溜了溜了……" class="headerlink" title="溜了溜了……"></a>溜了溜了……</h2>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%80%9D%E8%B7%AF/" rel="tag"># 思路</a>
+              <a href="/tags/%E9%9A%8F%E6%9C%BA%E5%8C%96/" rel="tag"># 随机化</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/11/23/%E6%8E%92%E5%88%97%E7%BB%84%E5%90%88/" rel="next" title="排列组合小记">
+                  <i class="fa fa-chevron-left"></i> 排列组合小记
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/11/23/%E9%80%80%E5%BD%B9%E5%B0%8F%E8%AE%B0/" rel="prev" title="退役小记">
+                  退役小记 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#本文所包含的思路来自于NCC79601"><span class="nav-number">1.</span> <span class="nav-text">本文所包含的思路来自于NCC79601</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#算法剖析"><span class="nav-number"></span> <span class="nav-text">* 算法剖析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#例题-：LuoGuP1049【装箱问题】"><span class="nav-number"></span> <span class="nav-text">例题 ：LuoGuP1049【装箱问题】</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#有一个箱子容量为V，同时有n个物品，每个物品有一个体积vi。要求n个物品中，任取若干个装入箱内，使箱子的剩余空间为最小。"><span class="nav-number"></span> <span class="nav-text">有一个箱子容量为V，同时有n个物品，每个物品有一个体积vi。要求n个物品中，任取若干个装入箱内，使箱子的剩余空间为最小。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#·算法过程"><span class="nav-number"></span> <span class="nav-text">·算法过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#首先就是模拟退火的随机设置自然就是把随机数种子设置好，别忘了先洗脸，然后通过模拟退火原理设置好转移概率表达式"><span class="nav-number"></span> <span class="nav-text">首先就是模拟退火的随机设置自然就是把随机数种子设置好，别忘了先洗脸，然后通过模拟退火原理设置好转移概率表达式:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#然鹅蒟蒻的我很难解释清楚为什么随着T的减小他接受更劣解的概率会越来越小，只知道利用这个概率是e-dE-kT）。"><span class="nav-number"></span> <span class="nav-text">然鹅蒟蒻的我很难解释清楚为什么随着T的减小他接受更劣解的概率会越来越小，只知道利用这个概率是e^(-dE/kT）。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用这个概率从而达到刚开始退火，跳出当前最优解的概率大，而当靠近答案时跳出正确答案的可能性又逐渐减小。如有不懂请挪步模拟退火详解"><span class="nav-number">1.</span> <span class="nav-text">使用这个概率从而达到刚开始退火，跳出当前最优解的概率大，而当靠近答案时跳出正确答案的可能性又逐渐减小。如有不懂请挪步模拟退火详解</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#·偏移过程"><span class="nav-number"></span> <span class="nav-text">·偏移过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#这就是上述问题的用武之地了-以一定的概率不选当前最优解中的那个物品，从而衍生出另一种方案，如果比刚刚的更好，那么说明运气很好，跳到了一个更优解范围附近"><span class="nav-number"></span> <span class="nav-text">这就是上述问题的用武之地了:以一定的概率不选当前最优解中的那个物品，从而衍生出另一种方案，如果比刚刚的更好，那么说明运气很好，跳到了一个更优解范围附近</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#·退火步骤"><span class="nav-number"></span> <span class="nav-text">·退火步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#该过程通过降温系数delta对初温为T的物体降温，直到物体温度冷却接近0。但是不能直接将tot作为答案输出，否则没洗脸的话可能会出现跳到了较劣解的情况。"><span class="nav-number"></span> <span class="nav-text">该过程通过降温系数delta对初温为T的物体降温，直到物体温度冷却接近0。但是不能直接将tot作为答案输出，否则没洗脸的话可能会出现跳到了较劣解的情况。</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#退火的一些小技巧"><span class="nav-number"></span> <span class="nav-text">退火的一些小技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-降温系数用0-99789（玄学参数）"><span class="nav-number">1.</span> <span class="nav-text">1. 降温系数用0.99789（玄学参数）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-初温设置为1926（玄学参数）"><span class="nav-number">2.</span> <span class="nav-text">2. 初温设置为1926（玄学参数）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-退火的转移概率计算式-e-dE-kT）"><span class="nav-number">3.</span> <span class="nav-text">3. 退火的转移概率计算式:e^(-dE/kT）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#del-gt-0-exp-del-T-gt-double-rand-RAND-MAX"><span class="nav-number">4.</span> <span class="nav-text">(del&gt;0)||exp(-del/T) &gt; (double)rand()/RAND_MAX</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-最低温不要调的太低，不然妥妥的TLE"><span class="nav-number">5.</span> <span class="nav-text">4.最低温不要调的太低，不然妥妥的TLE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-交一次不行说明rp不够你的时间不好，原代码再交一次也许-就行了呢"><span class="nav-number">6.</span> <span class="nav-text">5.交一次不行说明rp不够你的时间不好，原代码再交一次也许 就行了呢</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-别忘了洗脸rp"><span class="nav-number">7.</span> <span class="nav-text">6.别忘了洗脸rp++</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#番外篇-论欧皇的养成"><span class="nav-number"></span> <span class="nav-text">番外篇:论欧皇的养成</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#被某个非酋网友摁在键盘上打-笑哭"><span class="nav-number">1.</span> <span class="nav-text">(被某个非酋网友摁在键盘上打/笑哭)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#这是某个没洗脸的基佬的↑"><span class="nav-number"></span> <span class="nav-text">这是某个没洗脸的基佬的↑</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#这是我的↓"><span class="nav-number"></span> <span class="nav-text">这是我的↓</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#溜了溜了……"><span class="nav-number"></span> <span class="nav-text">溜了溜了……</span></a></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="first_fan"
+      src="/images/first.png">
+  <p class="site-author-name" itemprop="name">first_fan</p>
+  <div class="site-description" itemprop="description">Just Do It,But Not Just Do It.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="chat motion-element"><i class="fa fa-comment"></i>
+    Chat
+  </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/firstfan119" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;firstfan119" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://first_Fan@outlook.com/" title="E-Mail → https:&#x2F;&#x2F;first_Fan@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.luogu.org/user/126484" title="Luogu → https:&#x2F;&#x2F;www.luogu.org&#x2F;user&#x2F;126484" rel="noopener" target="_blank"><i class="fa fa-fw fa-coffee"></i>Luogu</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=3425811925&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v=3&amp;uin=3425811925&amp;site=qq&amp;menu=yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-qq"></i>QQ</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+      <div id="music163player">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=730859&auto=1&height=66"></iframe>
+</div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">first_fan</span>
+</div>
+
+<div>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv" style='display:none'>
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    <span class="post-meta-divider">|</span>
+</span>
+<span id="busuanzi_container_site_uv" style='display:none'>
+    <span id="busuanzi_value_site_uv"></span>人在此留下了足迹
+</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='255,255,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+
+
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+
+</body>
+</html>

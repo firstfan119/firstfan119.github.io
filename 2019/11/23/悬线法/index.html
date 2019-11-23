@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/favicon.png" color="#222">
+  <link rel="alternate" href="/atom.xml" title="first's blog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="一种最大子矩阵DP的解法">
+<meta name="keywords" content="思路,动态规划">
+<meta property="og:type" content="article">
+<meta property="og:title" content="悬线法">
+<meta property="og:url" content="https:&#x2F;&#x2F;firstfan119.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;%E6%82%AC%E7%BA%BF%E6%B3%95&#x2F;index.html">
+<meta property="og:site_name" content="first&#39;s blog">
+<meta property="og:description" content="一种最大子矩阵DP的解法">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-17T08:56:09.091Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://firstfan119.github.io/2019/11/23/%E6%82%AC%E7%BA%BF%E6%B3%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>悬线法 | first's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">first's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://firstfan119.github.io/2019/11/23/%E6%82%AC%E7%BA%BF%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/first.png">
+      <meta itemprop="name" content="first_fan">
+      <meta itemprop="description" content="Just Do It,But Not Just Do It.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="first's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          悬线法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-23 23:14:50" itemprop="dateCreated datePublished" datetime="2019-11-23T23:14:50+08:00">2019-11-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-17 16:56:09" itemprop="dateModified" datetime="2019-11-17T16:56:09+08:00">2019-11-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" itemprop="url" rel="index">
+                    <span itemprop="name">动态规划</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">一种最大子矩阵DP的解法</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>悬线法，这个名词是我在做<a href="https://www.luogu.org/problem/P4147" target="_blank" rel="noopener">P4147 玉蟾宫</a>时遇到的。</p><p>此题题目大概意思：计算01矩阵内最大的全0矩形面积。</p><p>本题自然是可以用单调栈做的了，此处不做赘述。重点讲下<strong>悬线法</strong>。</p><p>如果矩阵是n$<em>$m，则悬线法的时间复杂度最差情况是O($n</em>m$)。</p><p>其大致原理如下：</p><p>$\sf\color{darkviolet}{\text{悬线：指一条上端点覆盖了一个障碍点或与矩阵边界重合，且除端点外，不覆盖任何障碍点的竖线}}$</p><a id="more"></a>
+
+
+
+
+
+<p>$\sf\color{lime}{\text{几个关键字：以上界或某个障碍点作为上端点，除端点不覆盖任何障碍点，竖线。}}$</p>
+<p>所以就有了模糊的想法：<strong>以一条悬线左右平移直到遇到障碍点，直到其某个瞬间无法保持悬线定义为止。过程中扫过的矩形中必定包含了所求矩形。</strong></p>
+<p>则我们可以通过枚举悬线的下端点，进而枚举到悬线。下端点的数量不会超过n*m，而P4147这道题恰好是较密的障碍分布，所以枚举这步就已经达到了时限，试图O(1)完成直线的平移操作。</p>
+<p>O(1)的实现方法很单调：要么套非递推公式算，要么记信息用。此处我们以空间换时间，采用后者的<strong>记</strong>的方式。</p>
+<p>对于一个悬线，其平移方式无非两种：左右。但悬线在某些条件下是可以乡下继续延伸的，自然能伸则伸，无需记录。为了记录并比较矩形面积，继续引入悬线的高。</p>
+<p>$\sf\color{lime}{\text{所以对于一个以点(i,j)为下端点的悬线，目前我们要记的有三样：}}$</p>
+<p>$\sf\color{red}{\text{延伸左界l[i][j]，延伸右界r[i][j]，高度h[i][j]}}$</p>
+<p>那么我们充分利用之前信息，保证在O(n*m)时间内通过递推得到三个值即可。</p>
+<p>递推的初始条件比较显然：高度为1的可以左右一直延伸到左右界，l,r,h均可知。</p>
+<p>初始条件有了，怎么递推？</p>
+<h3 id="mathcal-h-i-j-h-i-1-j-1-以行数i为底的高度势必比i-1的高1。"><a href="#mathcal-h-i-j-h-i-1-j-1-以行数i为底的高度势必比i-1的高1。" class="headerlink" title="$\mathcal h[i][j]=h[i-1][j]+1$ 以行数i为底的高度势必比i-1的高1。"></a>$\mathcal h[i][j]=h[i-1][j]+1$ 以行数i为底的高度势必比i-1的高1。</h3><h3 id="mathcal-l-i-j-max-l-i-j-l-i-1-j-向左延伸，一定要将就靠右的才符合条件。"><a href="#mathcal-l-i-j-max-l-i-j-l-i-1-j-向左延伸，一定要将就靠右的才符合条件。" class="headerlink" title="$\mathcal l[i][j]=max(l[i][j],l[i-1][j])$ 向左延伸，一定要将就靠右的才符合条件。"></a>$\mathcal l[i][j]=max(l[i][j],l[i-1][j])$ 向左延伸，一定要将就靠右的才符合条件。</h3><h3 id="mathcal-r-i-j-min-r-i-j-r-i-1-j-向右延伸，一定要将就靠左的才符合条件。"><a href="#mathcal-r-i-j-min-r-i-j-r-i-1-j-向右延伸，一定要将就靠左的才符合条件。" class="headerlink" title="$\mathcal r[i][j]=min(r[i][j],r[i-1][j])$ 向右延伸，一定要将就靠左的才符合条件。"></a>$\mathcal r[i][j]=min(r[i][j],r[i-1][j])$ 向右延伸，一定要将就靠左的才符合条件。</h3><p>信息有了，对于每条悬线，计算面积用时就是O(1)的。</p>
+<h3 id="mathcal-S-r-i-j-l-i-j-h-i-j-，浅显易懂。"><a href="#mathcal-S-r-i-j-l-i-j-h-i-j-，浅显易懂。" class="headerlink" title="$\mathcal {S=(r[i][j]-l[i][j])*h[i][j]}$，浅显易懂。"></a>$\mathcal {S=(r[i][j]-l[i][j])*h[i][j]}$，浅显易懂。</h3><p>最终，最坏时间复杂度归于O(n*m)，在稀疏障碍图中，由于下端点数量不多，该算法效率极高。</p>
+<p>以下是P4147的关键代码部分:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//初始化部分</span></span><br><span class="line"><span class="keyword">for</span>(ri i=<span class="number">1</span>; i&lt;=n; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(ri j=<span class="number">1</span>; j&lt;=m; j++)</span><br><span class="line">		&#123;</span><br><span class="line">			rd:</span><br><span class="line">			c=getchar();</span><br><span class="line">			<span class="keyword">if</span>(c!=<span class="string">'F'</span>&amp;&amp;c!=<span class="string">'R'</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">goto</span> rd;</span><br><span class="line">			&#125;</span><br><span class="line">			v[i][j]=(c==<span class="string">'F'</span>);<span class="comment">//F for 1 &amp; R for 0</span></span><br><span class="line">			l[i][j]=j;</span><br><span class="line">			r[i][j]=j;</span><br><span class="line">			h[i][j]=<span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"><span class="comment">//转移部分</span></span><br><span class="line"><span class="keyword">for</span>(ri i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(ri j=<span class="number">1</span>;j&lt;=m;j++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(i&gt;<span class="number">1</span>&amp;&amp;v[i][j]&amp;&amp;v[i<span class="number">-1</span>][j])</span><br><span class="line">			&#123;</span><br><span class="line">				r[i][j]=min(r[i][j],r[i<span class="number">-1</span>][j]);</span><br><span class="line">				l[i][j]=max(l[i][j],l[i<span class="number">-1</span>][j]);</span><br><span class="line">				h[i][j]=h[i<span class="number">-1</span>][j]+<span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			ans=max(ans,(r[i][j]-l[i][j]+<span class="number">1</span>)*h[i][j]);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>练习：</p>
+<ul>
+<li>#1 <a href="https://www.luogu.org/problem/P4147" target="_blank" rel="noopener">P4147 玉蟾宫</a>$\sf\color{lime}{[O]}$</li>
+<li>#2 <a href="https://www.luogu.org/problemnew/show/P1578" target="_blank" rel="noopener">P1578 奶牛浴场</a></li>
+<li>#3 <a href="https://www.luogu.org/problem/P1169" target="_blank" rel="noopener">P1169 棋盘制作</a>$\sf\color{lime}{[O]}$</li>
+</ul>
+<p>笔者注：对于奶牛浴场这种数组存不下的题，要记得灵活应变，不能直接套用格式。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%80%9D%E8%B7%AF/" rel="tag"># 思路</a>
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag"># 动态规划</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/11/23/%E5%B9%B6%E4%B8%8D%E5%85%A8%E7%9A%84%E6%A8%A1%E6%9D%BF%E5%A4%A7%E5%85%A8/" rel="next" title="一个并不全的提高组算法模板大全">
+                  <i class="fa fa-chevron-left"></i> 一个并不全的提高组算法模板大全
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/11/23/%E6%8E%92%E5%88%97%E7%BB%84%E5%90%88/" rel="prev" title="排列组合小记">
+                  排列组合小记 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#mathcal-h-i-j-h-i-1-j-1-以行数i为底的高度势必比i-1的高1。"><span class="nav-number">1.</span> <span class="nav-text">$\mathcal h[i][j]=h[i-1][j]+1$ 以行数i为底的高度势必比i-1的高1。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mathcal-l-i-j-max-l-i-j-l-i-1-j-向左延伸，一定要将就靠右的才符合条件。"><span class="nav-number">2.</span> <span class="nav-text">$\mathcal l[i][j]=max(l[i][j],l[i-1][j])$ 向左延伸，一定要将就靠右的才符合条件。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mathcal-r-i-j-min-r-i-j-r-i-1-j-向右延伸，一定要将就靠左的才符合条件。"><span class="nav-number">3.</span> <span class="nav-text">$\mathcal r[i][j]=min(r[i][j],r[i-1][j])$ 向右延伸，一定要将就靠左的才符合条件。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mathcal-S-r-i-j-l-i-j-h-i-j-，浅显易懂。"><span class="nav-number">4.</span> <span class="nav-text">$\mathcal {S=(r[i][j]-l[i][j])*h[i][j]}$，浅显易懂。</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="first_fan"
+      src="/images/first.png">
+  <p class="site-author-name" itemprop="name">first_fan</p>
+  <div class="site-description" itemprop="description">Just Do It,But Not Just Do It.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="chat motion-element"><i class="fa fa-comment"></i>
+    Chat
+  </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/firstfan119" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;firstfan119" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://first_Fan@outlook.com/" title="E-Mail → https:&#x2F;&#x2F;first_Fan@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.luogu.org/user/126484" title="Luogu → https:&#x2F;&#x2F;www.luogu.org&#x2F;user&#x2F;126484" rel="noopener" target="_blank"><i class="fa fa-fw fa-coffee"></i>Luogu</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=3425811925&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v=3&amp;uin=3425811925&amp;site=qq&amp;menu=yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-qq"></i>QQ</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+      <div id="music163player">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=730859&auto=1&height=66"></iframe>
+</div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">first_fan</span>
+</div>
+
+<div>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv" style='display:none'>
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    <span class="post-meta-divider">|</span>
+</span>
+<span id="busuanzi_container_site_uv" style='display:none'>
+    <span id="busuanzi_value_site_uv"></span>人在此留下了足迹
+</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='255,255,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+
+
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+
+</body>
+</html>

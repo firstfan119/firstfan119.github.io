@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/favicon.png" color="#222">
+  <link rel="alternate" href="/atom.xml" title="first's blog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="动态规划的各类优化">
+<meta name="keywords" content="动态规划">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动态规划优化">
+<meta property="og:url" content="https:&#x2F;&#x2F;firstfan119.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E4%BC%98%E5%8C%96&#x2F;index.html">
+<meta property="og:site_name" content="first&#39;s blog">
+<meta property="og:description" content="动态规划的各类优化">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;cn.bing.com&#x2F;th?id=OIP.8YjJYd0vp0QMGB2JJ1k1cgHaEL&amp;pid=Api&amp;rs=1">
+<meta property="og:updated_time" content="2019-11-17T05:39:05.206Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;cn.bing.com&#x2F;th?id=OIP.8YjJYd0vp0QMGB2JJ1k1cgHaEL&amp;pid=Api&amp;rs=1">
+
+<link rel="canonical" href="https://firstfan119.github.io/2019/11/23/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E4%BC%98%E5%8C%96/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>动态规划优化 | first's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">first's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://firstfan119.github.io/2019/11/23/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/first.png">
+      <meta itemprop="name" content="first_fan">
+      <meta itemprop="description" content="Just Do It,But Not Just Do It.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="first's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          动态规划优化
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-23 23:14:50" itemprop="dateCreated datePublished" datetime="2019-11-23T23:14:50+08:00">2019-11-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-17 13:39:05" itemprop="dateModified" datetime="2019-11-17T13:39:05+08:00">2019-11-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DP/" itemprop="url" rel="index">
+                    <span itemprop="name">DP</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">动态规划的各类优化</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="1-前缀-后缀优化"><a href="#1-前缀-后缀优化" class="headerlink" title="1.前缀/后缀优化"></a>1.前缀/后缀优化</h2><p>利用O(n)预处理前缀/后缀信息，使得后续调用区段信息时可以O(1)完成。</p><p>思想比较简单，也比较容易想到，但是往往因为不想浪费一个线型数组的空间而弃用，其实完全没必要担心这样的空间……</p><blockquote>
+<p>前缀/后缀优化 练习列表</p>
+</blockquote><blockquote>
+<p><a href="https://www.luogu.org/problem/P2513" target="_blank" rel="noopener">LuoGu2513 [HAOI2009]逆序对数列</a></p>
+</blockquote><blockquote>
+<p><a href="https://www.luogu.org/problem/P4099" target="_blank" rel="noopener">LuoGu4099 [HEOI2013]SAO</a></p>
+</blockquote><a id="more"></a>
+
+
+
+
+<blockquote>
+<p><a href="https://www.luogu.org/problem/P2511" target="_blank" rel="noopener">LuoGu2511 [HAOI2008]木棍分割</a></p>
+</blockquote>
+<blockquote>
+<p><code>备注:</code>前缀和只是附带优化，与dp类型关系不大</p>
+</blockquote>
+<hr>
+<h2 id="2-单调队列优化"><a href="#2-单调队列优化" class="headerlink" title="2.单调队列优化"></a>2.单调队列优化</h2><p>用单调队列维护最值，解决有序扫描的序列问题(滑动窗口)。</p>
+<p>转移方程往往可以写作:</p>
+<p>$$\large f_i=\frac{max}{min}\ ^{i-1}<em>{j=l_i}{g[j]}+w_i\ ,\ l_i\leq l</em>{i+1}$$</p>
+<p>显然，如果我们在同一个区间内发现对于一个g(j)，存在更优的g(k)，由于区间有序右移，故j比k更早消失，对k出现后的所有答案无法做出任何贡献，故将j弹出单调队列。</p>
+<p>单调队列的队首元素总是最优的，其出队条件有两种：</p>
+<p>1.队首元素不在转移区间内，弹出。</p>
+<p>2.新区间内找到了更优的元素，弹出比新值劣的所有元素。</p>
+<blockquote>
+<p>单调队列优化 练习列表</p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.luogu.org/problem/P1776" target="_blank" rel="noopener">LuoGu1776 宝物筛选</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.luogu.org/problem/P2254" target="_blank" rel="noopener">LuoGu2254 [NOI2005]瑰丽华尔兹</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.luogu.org/problem/P2569" target="_blank" rel="noopener">LuoGu2569 [SCOI2010]股票交易</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.luogu.org/problem/P3572" target="_blank" rel="noopener">LuoGu3572 [POI2014]PTA-Little Bird</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.luogu.org/problem/P3594" target="_blank" rel="noopener">LuoGu3594 [POI2015]WIL-Wilcze doły</a></p>
+</blockquote>
+<blockquote>
+<p><code>备注:</code>$T_1$是单调队列优化多重背包</p>
+</blockquote>
+<hr>
+<h2 id="3-二分栈决策优化"><a href="#3-二分栈决策优化" class="headerlink" title="3.二分栈决策优化"></a>3.二分栈决策优化</h2><p>在下貌似不会呢，留待下一步学习。</p>
+<blockquote>
+<p>二分栈优化 练习列表</p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.luogu.org/problem/P1973" target="_blank" rel="noopener">LuoGu1973 [NOI2011]Noi嘉年华</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.luogu.org/problem/P3724" target="_blank" rel="noopener">LuoGu3724 [AH2017/HNOI2017]大佬</a></p>
+</blockquote>
+<blockquote>
+<p><code>备注:</code>二分栈的题目难度往往是NOI+,省选内基本不考察</p>
+</blockquote>
+<hr>
+<h2 id="4-分治优化"><a href="#4-分治优化" class="headerlink" title="4.分治优化"></a>4.分治优化</h2><p>在下貌似写不出什么东西，因为没怎么用过呢，稍后试试水再回来写吧。</p>
+<blockquote>
+<p>分治优化 练习列表</p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.luogu.org/problem/P5504" target="_blank" rel="noopener">LuoGu5504 [JSOI2011]柠檬</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.luogu.org/problem/P3515" target="_blank" rel="noopener">LuoGu3515 [POI2011]Lightning Conductor</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.luogu.org/problem/P1912" target="_blank" rel="noopener">LuoGu1912 [NOI2009]诗人小G</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.luogu.org/problem/CF868F" target="_blank" rel="noopener">CF868F Yet Another Minimization Problem</a></p>
+</blockquote>
+<blockquote>
+<p><code>备注:</code>分治优化的练习题比较劝退，对着递推式都要好好想一阵子……</p>
+</blockquote>
+<hr>
+<h2 id="5-斜率优化"><a href="#5-斜率优化" class="headerlink" title="5.斜率优化"></a>5.斜率优化</h2><p>斜率优化在复赛中考察可能性应该高于上述各种。常常用于接手一些方程类似于单调队列优化，但是不可用其优化的dp题。</p>
+<p>不能使用单调队列的原因，主要是因为附加值不再是仅与i,j中的一个相关的值，而往往是与两者都相关的值，比如说：</p>
+<p>$$\large f_i=\frac{max}{min}\ ^{i-1}<em>{j=l_i}{g[j]}+sum_i*sum_j\ ,\ l_i\leq l</em>{i+1}$$</p>
+<p>由于交叉项sum的出现，单调队列就无法保证弹出的正确性。</p>
+<p>此时将式子再多写一个i,k的关系式，不妨令k优于j,我们就可以把两个等式Aj和Ak，利用k优于j的关系相减，使得所有式子中与i相关的量是个定值，如(min为例)：</p>
+<p>$$\large f_i=g[j]+sum_i*sum_j ······[A_j]$$</p>
+<p>$$\large f_i=g[k]+sum_i*sum_k ······[A_k]$$</p>
+<p>$$g[k]+sum_i<em>sum_k\leq g[j]+sum_i</em>sum_j(A_j\leq A_k)$$</p>
+<p>这样就在j,k间建立起了不等关系，这样的不等关系可以用同类项作差相除的方式转成类似斜率的表达式:</p>
+<p>$$g[k]-g[j]\leq sum_i*(sum_j-sum_k)$$</p>
+<p>$$\frac{g[k]-g[j]}{sum_j-sum_k}\leq sum_i$$</p>
+<p>现在我们令前者作为斜率，对斜率维护一个上凸包，即保证其最优即可。</p>
+<p>怎么维护？使用单调队列或者单调栈。前者在斜率递增时可用队首维护最优决策；后者在i递增时可使用当前直线斜率转移。（<del>口胡带师</del>）</p>
+<blockquote>
+<p>斜率优化 练习列表</p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.luogu.org/problem/P4360" target="_blank" rel="noopener">LuoGu4360 [CEOI2004]锯木厂选址</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.luogu.org/problem/P2900" target="_blank" rel="noopener">LuoGu2900 [USACO08MAR]土地征用Land Acquisition</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.luogu.org/problem/P3195" target="_blank" rel="noopener">LuoGu3195 [HNOI2008]玩具装箱TOY</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.luogu.org/problem/P3628" target="_blank" rel="noopener">LuoGu3628 [APIO2010]特别行动队</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.luogu.org/problem/P2305" target="_blank" rel="noopener">LuoGu2305 [NOI2014]购票</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.luogu.org/problem/P1721" target="_blank" rel="noopener">LuoGu1721 [NOI2016]国王饮水记</a></p>
+</blockquote>
+<blockquote>
+<p><code>备注1:</code>最近把这些题的式子都重新推一下找找感觉</p>
+</blockquote>
+<blockquote>
+<p><code>备注2:</code>$T_2$双倍经验见SP15086</p>
+</blockquote>
+<hr>
+<h2 id="6-矩阵优化递推"><a href="#6-矩阵优化递推" class="headerlink" title="6.矩阵优化递推"></a>6.矩阵优化递推</h2><p>主要用于多阶递推式的快速转移取模。</p>
+<p>例如，对于</p>
+<p>$$f[i]=f[i-1]+2*f[i-3]$$</p>
+<p>我们连续推进，可以得到这样的数个式子：</p>
+<p>$$f[n]=1<em>f[n-1]+0</em>f[n-2]+2*f[n-3]$$</p>
+<p>$$f[n-1]=1<em>f[n-1]+0</em>f[n-2]+0*f[n-3]$$</p>
+<p>$$f[n-2]=0<em>f[n-1]+1</em>f[n-2]+0*f[n-3]$$</p>
+<p>把系数拆分出来，我们就得到了一个这样的矩阵：</p>
+<p>$$A=\begin{bmatrix}1&amp;0&amp;2\1&amp;0&amp;0\0&amp;1&amp;0\end{bmatrix}$$</p>
+<p>然后我们发现对于递推矩阵B，存在下列关系：</p>
+<p>$$B_n=\begin{bmatrix}f_{n}\f_{n-1}\f_{n-2}\end{bmatrix}$$</p>
+<p>$$B_{n-1}*A=B_n$$</p>
+<p>$$B_1*A^{n-1}=B_n$$</p>
+<p>所以我们发现可以利用矩阵快速幂的方式，对A矩阵进行n-1幂次求值，再使其与B1相乘就得到了结果。</p>
+<p>方法简单，主要是别忘了怎么推式子。</p>
+<blockquote>
+<p>矩阵优化递推 练习列表</p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.luogu.org/problem/P3758" target="_blank" rel="noopener">LuoGu3758 [TJOI2017]可乐</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.luogu.org/problem/P4910" target="_blank" rel="noopener">LuoGu4910 帕秋莉的手环</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.luogu.org/problem/P5004" target="_blank" rel="noopener">LuoGu5004 专心OI - 跳房子</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.luogu.org/problem/P4967" target="_blank" rel="noopener">LuoGu4967 黑暗打击</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.luogu.org/problem/P5558" target="_blank" rel="noopener">LuoGu5558 心上秋</a></p>
+</blockquote>
+<blockquote>
+<p><code>备注:</code>已经按照难度排序。</p>
+</blockquote>
+<hr>
+<h2 id="7-数据结构优化"><a href="#7-数据结构优化" class="headerlink" title="7.数据结构优化"></a>7.数据结构优化</h2><p>考差的不多，但是对于优化时间之类还是很有用。</p>
+<p>内容较多，日后填坑。</p>
+<hr>
+<h2 id="8-滚维优化"><a href="#8-滚维优化" class="headerlink" title="8.滚维优化"></a>8.滚维优化</h2><p>上述内容好像都是时间优化，对于某些空间爆炸的题滚维也是很必要的。</p>
+<p>要滚维需满足下列条件：</p>
+<p>1.矩阵式递推相邻行之间可以转移，并且不再涉及到以前的状态，所以可以存两行，用完就扔。<code>滚掉行数</code></p>
+<p>2.对于一些多维递推中以1递变的状态，可以滚掉。(其实包含1.)</p>
+<p>3.……</p>
+<hr>
+<h2 id="9-一些奇怪的优化"><a href="#9-一些奇怪的优化" class="headerlink" title="9.一些奇怪的优化"></a>9.一些奇怪的优化</h2><p>杂项，往往是可遇而不可求，很多都是现想出来的，不遇到特定类型的题目几乎用不着（雾）。</p>
+<ul>
+<li>扫序列的时候在干什么？时间够不够？考虑下随机吗？</li>
+</ul>
+<p>话说随机对序列选数问题简直是一大杀伤性算法，因为往往这样的题目数据不会允许递推，搜索也需要极大的剪枝，那为什么不当一个快乐的人呢？</p>
+<blockquote>
+<p>小孩子才做选择，我<del>全都要</del>无所谓。</p>
+</blockquote>
+<ul>
+<li>为什么排个序就不一样？</li>
+</ul>
+<p>很大一部分dp的题目需要先对数据进行排序，比如上述的<strong>土地征用</strong>，这样就能保证顺序递推的正确性。</p>
+<ul>
+<li>正着推还是倒着推？</li>
+</ul>
+<p>记得到的死记，记不到的<del>随缘</del>现推。</p>
+<hr>
+<h2 id="10-看看就好的优化"><a href="#10-看看就好的优化" class="headerlink" title="10.看看就好的优化"></a>10.看看就好的优化</h2><p>DP凸优化？</p>
+<p>WQS二分优化？</p>
+<p>带权二分优化？</p>
+<p><img src="https://cn.bing.com/th?id=OIP.8YjJYd0vp0QMGB2JJ1k1cgHaEL&pid=Api&rs=1" alt></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag"># 动态规划</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/11/23/%E5%80%8D%E5%A2%9E%E6%B1%82lca/" rel="next" title="倍增求最近公共祖先">
+                  <i class="fa fa-chevron-left"></i> 倍增求最近公共祖先
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/11/23/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%A5%E9%97%A8/" rel="prev" title="动态规划入门">
+                  动态规划入门 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-前缀-后缀优化"><span class="nav-number">1.</span> <span class="nav-text">1.前缀/后缀优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-单调队列优化"><span class="nav-number">2.</span> <span class="nav-text">2.单调队列优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-二分栈决策优化"><span class="nav-number">3.</span> <span class="nav-text">3.二分栈决策优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-分治优化"><span class="nav-number">4.</span> <span class="nav-text">4.分治优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-斜率优化"><span class="nav-number">5.</span> <span class="nav-text">5.斜率优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-矩阵优化递推"><span class="nav-number">6.</span> <span class="nav-text">6.矩阵优化递推</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-数据结构优化"><span class="nav-number">7.</span> <span class="nav-text">7.数据结构优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-滚维优化"><span class="nav-number">8.</span> <span class="nav-text">8.滚维优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-一些奇怪的优化"><span class="nav-number">9.</span> <span class="nav-text">9.一些奇怪的优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-看看就好的优化"><span class="nav-number">10.</span> <span class="nav-text">10.看看就好的优化</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="first_fan"
+      src="/images/first.png">
+  <p class="site-author-name" itemprop="name">first_fan</p>
+  <div class="site-description" itemprop="description">Just Do It,But Not Just Do It.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="chat motion-element"><i class="fa fa-comment"></i>
+    Chat
+  </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/firstfan119" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;firstfan119" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://first_Fan@outlook.com/" title="E-Mail → https:&#x2F;&#x2F;first_Fan@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.luogu.org/user/126484" title="Luogu → https:&#x2F;&#x2F;www.luogu.org&#x2F;user&#x2F;126484" rel="noopener" target="_blank"><i class="fa fa-fw fa-coffee"></i>Luogu</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=3425811925&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v=3&amp;uin=3425811925&amp;site=qq&amp;menu=yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-qq"></i>QQ</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+      <div id="music163player">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=730859&auto=1&height=66"></iframe>
+</div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">first_fan</span>
+</div>
+
+<div>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv" style='display:none'>
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    <span class="post-meta-divider">|</span>
+</span>
+<span id="busuanzi_container_site_uv" style='display:none'>
+    <span id="busuanzi_value_site_uv"></span>人在此留下了足迹
+</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='255,255,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+
+
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+
+</body>
+</html>
