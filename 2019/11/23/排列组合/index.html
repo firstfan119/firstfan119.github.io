@@ -60,7 +60,7 @@
 <meta property="og:site_name" content="first&#39;s blog">
 <meta property="og:description" content="没想到我还会有被高考排列组合难倒的时候QAQ">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-22T17:36:53.633Z">
+<meta property="og:updated_time" content="2019-11-26T15:52:45.166Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://firstfan119.github.io/2019/11/23/%E6%8E%92%E5%88%97%E7%BB%84%E5%90%88/">
@@ -239,10 +239,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2019-11-23 23:14:50 / 修改时间：01:36:53" itemprop="dateCreated datePublished" datetime="2019-11-23T23:14:50+08:00">2019-11-23</time>
+              <time title="创建时间：2019-11-23 23:14:50" itemprop="dateCreated datePublished" datetime="2019-11-23T23:14:50+08:00">2019-11-23</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-26 23:52:45" itemprop="dateModified" datetime="2019-11-26T23:52:45+08:00">2019-11-26</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -270,14 +276,16 @@
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>话说回来，花了一个下午把练习册上几十页排列组合的题都做了的感觉还挺良好的呐……</p><p>毕竟是前OI选手，这种题秒不掉就有点淼了QAQ.</p><p>这里留下一些零碎的思想吧。</p><h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><p>在开始以前，为了方便描述，我们先给出几个定义：</p><ul>
 <li><p>方案数用$N$表示</p>
 </li>
-<li><p>第</p>
+<li><p>第i个子问题的方案数用$N_i$表示</p>
 </li>
-</ul><h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><p>排列组合是组合数学中的基础。排列就是指从给定个数的元素中取出指定个数的元素进行排序；组合则是指从给定个数的元素中仅仅取出指定个数的元素，不考虑排序。排列组合的中心问题是研究给定要求的排列和组合可能出现的情况总数。排列组合与古典概率论关系密切。</p><a id="more"></a>
+<li><p>排列，组合符号为$A$,$C$</p>
+</li>
+</ul><a id="more"></a>
 
 
 
 
-
+<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><p>排列组合是组合数学中的基础。排列就是指从给定个数的元素中取出指定个数的元素进行排序；组合则是指从给定个数的元素中仅仅取出指定个数的元素，不考虑排序。排列组合的中心问题是研究给定要求的排列和组合可能出现的情况总数。排列组合与古典概率论关系密切。</p>
 <ul>
 <li><p>排列： $\large\mathrm A_n^m =\frac{n!}{(n - m)!}$</p>
 </li>
@@ -288,15 +296,56 @@
 <li><p>乘法原理：一件事必须经过n个步骤，第i步有$m_i$种方法，则方案数为：$N=m_1·m_2·…·m_n$</p>
 </li>
 </ul>
-<h2 id="题型整理"><a href="#题型整理" class="headerlink" title="题型整理"></a>题型整理</h2><h3 id="排队问题"><a href="#排队问题" class="headerlink" title="排队问题"></a>排队问题</h3><p><strong>P1</strong>.给出n个有别元素，问从中选出m个排成的有序集种数。</p>
-<p>$\varDelta$显然这是个排列的定义式$N=A^m_n$</p>
-<p><strong>P2</strong>.给出n个有别元素，问从中选出m个排成的无序集种数</p>
-<p>$\varDelta$与上面不同，此处是选择出无序集，显然是个组合定义式$N=C^m_n$</p>
-<p><strong>P3</strong>.在P1的条件下，指定某两个元素如果被选必须相邻，问有序集种数</p>
-<p>$\varDelta$简单分析一下，可以按选与不选分类讨论</p>
-<p>不选的话，就相当于是剩下n-p个人当中选m个排有序集，$N=A_{n-p}^m$</p>
-<p>要选的话，就得首先考虑这两个物品内部有 $A^2_2$ 种排列方式，然后把这两个物品捆绑为一个物品，并对剩余的n-2个物品选出m-2个排有序集，发现有序集有m-1个空位可以插入捆绑物，按照乘法原理$N=A^2_2 \cdot A^{m-2}_{n-2}\cdot (m-1)$</p>
-<p>当然，多个物品的捆绑也用类同的思想完成即可：</p>
+<h2 id="方法整理"><a href="#方法整理" class="headerlink" title="方法整理"></a>方法整理</h2><h3 id="插空法"><a href="#插空法" class="headerlink" title="插空法"></a>插空法</h3><p>插空法，主要用于解决含有“不相邻”要求的问题。主要思想分为两步：将无要求的部分进行排列，假设长为L；在序列的L+1个间隙中插入特殊元素，插入第一个时有L+1种，第二个L种，以此类推。</p>
+<p>$P1.$有a个同学，b个老师站成一排，要求老师站位不相邻，问方案数。</p>
+<p>第一步，使用排列公式完成同学的排列：</p>
+<p>$N_1=A^a_a=a!$</p>
+<p>那么我们得到了这样的同学序列：</p>
+<p>$↓a_{i_1}↓a_{i_2}↓a_{i_3}↓……$</p>
+<p>可以看见↓的部位是可以插入老师的，一共有a+1个</p>
+<p>第二步，a+1个空格中插入b个老师（此处默认有解）</p>
+<p>$N_2=(a+1)·a·(a-1)···(a+2-b)=A^b_{a+1}$</p>
+<p>第三步，乘法原理得解</p>
+<p>$N=N_1·N_2=A^a_a·A^b_{a+1}$</p>
+<blockquote>
+<p>备注：有时候，插空会要求不能选取两端的空，即只有a-1个空，稍作变化即可。</p>
+</blockquote>
+<h3 id="捆绑法"><a href="#捆绑法" class="headerlink" title="捆绑法"></a>捆绑法</h3><p>捆绑法，主要用于解决含有“必须相邻”要求的问题。主要思想分两步：将需要相邻的部分进行“捆绑”，并内部求排列；将捆绑物视作一个物品放回原问题，求排列即可。</p>
+<p>$P2.$有a个同学，b个老师站一排，要求所有老师站位连续，问方案数。</p>
+<p>第一步，把所有老师做排列：</p>
+<p>$N_1=A^b_b$</p>
+<p>随后我们就可以把这个长为b的序列当作一个整体来操作了。</p>
+<p>第二步，将“老师”作为一个同学和其他同学进行排列：</p>
+<p>$N_2=A^{a+1}_{a+1}$</p>
+<p>第三步，对于每个学生排列，对老师排列进行乘法原理：</p>
+<p>$N=N_1·N_2=A^b_b·A^{a+1}_{a+1}$</p>
+<blockquote>
+<p>备注：捆绑的思想运用很广泛，其实就是分治的基础：把问题拆分为两个子问题分步完成。</p>
+</blockquote>
+<h3 id="隔板法"><a href="#隔板法" class="headerlink" title="隔板法"></a>隔板法</h3><p>隔板法，用于解决划分集合问题。其主要思想是把划分集合问题改为“插入隔板”问题，从而转化为插入法解决掉。</p>
+<p>$P3.$有a个相同的糖，分给b个人，每个人至少有c颗糖，问方案数。</p>
+<p>第一步，把棘手的c处理成1，即每人至少一颗。</p>
+<p>我们可以预先给每个人都发c-1颗糖，总数减少b*(c-1)即可：</p>
+<p>$a’=a-b·(c-1)$</p>
+<p>第二步，观察到我们要把a’个糖分给b个人，我们进行转化性思考：</p>
+<p>a’颗糖摆成一排，我们用b-1个隔板进行分割，则恰好可以得到b份。</p>
+<p>于是问题就转化成了向a’-1个间隙插入b-1个隔板，组合即可：</p>
+<p>$N=C^{b-1}_{a’-1}$</p>
+<blockquote>
+<p>备注：上面就是要用到一百次的隔板法公式，死记也要记住。</p>
+</blockquote>
+<h3 id="剩余法"><a href="#剩余法" class="headerlink" title="剩余法"></a>剩余法</h3><p>剩余法，利用到了<code>正难则反</code>的思想，即如果让我们从中选择凑数，我们可以反向思维，全选然后删数。这种方法会在目标数接近总值时极为有效。</p>
+<p>$P4.$背包里有23个价值为5的物品，有10个价值为10的物品，物品两两不同，问取出价值200的物品的方案数。</p>
+<p>首先发现如果正向凑就凑到猴年马月去了，所以考虑到剩余法。</p>
+<p>计算出全选总值为215，我们就全部选上。</p>
+<p>问题就转化为选出若干个物品不带，使得它们的和为15即可。</p>
+<p>15就只有两类凑法：10+5，5+5+5。</p>
+<p>根据加法原理：</p>
+<p>$N=C_{23}^{3}+C_{23}^{1}·C_{10}^{1}$</p>
+<blockquote>
+<p>正难则反是一种很巧妙的思路，带在身上总是好的。</p>
+</blockquote>
+<h3 id="反向法"><a href="#反向法" class="headerlink" title="反向法"></a>反向法</h3><p>反向法，同样利用了正难则反的思想，但是上个方法中，我们是从问题本身反向的，此处所讲的方法则是从求方案数的方面反向：求不满足条件的方案数。</p>
 
     </div>
 
@@ -363,7 +412,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#备注"><span class="nav-number">2.</span> <span class="nav-text">备注</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础"><span class="nav-number">3.</span> <span class="nav-text">基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题型整理"><span class="nav-number">4.</span> <span class="nav-text">题型整理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#排队问题"><span class="nav-number">4.1.</span> <span class="nav-text">排队问题</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#备注"><span class="nav-number">2.</span> <span class="nav-text">备注</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础"><span class="nav-number">3.</span> <span class="nav-text">基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法整理"><span class="nav-number">4.</span> <span class="nav-text">方法整理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#插空法"><span class="nav-number">4.1.</span> <span class="nav-text">插空法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#捆绑法"><span class="nav-number">4.2.</span> <span class="nav-text">捆绑法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#隔板法"><span class="nav-number">4.3.</span> <span class="nav-text">隔板法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#剩余法"><span class="nav-number">4.4.</span> <span class="nav-text">剩余法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#反向法"><span class="nav-number">4.5.</span> <span class="nav-text">反向法</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
