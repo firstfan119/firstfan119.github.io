@@ -280,10 +280,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="1-对于SBT树高log-n的证明"><a href="#1-对于SBT树高log-n的证明" class="headerlink" title="1.对于SBT树高log n的证明"></a>1.对于SBT树高log n的证明</h2><p>设 f[x] 是高度为 x 的结点个数最少的 SBT 的结点个数。</p>
-<p>f[x]有一个结论如下：</p>
-<p>$\sf f[x]=\begin{cases}1,(x=0)\2,(x=1)\f[x-1]+f[x-2]+1,(x&gt;1)\end{cases}$</p>
-<p>显然，f[0]=1,f[1]=2;</p>
+        <h2 id="1-对于SBT树高log-n的证明"><a href="#1-对于SBT树高log-n的证明" class="headerlink" title="1.对于SBT树高log n的证明"></a>1.对于SBT树高log n的证明</h2><p>设 f[x] 是高度为 x 的结点个数最少的 SBT 的结点个数。</p><p>f[x]有一个结论如下：</p><p>$\sf f[x]=\begin{cases}1,(x=0)\2,(x=1)\f[x-1]+f[x-2]+1,(x&gt;1)\end{cases}$</p><p>显然，f[0]=1,f[1]=2;</p><a id="more"></a>
+
+
+
 <p>f[x]=f[x-1]+f[x-2]+1(x&gt;1)的证明：</p>
 <p>对于每个x，设 t 指向一个高度为 x 的 SBT ，然后这个 SBT 包含一个高度为 x-1 的子树。不妨设它就是左子树。</p>
 <p>通过前面对于 f[x] 的定义，我们得到t[ls(x)].siz&gt;=f[x-1]，并且在左子树上有一棵高为 x-2 的子树，或者说有一棵大小（ siz ）至少为 f[x-1] 的子树在左子树上。由性质可得t[ls(x)].siz&gt;=f[x-2]。</p>

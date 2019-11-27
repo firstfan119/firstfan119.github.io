@@ -60,7 +60,7 @@
 <meta property="og:site_name" content="first&#39;s blog">
 <meta property="og:description" content="没想到我还会有被高考排列组合难倒的时候QAQ">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-26T15:52:45.166Z">
+<meta property="og:updated_time" content="2019-11-27T15:46:43.211Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://firstfan119.github.io/2019/11/23/%E6%8E%92%E5%88%97%E7%BB%84%E5%90%88/">
@@ -247,7 +247,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-26 23:52:45" itemprop="dateModified" datetime="2019-11-26T23:52:45+08:00">2019-11-26</time>
+                <time title="修改时间：2019-11-27 23:46:43" itemprop="dateModified" datetime="2019-11-27T23:46:43+08:00">2019-11-27</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -336,16 +336,44 @@
 </blockquote>
 <h3 id="剩余法"><a href="#剩余法" class="headerlink" title="剩余法"></a>剩余法</h3><p>剩余法，利用到了<code>正难则反</code>的思想，即如果让我们从中选择凑数，我们可以反向思维，全选然后删数。这种方法会在目标数接近总值时极为有效。</p>
 <p>$P4.$背包里有23个价值为5的物品，有10个价值为10的物品，物品两两不同，问取出价值200的物品的方案数。</p>
-<p>首先发现如果正向凑就凑到猴年马月去了，所以考虑到剩余法。</p>
+<p>试图正面求解，发现正面凑数过于复杂，所以考虑到剩余法。</p>
 <p>计算出全选总值为215，我们就全部选上。</p>
 <p>问题就转化为选出若干个物品不带，使得它们的和为15即可。</p>
 <p>15就只有两类凑法：10+5，5+5+5。</p>
 <p>根据加法原理：</p>
 <p>$N=C_{23}^{3}+C_{23}^{1}·C_{10}^{1}$</p>
 <blockquote>
-<p>正难则反是一种很巧妙的思路，带在身上总是好的。</p>
+<p>备注：正难则反是一种很巧妙的思路，带在身上总是好的。</p>
 </blockquote>
 <h3 id="反向法"><a href="#反向法" class="headerlink" title="反向法"></a>反向法</h3><p>反向法，同样利用了正难则反的思想，但是上个方法中，我们是从问题本身反向的，此处所讲的方法则是从求方案数的方面反向：求不满足条件的方案数。</p>
+<p>$P5.$从n个人中选m个人出来，问指定的p个人中至少有一人在其中的方案数。</p>
+<p>此类问题往往可以正面解出，如本题中我们可以通过讨论这p个人是否在其中并且进行容斥求解，但是显然较为麻烦。</p>
+<p>随后考虑到“至少有一人在其中”的否定是“没有一个人在其中”，于是可以进行反向求解：<code>p个人都不被选中的方案数</code>，再用总方案数作差即可。</p>
+<p>利用组合求总方案数：</p>
+<p>$N_1=C_n^m$</p>
+<p>计算去掉这p个人的组合数，即条件不成立的方案数：</p>
+<p>$N_2=C^{m}_{n-p}$</p>
+<p>作差得解：</p>
+<p>$N=N_1-N_2=C^m_n-C_{n-p}^m$</p>
+<blockquote>
+<p>备注：反向法可能与正解复杂度相同，而且大概率需要结合容斥法计算，务必谨慎使用。</p>
+</blockquote>
+<h3 id="容斥法"><a href="#容斥法" class="headerlink" title="容斥法"></a>容斥法</h3><p>容斥法，往往用于解决对于多个个体有要求，并且多个要求可能同时成立的问题。在这时，如果我们简单地对于每个独立的要求，把符合要求的方案数简单加和，会发现同时满足条件的方案被屡次计算，此处就可以用简单容斥思想解决条件交集问题。</p>
+<p>$P6.$对n个人进行排列，其中甲和丙，乙和丙均不能相邻，问方案数</p>
+<p>容斥法往往可以结合反向法使用，此处就是一个典型的例子：我们求解让不能相邻的相邻的方案数。</p>
+<p>所有的方案数：</p>
+<p>$N_1=A^n_n$</p>
+<p>通过捆绑法，甲丙，乙丙相邻的方案数均为：</p>
+<p>$N_2=A^2_2·A^{n-1}_{n-1}$</p>
+<p>甲丙，乙丙同时相邻的方案数：</p>
+<p>$N_3=2*A^{n-2}_{n-2}$</p>
+<p>通过容斥原理，不符合的方案数为：</p>
+<p>$N_4=N_2+N_2-N_3$</p>
+<p>那么符合条件的方案数就是：</p>
+<p>$N=N_1-N_4$</p>
+<blockquote>
+<p>备注：容斥法常常是作为辅助方法进行计算，也是题目的坑点难点所在，千万注意讨论重叠条件部分的方案数。</p>
+</blockquote>
 
     </div>
 
@@ -412,7 +440,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#备注"><span class="nav-number">2.</span> <span class="nav-text">备注</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础"><span class="nav-number">3.</span> <span class="nav-text">基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法整理"><span class="nav-number">4.</span> <span class="nav-text">方法整理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#插空法"><span class="nav-number">4.1.</span> <span class="nav-text">插空法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#捆绑法"><span class="nav-number">4.2.</span> <span class="nav-text">捆绑法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#隔板法"><span class="nav-number">4.3.</span> <span class="nav-text">隔板法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#剩余法"><span class="nav-number">4.4.</span> <span class="nav-text">剩余法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#反向法"><span class="nav-number">4.5.</span> <span class="nav-text">反向法</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#备注"><span class="nav-number">2.</span> <span class="nav-text">备注</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础"><span class="nav-number">3.</span> <span class="nav-text">基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法整理"><span class="nav-number">4.</span> <span class="nav-text">方法整理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#插空法"><span class="nav-number">4.1.</span> <span class="nav-text">插空法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#捆绑法"><span class="nav-number">4.2.</span> <span class="nav-text">捆绑法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#隔板法"><span class="nav-number">4.3.</span> <span class="nav-text">隔板法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#剩余法"><span class="nav-number">4.4.</span> <span class="nav-text">剩余法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#反向法"><span class="nav-number">4.5.</span> <span class="nav-text">反向法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#容斥法"><span class="nav-number">4.6.</span> <span class="nav-text">容斥法</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

@@ -53,7 +53,7 @@
 </script>
 
   <meta name="description" content="简单归纳了一下OI可能用到的随机算法~">
-<meta name="keywords" content="思路,随机化">
+<meta name="keywords" content="随机化,思路">
 <meta property="og:type" content="article">
 <meta property="og:title" content="随机化の美学">
 <meta property="og:url" content="https:&#x2F;&#x2F;firstfan119.github.io&#x2F;2019&#x2F;11&#x2F;23&#x2F;%E9%9A%8F%E6%9C%BA%E5%8C%96%E7%BE%8E%E5%AD%A6&#x2F;index.html">
@@ -279,8 +279,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="0-Brief-Intro"><a href="#0-Brief-Intro" class="headerlink" title="0.Brief Intro"></a>0.Brief Intro</h1><p>随机化算法在我们日常做题当中的应用可谓是少之又少，如遇<a href="https://www.luogu.org/problemnew/show/P1337" target="_blank" rel="noopener">LuoGu1337</a>这样的题目，我们往往不会考虑模拟退火，而是去考虑<a href="https://www.luogu.org/blog/user54214/solution-p1337" target="_blank" rel="noopener">半平面切割凸包</a>这样正常的解法。</p>
-<p>但随机化在日常生活中应用广泛：从决定命运的$\sf \text{掷骰子}$到较为复杂而高效的$\sf \text{Pollard\ Rho因数分解算法}$，随处可见随机化的身影。</p>
+        <h1 id="0-Brief-Intro"><a href="#0-Brief-Intro" class="headerlink" title="0.Brief Intro"></a>0.Brief Intro</h1><p>随机化算法在我们日常做题当中的应用可谓是少之又少，如遇<a href="https://www.luogu.org/problemnew/show/P1337" target="_blank" rel="noopener">LuoGu1337</a>这样的题目，我们往往不会考虑模拟退火，而是去考虑<a href="https://www.luogu.org/blog/user54214/solution-p1337" target="_blank" rel="noopener">半平面切割凸包</a>这样正常的解法。</p><p>但随机化在日常生活中应用广泛：从决定命运的$\sf \text{掷骰子}$到较为复杂而高效的$\sf \text{Pollard\ Rho因数分解算法}$，随处可见随机化的身影。</p><a id="more"></a>
+
 <h1 id="1-First-impression"><a href="#1-First-impression" class="headerlink" title="1.First impression"></a>1.First impression</h1><p>恰如其名，随机化就是一种特殊的暴力，打个比方：</p>
 <p><code>假如你要做一篇阅读题，普通暴力是逐字逐句读找到答案，随机化是一目十行寻找答案。</code></p>
 <p>我在做阅读题时使用的是第二种方法，只不过随机范围较小。这种方法的利弊就不必多言：</p>
@@ -304,7 +304,7 @@
 <p>先不讨论背包的正解（无价值），我们来拿另一个例子想想如何随机化。（背包的随机化稍后与模拟退火同讲）</p>
 <p><a href="https://www.luogu.org/problemnew/show/CF888E" target="_blank" rel="noopener">CF888E</a></p>
 <p>另：此题详细题解在<a href="https://firstfan.blog.luogu.org/solution-cf888e" target="_blank" rel="noopener">我的另一文章</a></p>
-<figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">给一个数列和m，在数列任选若干个数，使得他们的和对m取模后最大</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">给一个数列和m，在数列任选若干个数，使得他们的和对m取模后最大</span><br></pre></td></tr></table></figure>
 
 <p>我们发现，这种序列选数求某个最值的题目往往可以随机拿分。</p>
 <p>我们可以随机每个数选或者不选，并且如法炮制<code>数万甚至数十万次</code>并且<code>不断与之前最值打擂台</code>，在数十万次尝试下最值出现的概率很高。</p>
@@ -317,10 +317,10 @@
 <p>扔个图解，图片来源于网络。</p>
 <p><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1557488778286&di=baa6b0b13ca38563b89bb0a08ddacf43&imgtype=0&src=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_gif%2FFQd8gQcyN26rb6zJucxaycvJvllG32bxENtPZickocKIBfkSVSQia0noDUVtnicjC2PkIVy0S5ptuwhiafLZVKjK0A%2F640%3Fwx_fmt%3Dgif" alt></p>
 <h2 id="3°模拟退火"><a href="#3°模拟退火" class="headerlink" title="3°模拟退火"></a>3°模拟退火</h2><p>概念此处仅简单讲解。如需详解请<a href="http://baidu.physton.com/?q=%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB" target="_blank" rel="noopener">下楼右转</a></p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">模拟退火（SA）</span><br><span class="line">模拟退火是基于物理中固体退火过程的随机化算法。它是一种通用算法，其主要操作是在冷却过程中按照Metropolis算法计算的概率随机跳出当前解。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">模拟退火（SA）</span><br><span class="line">模拟退火是基于物理中固体退火过程的随机化算法。它是一种通用算法，其主要操作是在冷却过程中按照Metropolis算法计算的概率随机跳出当前解。</span><br></pre></td></tr></table></figure>
 
 <p>上面那块太长，换一个说法：</p>
-<figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">模拟退火就是进行多次循环，每次循环会以一个与当前答案正确度相关联的概率跳出当前域的算法。</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">模拟退火就是进行多次循环，每次循环会以一个与当前答案正确度相关联的概率跳出当前域的算法。</span><br></pre></td></tr></table></figure>
 
 <p>模拟退火的应用可谓是<code>远在天边，近在眼前</code>，你想用它时仿佛处处都是它，关键时刻你又常常想不到它。</p>
 <p>作为一个随机化算法，模拟退火优于一般的随机，因为它不仅仅是像取随机数那样真正意义上的随机，而是在降温的过程中逐渐逼近答案，并且<code>偶尔地</code>出界探索更优解。</p>
@@ -389,7 +389,7 @@
 </ul>
 <h3 id="3-sf-rm-Pollard-Large-rho-（科普向）"><a href="#3-sf-rm-Pollard-Large-rho-（科普向）" class="headerlink" title="3)$\sf\rm\ Pollard_\Large\rho$（科普向）"></a>3)$\sf\rm\ Pollard_\Large\rho$（科普向）</h3><p>Pollard_rho，是当今最为优秀的随机化分解因数算法，由于其高效且随机，其模板是黑题，OI界也几乎用不到如此高效却复杂的因数分解算法。</p>
 <p>下面简单介绍一下$\rho$的算法流程。</p>
-<figure class="highlight cpp hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">第一步，先判断给出的数是否为素数。</span><br><span class="line">第二步，尝试找出一个数的因数（不一定是质数），并且除得对应的另一个因数。</span><br><span class="line">第三步，递归寻找每个因数的因数，直到整个数分解完毕。</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">第一步，先判断给出的数是否为素数。</span><br><span class="line">第二步，尝试找出一个数的因数（不一定是质数），并且除得对应的另一个因数。</span><br><span class="line">第三步，递归寻找每个因数的因数，直到整个数分解完毕。</span><br></pre></td></tr></table></figure>
 
 <p>具体地，我们不会单纯地寻找一个数的因数，而是利用上了随机化的加持。</p>
 <p>对于数n，假设要找的因数为t，我们先随机取一个$x_1$，再构造$x_2$，使条件$t|(x1-x2)$成立，并且条件$(x_1-x_2)|n$不成立（|:整除）。</p>
@@ -452,8 +452,8 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/tags/%E6%80%9D%E8%B7%AF/" rel="tag"><i class="fa fa-tag"></i> 思路</a>
               <a href="/tags/%E9%9A%8F%E6%9C%BA%E5%8C%96/" rel="tag"><i class="fa fa-tag"></i> 随机化</a>
+              <a href="/tags/%E6%80%9D%E8%B7%AF/" rel="tag"><i class="fa fa-tag"></i> 思路</a>
           </div>
 
         
