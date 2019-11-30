@@ -309,6 +309,23 @@
 <blockquote>
 <p>备注：容斥法常常是作为辅助方法进行计算，也是题目的坑点难点所在，千万注意讨论重叠条件部分的方案数。</p>
 </blockquote>
+<h3 id="分块假设法"><a href="#分块假设法" class="headerlink" title="分块假设法"></a>分块假设法</h3><p>分块假设法，常常用于多块染色问题，此类问题的难点在于元素之间的牵制关系往往过多，用上述方法很难求解，而枚举又容易出错。分块假设法则是将多个元素整合成一块，讨论一个块的“外交关系”，如此将多块图的块数减少，再对于每一种假设在整合块内讨论+乘法原理得解。</p>
+<p>$P7.$现有四棱锥S-ABCD，其中ABCD为底面，用四种颜色给5个顶点分别上色，使得每条棱两端点颜色不同，问方案数。</p>
+<p><img src="https://i.loli.net/2019/12/01/OsRV1hJnF9drgcE.png" alt></p>
+<p>第一眼看到立体染色，我们首先想到的问题是：有没有办法<strong>降维</strong>？<code>答案是有的</code>。</p>
+<p><img src="https://i.loli.net/2019/12/01/k3YEQd1gHeGybUA.png" alt></p>
+<p>俯视图可见就是一个<strong>四分环套圆</strong>模型，把降维的图作出来：</p>
+<p><img src="https://i.loli.net/2019/12/01/O3kNo9yKHPwB7F1.png" alt></p>
+<p>那么我们进行分块假设法解决此类问题：</p>
+<p>第一步，将SAB分为一块，讨论该块的可能数：</p>
+<p>$N_1=A_4^3$</p>
+<p>第二步，对于某一种SAB讨论CD。不妨设S、A、B分别占用了1、2、3的颜色，那么若C上3的颜色，则D可以上2、4的颜色；若C上4的颜色，则D只能上2的颜色。</p>
+<p>$N_2=2+1=3$</p>
+<p>第三步，对于每种SAB，都有3种CD，则乘法原理：</p>
+<p>$N=N_1·N_2=72$</p>
+<blockquote>
+<p>备注：分块假设法可以大幅降低讨论情况数，但是在外交情况较为复杂的时候会显得难以讨论。</p>
+</blockquote>
 ]]></content>
       <categories>
         <category>随想</category>
@@ -1177,8 +1194,8 @@
         <category>题解</category>
       </categories>
       <tags>
-        <tag>动态规划</tag>
         <tag>二分</tag>
+        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
