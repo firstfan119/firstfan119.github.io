@@ -1,6 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Github+Hexo搭博教程</title>
+    <url>/2019/12/06/hexo-build-up/</url>
+    <content><![CDATA[<h2 id="序"><a href="#序" class="headerlink" title="序"></a>序</h2><p>这里介绍了一种利用github托管的hexo静态博客搭建方法，也是此博客的搭建方法，较为易懂。</p><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
+<li>node.js</li>
+</ul><p><img src="https://programmerblog.net/wp-content/uploads/2017/07/generate-pdf-using-nodejs-thumbnail.png" alt="node.js"></p><p><a href="https://nodejs.org/dist/v12.13.1/node-v12.13.1-x64.msi" target="_blank" rel="noopener">Win x64官方下载地址</a></p><blockquote>
+<p>备注：安装速度较慢，请耐心等待。安装完成后，可在cmd.exe中输入命令行：</p>
+</blockquote><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">node -v</span><br></pre></td></tr></table></figure><p>若显示出node.js版本信息则安装成功。</p><ul>
+<li>Git</li>
+</ul><p><img src="https://codereviewvideos.com/blog/wp-content/uploads/2015/06/git-goodness.gif" alt="Git"></p><p><a href="https://www.kernel.org/pub/software/scm/git/" target="_blank" rel="noopener">Git for win官方下载地址</a></p><a id="more"></a>
+
+
+
+
+
+
+
+
+
+
+<blockquote>
+<p>备注：安装速度较慢，请耐心等待。安装完成后，可在cmd.exe中输入命令行：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git</span><br></pre></td></tr></table></figure>
+
+<p>若显示出git语法及帮助则安装成功。</p>
+<ul>
+<li>Github账号【建议使用代理进行注册】</li>
+</ul>
+<p><img src="https://cn.bing.com/th?id=OIP.piAMkLAjuBhL3mIPbPgROgHaDm&pid=Api&rs=1" alt="github"></p>
+<p><a href="https://github.com/" target="_blank" rel="noopener">访问github.io</a></p>
+<ul>
+<li>一款综合文本编辑器【推荐vscode/sublime】</li>
+</ul>
+<p><img src="https://i.loli.net/2019/12/06/yCmaBLzqUSTIiD2.png" alt></p>
+<p><img src="https://i.loli.net/2019/12/06/f67rij1pdzn3QoZ.png" alt></p>
+<p>建议安装html和javascript代码高亮插件，便于日后修改样式。</p>
+<h2 id="Ⅰ-github的SSH-key设置"><a href="#Ⅰ-github的SSH-key设置" class="headerlink" title="Ⅰ.github的SSH key设置"></a>Ⅰ.github的SSH key设置</h2><p>安装完上述软件后，来到git根目录下，运行git-bash.exe</p>
+<p><img src="https://i.loli.net/2019/12/06/gviErjmn6C1ORbf.png" alt="git-bash.exe"></p>
+<p>输入命令行：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;name@mail.com&quot;</span><br><span class="line"></span><br><span class="line">*此处的name@mail.com需改成注册github时所用的邮箱</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.loli.net/2019/12/06/3ZsGEzorK2XNmh5.png" alt="sshkey"></p>
+<p>此处会要求输入加密信息，不进行加密，回车即可。</p>
+<p>随后来到C盘下的用户目录，找到.ssh文件夹，用记事本打开内部的<code>id_rsa.pub</code>文件，<code>ctrl+A</code>复制全文。</p>
+<p><img src="https://i.loli.net/2019/12/06/sYA9rWizGwpvfP5.png" alt="ssh文件夹"></p>
+<p>访问<a href="https://github.com/settings/ssh/new" target="_blank" rel="noopener">github的新建ssh key页面</a>，将剪贴板内内容直接复制进<code>key</code>栏中，<code>title</code>栏随个人爱好填写，并点击<code>add ssh key</code>。</p>
+<h2 id="Ⅱ-配置hexo"><a href="#Ⅱ-配置hexo" class="headerlink" title="Ⅱ.配置hexo"></a>Ⅱ.配置hexo</h2><p>确定好博客的本地位置，此处在下采用的是<code>E:\Blog</code>作为博客目录。</p>
+<p>在cmd.exe中输入cd命令，进入到博客文件夹下(以下所有过程中，请勿关闭cmd):</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd E:</span><br><span class="line">cd E:\Blog</span><br></pre></td></tr></table></figure>
+
+<p>访问<a href="https://hexo.io/" target="_blank" rel="noopener">hexo官网</a>，复制首页的安装代码，并在cmd.exe中输入命令行进行框架安装：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure>
+
+<p>当命令输入行再次出现时，hexo基础框架安装完毕。</p>
+<blockquote>
+<p>备注：安装较慢，但若长时间无响应，则可以尝试使用ctrl+C重置后再次安装（可能需要删除文件夹📂）。</p>
+</blockquote>
+<p>在cmd中输入命令行（注意，此时地址位于blog文件夹下）：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo init nameofblog</span><br><span class="line"></span><br><span class="line">*其中nameofblog可替换为按照喜好进行更改</span><br></pre></td></tr></table></figure>
+
+<p>当安装完成后，输入命令行进入到博客根目录下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd nameofblog</span><br></pre></td></tr></table></figure>
+
+<p>安装node.js下载框架，输入命令行：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后，输入命令行：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+
+<p>随后访问<a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a>，就可以看到默认的landscape的博客内容了。</p>
+<h2 id="视频教程"><a href="#视频教程" class="headerlink" title="视频教程"></a>视频教程</h2>
+
+<iframe src="//player.bilibili.com/player.html?aid=24897960&cid=42007944&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
+]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>博客搭建</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>随机化の美学</title>
     <url>/2019/11/23/%E9%9A%8F%E6%9C%BA%E5%8C%96%E7%BE%8E%E5%AD%A6/</url>
     <content><![CDATA[<h1 id="0-Brief-Intro"><a href="#0-Brief-Intro" class="headerlink" title="0.Brief Intro"></a>0.Brief Intro</h1><p>随机化算法在我们日常做题当中的应用可谓是少之又少，如遇<a href="https://www.luogu.org/problemnew/show/P1337" target="_blank" rel="noopener">LuoGu1337</a>这样的题目，我们往往不会考虑模拟退火，而是去考虑<a href="https://www.luogu.org/blog/user54214/solution-p1337" target="_blank" rel="noopener">半平面切割凸包</a>这样正常的解法。</p><p>但随机化在日常生活中应用广泛：从决定命运的$\sf \text{掷骰子}$到较为复杂而高效的$\sf \text{Pollard\ Rho因数分解算法}$，随处可见随机化的身影。</p><a id="more"></a>
@@ -326,7 +409,7 @@
 <blockquote>
 <p>备注：分块假设法可以大幅降低讨论情况数，但是在外交情况较为复杂的时候会显得难以讨论。</p>
 </blockquote>
-]]></content>
+<h2 id="染色问题专题"><a href="#染色问题专题" class="headerlink" title="染色问题专题"></a>染色问题专题</h2>]]></content>
       <categories>
         <category>随想</category>
       </categories>
@@ -1194,8 +1277,8 @@
         <category>题解</category>
       </categories>
       <tags>
-        <tag>二分</tag>
         <tag>动态规划</tag>
+        <tag>二分</tag>
       </tags>
   </entry>
   <entry>
