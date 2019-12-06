@@ -277,18 +277,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>话说回来，花了一个下午把练习册上几十页排列组合的题都做了的感觉还挺良好的呐……</p><p>毕竟是前OI选手，这种题秒不掉就有点淼了QAQ.</p><p>这里留下一些零碎的思想吧。</p><h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><p>在开始以前，为了方便描述，我们先给出几个定义：</p><ul>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>话说回来，花了一个下午把练习册上几十页排列组合的题都做了的感觉还挺良好的呐……</p>
+<p>毕竟是前OI选手，这种题秒不掉就有点淼了QAQ.</p>
+<p>这里留下一些零碎的思想吧。</p>
+<h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><p>在开始以前，为了方便描述，我们先给出几个定义：</p>
+<ul>
 <li><p>方案数用$N$表示</p>
 </li>
 <li><p>第i个子问题的方案数用$N_i$表示</p>
 </li>
 <li><p>排列，组合符号为$A$,$C$</p>
 </li>
-</ul><a id="more"></a>
-
-
-
-
+</ul>
 <h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><p>排列组合是组合数学中的基础。排列就是指从给定个数的元素中取出指定个数的元素进行排序；组合则是指从给定个数的元素中仅仅取出指定个数的元素，不考虑排序。排列组合的中心问题是研究给定要求的排列和组合可能出现的情况总数。排列组合与古典概率论关系密切。</p>
 <ul>
 <li><p>排列： $\large\mathrm A_n^m =\frac{n!}{(n - m)!}$</p>
@@ -380,11 +380,11 @@
 </blockquote>
 <h3 id="分块假设法"><a href="#分块假设法" class="headerlink" title="分块假设法"></a>分块假设法</h3><p>分块假设法，常常用于多块染色问题，此类问题的难点在于元素之间的牵制关系往往过多，用上述方法很难求解，而枚举又容易出错。分块假设法则是将多个元素整合成一块，讨论一个块的“外交关系”，如此将多块图的块数减少，再对于每一种假设在整合块内讨论+乘法原理得解。</p>
 <p>$P7.$现有四棱锥S-ABCD，其中ABCD为底面，用四种颜色给5个顶点分别上色，使得每条棱两端点颜色不同，问方案数。</p>
-<p><img src="https://i.loli.net/2019/12/01/OsRV1hJnF9drgcE.png" alt></p>
+<p><img src="https://i.loli.net/2019/12/01/OsRV1hJnF9drgcE.png" alt=""></p>
 <p>第一眼看到立体染色，我们首先想到的问题是：有没有办法<strong>降维</strong>？<code>答案是有的</code>。</p>
-<p><img src="https://i.loli.net/2019/12/01/k3YEQd1gHeGybUA.png" alt></p>
+<p><img src="https://i.loli.net/2019/12/01/k3YEQd1gHeGybUA.png" alt=""></p>
 <p>俯视图可见就是一个<strong>四分环套圆</strong>模型，把降维的图作出来：</p>
-<p><img src="https://i.loli.net/2019/12/01/O3kNo9yKHPwB7F1.png" alt></p>
+<p><img src="https://i.loli.net/2019/12/01/O3kNo9yKHPwB7F1.png" alt=""></p>
 <p>那么我们进行分块假设法解决此类问题：</p>
 <p>第一步，将SAB分为一块，讨论该块的可能数：</p>
 <p>$N_1=A_4^3$</p>

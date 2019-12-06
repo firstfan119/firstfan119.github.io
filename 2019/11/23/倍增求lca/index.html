@@ -275,14 +275,14 @@
       
         <blockquote>
 <p>如何求最近公共祖先？</p>
-</blockquote><blockquote>
+</blockquote>
+<blockquote>
 <p>朴素的想法:$dfs_1$标记深度，深度大的先跳到与深度小的一级，再同时向上跳，直到找到$LCA$。</p>
-</blockquote><p>怎么形容呢？一个字：<del>那是真的</del> <em>慢</em> <del>的要飞起</del></p><p>怎么办？考虑大步流星的跳：<strong>倍增</strong>。</p><p>倍增的过程，就是每次跳$2^?$深度，就能把效率提高到$\log$级。</p><p>怎么实现？<strong>类似动规思想</strong>，用$f[i][j]$来表示$i$的第$2^j$辈祖先。</p><a id="more"></a>
-
-
-
-
-
+</blockquote>
+<p>怎么形容呢？一个字：<del>那是真的</del> <em>慢</em> <del>的要飞起</del></p>
+<p>怎么办？考虑大步流星的跳：<strong>倍增</strong>。</p>
+<p>倍增的过程，就是每次跳$2^?$深度，就能把效率提高到$\log$级。</p>
+<p>怎么实现？<strong>类似动规思想</strong>，用$f[i][j]$来表示$i$的第$2^j$辈祖先。</p>
 <blockquote>
 <p>小小的特判：$f[i][0]$系$i$父结点，而不存在的节点记为$f[i][j]=0$。</p>
 </blockquote>

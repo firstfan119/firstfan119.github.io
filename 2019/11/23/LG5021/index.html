@@ -275,14 +275,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>$\tiny\text{似乎巨佬都没有翻译题目，其实部分难度在于题目翻译，所以:}$</p><h2 id="先翻译下本题的题意："><a href="#先翻译下本题的题意：" class="headerlink" title="先翻译下本题的题意："></a>先翻译下本题的题意：</h2><ul>
+        <p>$\tiny\text{似乎巨佬都没有翻译题目，其实部分难度在于题目翻译，所以:}$</p>
+<h2 id="先翻译下本题的题意："><a href="#先翻译下本题的题意：" class="headerlink" title="先翻译下本题的题意："></a>先翻译下本题的题意：</h2><ul>
 <li>$n$个点，$n-1$条边，任意两点可以互相到达，每条道路仅从属于一条“赛道”。</li>
-</ul><p>眼熟？$\color{blue}\text{其实就是一棵树。}$</p><ul>
+</ul>
+<p>眼熟？$\color{blue}\text{其实就是一棵树。}$</p>
+<ul>
 <li>要建$m$条“赛道”，赛道无环，<strong>最大化</strong>最短道路。</li>
-</ul><a id="more"></a>
-
-
-
+</ul>
 <p>对了！$\color{red}\text{就是二分答案！}$</p>
 <p>那么整道题翻译出来就很简洁了：</p>
 <ul>
@@ -298,7 +298,7 @@
 </ul>
 <p>那么我们可以树形$DP$一次求出树的直径。</p>
 <p>比如我们拿$Sample\ 2$来讲：($len$是边长）</p>
-<p><img src="https://i.loli.net/2019/04/09/5cacb4ae5237f.png" alt></p>
+<p><img src="https://i.loli.net/2019/04/09/5cacb4ae5237f.png" alt=""></p>
 <p>那么我们可以看到，这棵树被切成了$3$条无交集的链，其中最短链是$1-&gt;2-&gt;7$，它的长度是$15$，此时最大化。</p>
 <p>这棵树的直径是$7-&gt;2-&gt;3-&gt;4-&gt;5$长度为$27$，那么二分最短边的长度就好了。</p>
 <ul>

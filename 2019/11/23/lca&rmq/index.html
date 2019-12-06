@@ -280,23 +280,23 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>最近在学$LCA$算法的时候发现了很有意思的一个方法：</p><p><strong>建树，利用$LCA$解决$RMQ$问题。</strong></p><p>现在就来讲讲$RMQ$问题的$LCA$解决。</p><p>先来个例子：</p><p>已知序列A={2,8,5,7,1,4}，求区间[l,r]之间的最小值。</p><ul>
+        <p>最近在学$LCA$算法的时候发现了很有意思的一个方法：</p>
+<p><strong>建树，利用$LCA$解决$RMQ$问题。</strong></p>
+<p>现在就来讲讲$RMQ$问题的$LCA$解决。</p>
+<p>先来个例子：</p>
+<p>已知序列A={2,8,5,7,1,4}，求区间[l,r]之间的最小值。</p>
+<ul>
 <li>第一步：建立树$T$</li>
-</ul><p>我们把全局最小值$1$作为根节点，建立一棵<strong>优先级树</strong>。</p><p><img src="https://i.loli.net/2019/03/24/5c96f7d470280.png" alt></p><p>接下来，我们<strong>建立右子树</strong>，但$1$右侧只有一个结点可建：$4$</p><a id="more"></a>
-
-
-
-
-
-
-
-
-<p><img src="https://i.loli.net/2019/03/24/5c96f977d920b.png" alt></p>
+</ul>
+<p>我们把全局最小值$1$作为根节点，建立一棵<strong>优先级树</strong>。</p>
+<p><img src="https://i.loli.net/2019/03/24/5c96f7d470280.png" alt=""></p>
+<p>接下来，我们<strong>建立右子树</strong>，但$1$右侧只有一个结点可建：$4$</p>
+<p><img src="https://i.loli.net/2019/03/24/5c96f977d920b.png" alt=""></p>
 <p>下一步建立<strong>左子树</strong>，左子树有$4$个结点可建：$2,8,5,7$</p>
 <p>我们选择<strong>最小</strong>的$2$作为子树根结点建树</p>
-<p><img src="https://i.loli.net/2019/03/24/5c96fbad2123f.png" alt></p>
+<p><img src="https://i.loli.net/2019/03/24/5c96fbad2123f.png" alt=""></p>
 <p>下面递归建树即可：</p>
-<p><img src="https://i.loli.net/2019/03/24/5c96fd87ba3bc.png" alt></p>
+<p><img src="https://i.loli.net/2019/03/24/5c96fd87ba3bc.png" alt=""></p>
 <ul>
 <li>第二步：$LCA$</li>
 </ul>
@@ -325,9 +325,9 @@
 <p>如果对<strong>有根树</strong>$T$进行$DFS$，将遍历到的结点按照$DFS$序记下，我们将得到一个<strong>长度为$2N-1$的序列</strong>，称之为$T$的<strong>欧拉序列$F$</strong></p>
 <p><code>每个结点都在欧拉序列中出现</code>，记录结点$u$在欧拉序列中<strong>第一次出现的位置</strong>为$pos_u$</p>
 <p>就比如说这样（版权所有:$first_fan$）</p>
-<p><img src="https://s31.aconvert.com/convert/p3r68-cdx67/qkp6a-1guzn.gif" alt></p>
+<p><img src="https://s31.aconvert.com/convert/p3r68-cdx67/qkp6a-1guzn.gif" alt=""></p>
 <p>那么我们就可以得到欧拉序列$F$，深度序列$B$，以及首次出现位置$pos_u$</p>
-<p><img src="https://i.loli.net/2019/03/24/5c9715971f1fa.png" alt></p>
+<p><img src="https://i.loli.net/2019/03/24/5c9715971f1fa.png" alt=""></p>
 <p><strong>那么怎么转化为$RMQ?$</strong></p>
 <ul>
 <li><p>根据$DFS$的性质，对于两结点$u,v$，从$pos_u$遍历到$pos_v$的过程中经过$LCA(u, v)$<strong>有且仅有一次</strong>，且深度是深度序列$B[pos_u…pos_v]$中最小的</p>

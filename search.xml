@@ -49,7 +49,7 @@
 <p>访问<a href="https://github.com/settings/ssh/new" target="_blank" rel="noopener">github的新建ssh key页面</a>，将剪贴板内内容直接复制进<code>key</code>栏中，<code>title</code>栏随个人爱好填写，并点击<code>add ssh key</code>。</p>
 <h2 id="Ⅱ-配置hexo"><a href="#Ⅱ-配置hexo" class="headerlink" title="Ⅱ.配置hexo"></a>Ⅱ.配置hexo</h2><p>确定好博客的本地位置，此处在下采用的是<code>E:\Blog</code>作为博客目录。</p>
 <p>在cmd.exe中输入cd命令，进入到博客文件夹下(以下所有过程中，请勿关闭cmd):</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd E:</span><br><span class="line">cd E:\Blog</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">E:</span><br><span class="line">cd E:\Blog</span><br></pre></td></tr></table></figure>
 
 <p>访问<a href="https://hexo.io/" target="_blank" rel="noopener">hexo官网</a>，复制首页的安装代码，并在cmd.exe中输入命令行进行框架安装：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure>
@@ -71,6 +71,35 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo s</span><br></pre></td></tr></table></figure>
 
 <p>随后访问<a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a>，就可以看到默认的landscape的博客内容了。</p>
+<p><img src="https://i.loli.net/2019/12/06/ONxMhD13evSkP2o.png" alt="Hello World!"></p>
+<blockquote>
+<p>备注：初始博客应当只附带一篇hello world使用教程，此处在下未复原初始状态进行演示。</p>
+</blockquote>
+<h2 id="Ⅲ-hexo上传"><a href="#Ⅲ-hexo上传" class="headerlink" title="Ⅲ.hexo上传"></a>Ⅲ.hexo上传</h2><p>现在，我们就可以进入博客根目录下，找到<code>/source/_posts</code>文件夹，并且以<strong>markdown</strong>的形式(.md文件)撰写博文了。</p>
+<p><img src="https://i.loli.net/2019/12/06/uEqNAkeKHhjfCVO.png" alt="新建.md文档并开始写博吧~"></p>
+<p>为了能让互谅网(梗)的广大朋友们看到我们的博客，我们要把整个博客上传到username.github.io，随后所有人都可以使用这个网址进行访问了。</p>
+<p>首先，登录github账号，并新建一个repo，名字叫做<strong>username.github.io</strong>(其中的username请自行更换，repo名必须是username.github.io格式，不得修改！)</p>
+<p><img src="https://ae01.alicdn.com/kf/H594a4fa6e92e4ebf9cd929ea387d85f9c.png" alt="repo预览"></p>
+<blockquote>
+<p>备注：此处在下没有复原repo进行演示，原本应为空仓或仅有readme.md等初始文件，主要强调repo名称必须正确。</p>
+</blockquote>
+<p>随后，进入到<strong>博客根目录</strong>下，找到<code>_config.yml</code>文件，后文中我们称之为<code>博客配置文件</code>，用文本编辑器打开进行查看。</p>
+<p><img src="https://i.loli.net/2019/12/06/4TxPvHB9SwkguIb.png" alt="_config.yml"></p>
+<p>打开后，ctrl+F搜索deploy，找到deploy所在的页尾处，并加以修改：</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="comment">## Docs: https://hexo.io/docs/deployment.html</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">https://github.com/username/username.github.io.git</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br><span class="line"><span class="string">*username应更换为自己的github用户名。</span></span><br></pre></td></tr></table></figure>
+
+<p>然后搜索url，进行修改：</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># URL</span></span><br><span class="line"><span class="comment">## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'</span></span><br><span class="line"><span class="attr">url:</span> <span class="string">https://username.github.io</span></span><br></pre></td></tr></table></figure>
+
+<p>打开cmd.exe并cd到<strong>博客根目录下</strong>，就是上述blog文件夹中的nameofblog文件夹，输入命令行安装hexo deployer heroku：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd E:</span><br><span class="line">cd E:\Blog\nameofblog</span><br><span class="line">npm install hexo-deployer-heroku --save</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ae01.alicdn.com/kf/H710413b632644dcbbe585b07d1a76081q.png" alt="安装deployer"></p>
+<p>安装完毕后，输入两个命令行进行github-ssh绑定：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git config --global user.email &quot;name@mail.com&quot;</span><br><span class="line">*此处邮箱填写github相关邮箱</span><br><span class="line">git config --global user.name &quot;username&quot;</span><br><span class="line">*此处username填写github用户名</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="视频教程"><a href="#视频教程" class="headerlink" title="视频教程"></a>视频教程</h2>
 
 <iframe src="//player.bilibili.com/player.html?aid=24897960&cid=42007944&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
@@ -86,8 +115,8 @@
   <entry>
     <title>随机化の美学</title>
     <url>/2019/11/23/%E9%9A%8F%E6%9C%BA%E5%8C%96%E7%BE%8E%E5%AD%A6/</url>
-    <content><![CDATA[<h1 id="0-Brief-Intro"><a href="#0-Brief-Intro" class="headerlink" title="0.Brief Intro"></a>0.Brief Intro</h1><p>随机化算法在我们日常做题当中的应用可谓是少之又少，如遇<a href="https://www.luogu.org/problemnew/show/P1337" target="_blank" rel="noopener">LuoGu1337</a>这样的题目，我们往往不会考虑模拟退火，而是去考虑<a href="https://www.luogu.org/blog/user54214/solution-p1337" target="_blank" rel="noopener">半平面切割凸包</a>这样正常的解法。</p><p>但随机化在日常生活中应用广泛：从决定命运的$\sf \text{掷骰子}$到较为复杂而高效的$\sf \text{Pollard\ Rho因数分解算法}$，随处可见随机化的身影。</p><a id="more"></a>
-
+    <content><![CDATA[<h1 id="0-Brief-Intro"><a href="#0-Brief-Intro" class="headerlink" title="0.Brief Intro"></a>0.Brief Intro</h1><p>随机化算法在我们日常做题当中的应用可谓是少之又少，如遇<a href="https://www.luogu.org/problemnew/show/P1337" target="_blank" rel="noopener">LuoGu1337</a>这样的题目，我们往往不会考虑模拟退火，而是去考虑<a href="https://www.luogu.org/blog/user54214/solution-p1337" target="_blank" rel="noopener">半平面切割凸包</a>这样正常的解法。</p>
+<p>但随机化在日常生活中应用广泛：从决定命运的$\sf \text{掷骰子}$到较为复杂而高效的$\sf \text{Pollard\ Rho因数分解算法}$，随处可见随机化的身影。</p>
 <h1 id="1-First-impression"><a href="#1-First-impression" class="headerlink" title="1.First impression"></a>1.First impression</h1><p>恰如其名，随机化就是一种特殊的暴力，打个比方：</p>
 <p><code>假如你要做一篇阅读题，普通暴力是逐字逐句读找到答案，随机化是一目十行寻找答案。</code></p>
 <p>我在做阅读题时使用的是第二种方法，只不过随机范围较小。这种方法的利弊就不必多言：</p>
@@ -122,7 +151,7 @@
 <h2 id="2°爬山算法"><a href="#2°爬山算法" class="headerlink" title="2°爬山算法"></a>2°爬山算法</h2><p>严格意义上来讲，爬山算法的随机化过程很少。此处提到它仅仅是为了下方的模拟退火做铺垫。</p>
 <p>看名字，这个算法的最基础应用就是求函数极值，即从当前点开始，每个点的值与相邻点的值比较，把指针挪至接近极值的那一个。</p>
 <p>扔个图解，图片来源于网络。</p>
-<p><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1557488778286&di=baa6b0b13ca38563b89bb0a08ddacf43&imgtype=0&src=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_gif%2FFQd8gQcyN26rb6zJucxaycvJvllG32bxENtPZickocKIBfkSVSQia0noDUVtnicjC2PkIVy0S5ptuwhiafLZVKjK0A%2F640%3Fwx_fmt%3Dgif" alt></p>
+<p><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1557488778286&di=baa6b0b13ca38563b89bb0a08ddacf43&imgtype=0&src=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_gif%2FFQd8gQcyN26rb6zJucxaycvJvllG32bxENtPZickocKIBfkSVSQia0noDUVtnicjC2PkIVy0S5ptuwhiafLZVKjK0A%2F640%3Fwx_fmt%3Dgif" alt=""></p>
 <h2 id="3°模拟退火"><a href="#3°模拟退火" class="headerlink" title="3°模拟退火"></a>3°模拟退火</h2><p>概念此处仅简单讲解。如需详解请<a href="http://baidu.physton.com/?q=%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB" target="_blank" rel="noopener">下楼右转</a></p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">模拟退火（SA）</span><br><span class="line">模拟退火是基于物理中固体退火过程的随机化算法。它是一种通用算法，其主要操作是在冷却过程中按照Metropolis算法计算的概率随机跳出当前解。</span><br></pre></td></tr></table></figure>
 
@@ -135,7 +164,7 @@
 <p>因此模拟退火很大程度上改良了爬山算法会卡在一个小峰的尴尬弱点，也同时比乱序随机来得更准。</p>
 <p>退火能够应用的范围很广。下至<a href="https://www.luogu.org/problem/P1049" target="_blank" rel="noopener">装箱问题</a>这样的01背包，上至<a href="https://www.luogu.org/problem/P2210" target="_blank" rel="noopener">Haywire</a>这样的难题（貌似没有平衡点难），都能见到它的身影，甚至在严谨的省选赛中SA也能占有一席之地(四川、江苏、河南、天津,etc)。</p>
 <p>最后简单讲解一下模拟退火的实现，就以下图的求极值为例。</p>
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Hill_Climbing_with_Simulated_Annealing.gif" alt></p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Hill_Climbing_with_Simulated_Annealing.gif" alt=""></p>
 <p>第一步，定初温$\mathcal T$，不能太低（$1000^+$）。</p>
 <p>第二步，定降温系数$\Delta$，一般在0.997，<del>有些题粗放到0.92也行</del>。</p>
 <p>第三步，利用<a href="https://baike.baidu.com/item/Metropolis%E6%8E%A5%E5%8F%97%E5%87%86%E5%88%99/14678977" target="_blank" rel="noopener">metro_polis接受准则</a>产生当前温度能接受的随机值。</p>
@@ -152,7 +181,7 @@
 <p>否则，若概率 p大于[0,1)区间的随机数，则仍接受状态j为当前状态；若不成立，则保留状态i为当前状态。</p>
 </blockquote>
 <p>这个概率p的产生又是随机化的一大美学了：exp的巧用。</p>
-<p><img src="https://i.loli.net/2019/08/04/htxTKI1jnqQwSfe.png" alt></p>
+<p><img src="https://i.loli.net/2019/08/04/htxTKI1jnqQwSfe.png" alt=""></p>
 <p>图中我们可以看出，温度越高则跳出概率越高，温度越低则p也越低，即<code>p与T正相关</code>，且这个函数的值总是在[0,1)内，也就是说我们在这个区间内随便取数，比p小的概率就是p所代表的概率。</p>
 <h2 id="4°数论中的随机化"><a href="#4°数论中的随机化" class="headerlink" title="4°数论中的随机化"></a>4°数论中的随机化</h2><p>判断素数一直是数论界的热门话题之一，如何高效地查找因数也是人们热衷的研究。</p>
 <h3 id="1-从费马小定理说起"><a href="#1-从费马小定理说起" class="headerlink" title="1)从费马小定理说起"></a>1)从费马小定理说起</h3><blockquote>
@@ -203,7 +232,7 @@
 <p>此时有一个结论：若$gcd(x_1-x_2,n)$不为1，则该值为t。</p>
 <p>如果值为1，则调整$x_2$使其再次符合条件（调整方式可以为$x_2=x_2*x_2+\phi$)（其中的$\phi$为随机值）。我们在调整的过程中如果出现了$x_1=x_2$的情况，则说明$x_1$选取不当，须重新选$x_1$。</p>
 <p>pollard发现，在调整$x_1$的过程中，$x_1$与$x_2$最终会形成$\huge\rho$循环。</p>
-<p><img src="https://i.loli.net/2019/08/05/oe3mv7bUIXz2yQP.png" alt></p>
+<p><img src="https://i.loli.net/2019/08/05/oe3mv7bUIXz2yQP.png" alt=""></p>
 <p>计算出因数后只需要判断下是否为质数就行了，此处就要引进上文的M_R判素法了。</p>
 <h2 id="5°随机化的其他运用"><a href="#5°随机化的其他运用" class="headerlink" title="5°随机化的其他运用"></a>5°随机化的其他运用</h2><p>随机化在很多不起眼的地方也起着巨大的作用，看上去傻乎乎的决策却也有着猴子打字写出成书的可能。</p>
 <p>或许随机化不能称为优化，有人甚至认为它是劣化，但不得不说的一点是：<code>没有人能卡掉随机优化</code>，除了坏运气。</p>
@@ -218,7 +247,7 @@
 <p>对于随机化排序，我只能说：这是可能发生的。</p>
 <p>因为对于一串相当有序的序列，随机化的效率还是很出色的。</p>
 <p>引用<code>平凡的幸福</code>的一次测试结果，</p>
-<p><img src="https://i.loli.net/2019/08/04/4xpnNXb2efE8Y7F.png" alt></p>
+<p><img src="https://i.loli.net/2019/08/04/4xpnNXb2efE8Y7F.png" alt=""></p>
 <p>此处的所有数据均为随机产生，不具有有序性。</p>
 <ul>
 <li>经在下测试，对于1e5的较有序数据，随机排序的效率最高可达快排的1.2倍！</li>
@@ -261,7 +290,10 @@
   <entry>
     <title>退役小记</title>
     <url>/2019/11/23/%E9%80%80%E5%BD%B9%E5%B0%8F%E8%AE%B0/</url>
-    <content><![CDATA[<p>七百余题血与泪，初赛退役一场空。<br>今朝信竞今朝傲，留待迟暮望斜阳。</p><p>有缘再会吧，@first_fan!<br>OI,我们THU,再见！</p><p><img src="https://www.gushixuexi.com/wp-content/uploads/2016/11/4-95.jpg" alt></p>]]></content>
+    <content><![CDATA[<p>七百余题血与泪，初赛退役一场空。<br>今朝信竞今朝傲，留待迟暮望斜阳。</p>
+<p>有缘再会吧，@first_fan!<br>OI,我们THU,再见！</p>
+<p><img src="https://www.gushixuexi.com/wp-content/uploads/2016/11/4-95.jpg" alt=""></p>
+]]></content>
       <categories>
         <category>随想</category>
       </categories>
@@ -272,13 +304,13 @@
   <entry>
     <title>模拟退火解背包</title>
     <url>/2019/11/23/%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB%E8%A7%A3%E8%83%8C%E5%8C%85/</url>
-    <content><![CDATA[<h3 id="本文所包含的思路来自于NCC79601"><a href="#本文所包含的思路来自于NCC79601" class="headerlink" title="本文所包含的思路来自于NCC79601"></a>本文所包含的思路来自于<a href="https://ncc79601.blog.luogu.org/solution-p1049" target="_blank" rel="noopener">NCC79601</a></h3><h1 id="算法剖析"><a href="#算法剖析" class="headerlink" title="* 算法剖析"></a>* 算法剖析</h1><p> 简单来讲，背包退火就是用模拟退火的思路解决某些类型的背包问题，继承了模拟退火的<strong>玄学复杂度</strong>，<em><del>也继承了它的不稳定性</del>_，所以能够有效地解决大背包问题的TLE问题。这个算法能够把数十行的代码优化部分转移为 _<del>洗把脸</del></em> 调参的问题。</p><h1 id="例题-：LuoGuP1049【装箱问题】"><a href="#例题-：LuoGuP1049【装箱问题】" class="headerlink" title="例题 ：LuoGuP1049【装箱问题】"></a><em>例题 ：LuoGuP1049【装箱问题】</em></h1><a id="more"></a>
-<h1 id="有一个箱子容量为V，同时有n个物品，每个物品有一个体积vi。要求n个物品中，任取若干个装入箱内，使箱子的剩余空间为最小。"><a href="#有一个箱子容量为V，同时有n个物品，每个物品有一个体积vi。要求n个物品中，任取若干个装入箱内，使箱子的剩余空间为最小。" class="headerlink" title="有一个箱子容量为V，同时有n个物品，每个物品有一个体积vi。要求n个物品中，任取若干个装入箱内，使箱子的剩余空间为最小。"></a>有一个箱子容量为V，同时有n个物品，每个物品有一个体积vi。要求n个物品中，任取若干个装入箱内，使箱子的剩余空间为最小。</h1><h1 id="·算法过程"><a href="#·算法过程" class="headerlink" title="·算法过程"></a>·<em>算法过程</em></h1><h2 id="首先就是模拟退火的随机设置自然就是把随机数种子设置好，别忘了先洗脸，然后通过模拟退火原理设置好转移概率表达式"><a href="#首先就是模拟退火的随机设置自然就是把随机数种子设置好，别忘了先洗脸，然后通过模拟退火原理设置好转移概率表达式" class="headerlink" title="首先就是模拟退火的随机设置自然就是把随机数种子设置好，别忘了先洗脸，然后通过模拟退火原理设置好转移概率表达式:"></a>首先就是模拟退火的随机设置自然就是把随机数种子设置好，<del>别忘了先洗脸</del>，然后通过模拟退火原理设置好转移概率表达式:</h2> <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bool accept(int del)</span><br><span class="line">&#123;</span><br><span class="line">    return ((del&gt;0)||exp(-del/T) &gt; (double)rand()/RAND_MAX);</span><br><span class="line">&#125; //转移概率表达式</span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<h3 id="本文所包含的思路来自于NCC79601"><a href="#本文所包含的思路来自于NCC79601" class="headerlink" title="本文所包含的思路来自于NCC79601"></a>本文所包含的思路来自于<a href="https://ncc79601.blog.luogu.org/solution-p1049" target="_blank" rel="noopener">NCC79601</a></h3><h1 id="算法剖析"><a href="#算法剖析" class="headerlink" title="* 算法剖析"></a>* 算法剖析</h1><p> 简单来讲，背包退火就是用模拟退火的思路解决某些类型的背包问题，继承了模拟退火的<strong>玄学复杂度</strong>，<em><del>也继承了它的不稳定性</del>_，所以能够有效地解决大背包问题的TLE问题。这个算法能够把数十行的代码优化部分转移为 _<del>洗把脸</del></em> 调参的问题。</p>
+<h1 id="例题-：LuoGuP1049【装箱问题】"><a href="#例题-：LuoGuP1049【装箱问题】" class="headerlink" title="例题 ：LuoGuP1049【装箱问题】"></a><em>例题 ：LuoGuP1049【装箱问题】</em></h1><h1 id="有一个箱子容量为V，同时有n个物品，每个物品有一个体积vi。要求n个物品中，任取若干个装入箱内，使箱子的剩余空间为最小。"><a href="#有一个箱子容量为V，同时有n个物品，每个物品有一个体积vi。要求n个物品中，任取若干个装入箱内，使箱子的剩余空间为最小。" class="headerlink" title="有一个箱子容量为V，同时有n个物品，每个物品有一个体积vi。要求n个物品中，任取若干个装入箱内，使箱子的剩余空间为最小。"></a>有一个箱子容量为V，同时有n个物品，每个物品有一个体积vi。要求n个物品中，任取若干个装入箱内，使箱子的剩余空间为最小。</h1><h1 id="·算法过程"><a href="#·算法过程" class="headerlink" title="·算法过程"></a>·<em>算法过程</em></h1><h2 id="首先就是模拟退火的随机设置自然就是把随机数种子设置好，别忘了先洗脸，然后通过模拟退火原理设置好转移概率表达式"><a href="#首先就是模拟退火的随机设置自然就是把随机数种子设置好，别忘了先洗脸，然后通过模拟退火原理设置好转移概率表达式" class="headerlink" title="首先就是模拟退火的随机设置自然就是把随机数种子设置好，别忘了先洗脸，然后通过模拟退火原理设置好转移概率表达式:"></a>首先就是模拟退火的随机设置自然就是把随机数种子设置好，<del>别忘了先洗脸</del>，然后通过模拟退火原理设置好转移概率表达式:</h2> <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bool accept(int del)</span><br><span class="line">&#123;</span><br><span class="line">    return ((del&gt;0)||exp(-del/T) &gt; (double)rand()/RAND_MAX);</span><br><span class="line">&#125; //转移概率表达式</span><br></pre></td></tr></table></figure>
 <h2 id="然鹅蒟蒻的我很难解释清楚为什么随着T的减小他接受更劣解的概率会越来越小，只知道利用这个概率是e-dE-kT）。"><a href="#然鹅蒟蒻的我很难解释清楚为什么随着T的减小他接受更劣解的概率会越来越小，只知道利用这个概率是e-dE-kT）。" class="headerlink" title="然鹅蒟蒻的我很难解释清楚为什么随着T的减小他接受更劣解的概率会越来越小，只知道利用这个概率是e^(-dE/kT）。"></a>然鹅蒟蒻的我很难解释清楚为什么随着T的减小他接受更劣解的概率会越来越小，只知道利用这个概率是e^(-dE/kT）。</h2><h3 id="使用这个概率从而达到刚开始退火，跳出当前最优解的概率大，而当靠近答案时跳出正确答案的可能性又逐渐减小。如有不懂请挪步模拟退火详解"><a href="#使用这个概率从而达到刚开始退火，跳出当前最优解的概率大，而当靠近答案时跳出正确答案的可能性又逐渐减小。如有不懂请挪步模拟退火详解" class="headerlink" title="使用这个概率从而达到刚开始退火，跳出当前最优解的概率大，而当靠近答案时跳出正确答案的可能性又逐渐减小。如有不懂请挪步模拟退火详解"></a>使用这个概率从而达到刚开始退火，跳出当前最优解的概率大，而当靠近答案时跳出正确答案的可能性又逐渐减小。如有不懂请挪步<a href="http://www.cnblogs.com/heaad/archive/2010/12/20/1911614.html" target="_blank" rel="noopener">模拟退火详解</a></h3><h1 id="·偏移过程"><a href="#·偏移过程" class="headerlink" title="·偏移过程"></a>·<em>偏移过程</em></h1><h2 id="这就是上述问题的用武之地了-以一定的概率不选当前最优解中的那个物品，从而衍生出另一种方案，如果比刚刚的更好，那么说明运气很好，跳到了一个更优解范围附近"><a href="#这就是上述问题的用武之地了-以一定的概率不选当前最优解中的那个物品，从而衍生出另一种方案，如果比刚刚的更好，那么说明运气很好，跳到了一个更优解范围附近" class="headerlink" title="这就是上述问题的用武之地了:以一定的概率不选当前最优解中的那个物品，从而衍生出另一种方案，如果比刚刚的更好，那么说明运气很好，跳到了一个更优解范围附近"></a>这就是上述问题的用武之地了:以一定的概率不选当前最优解中的那个物品，从而衍生出另一种方案，如果比刚刚的更好，那么说明运气很好，跳到了一个更优解范围附近</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">if(accept(dE)) </span><br><span class="line">		&#123;//以上述概率发生转移</span><br><span class="line">            if(vis[a])</span><br><span class="line">			&#123;</span><br><span class="line">                vis[a] = false;</span><br><span class="line">                tot -= v[a];</span><br><span class="line">            &#125;//在当前物品已选的情况下放弃选用当前物品</span><br><span class="line">			else</span><br><span class="line">			&#123;</span><br><span class="line">                if(tot + v[a] &gt; V)</span><br><span class="line">				&#123;</span><br><span class="line">					continue;</span><br><span class="line">				&#125;</span><br><span class="line">                vis[a] = true;</span><br><span class="line">                tot += v[a];</span><br><span class="line">            &#125;//在当前物品未选的情况下尝试选用当前物品</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
 <h1 id="·退火步骤"><a href="#·退火步骤" class="headerlink" title="·退火步骤"></a>·退火步骤</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">while(T &gt; 1e-14) &#123;</span><br><span class="line">        ans=max(ans,tot); //维护最优答案，以防非酋情况发生</span><br><span class="line">        a = rd; //进行随机</span><br><span class="line">        int dE = v[a];</span><br><span class="line">        if(vis[a])</span><br><span class="line">		&#123;</span><br><span class="line">			dE *= -1; //产生能量差</span><br><span class="line">		&#125;</span><br><span class="line">        if(accept(dE)) </span><br><span class="line">		&#123;//发生转移</span><br><span class="line">            if(vis[a])</span><br><span class="line">			&#123;</span><br><span class="line">                vis[a] = false;</span><br><span class="line">                tot -= v[a];</span><br><span class="line">            &#125;</span><br><span class="line">			else</span><br><span class="line">			&#123;</span><br><span class="line">                if(tot + v[a] &gt; V)</span><br><span class="line">				&#123;</span><br><span class="line">					continue;</span><br><span class="line">				&#125;</span><br><span class="line">                vis[a] = true;</span><br><span class="line">                tot += v[a];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        T *= delta; //降温</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <h2 id="该过程通过降温系数delta对初温为T的物体降温，直到物体温度冷却接近0。但是不能直接将tot作为答案输出，否则没洗脸的话可能会出现跳到了较劣解的情况。"><a href="#该过程通过降温系数delta对初温为T的物体降温，直到物体温度冷却接近0。但是不能直接将tot作为答案输出，否则没洗脸的话可能会出现跳到了较劣解的情况。" class="headerlink" title="该过程通过降温系数delta对初温为T的物体降温，直到物体温度冷却接近0。但是不能直接将tot作为答案输出，否则没洗脸的话可能会出现跳到了较劣解的情况。"></a>该过程通过降温系数delta对初温为T的物体降温，直到物体温度冷却接近0。但是不能直接将tot作为答案输出，否则<del>没洗脸的话</del>可能会出现跳到了较劣解的情况。</h2><h1 id="退火的一些小技巧"><a href="#退火的一些小技巧" class="headerlink" title="退火的一些小技巧"></a>退火的一些小技巧</h1><h3 id="1-降温系数用0-99789（玄学参数）"><a href="#1-降温系数用0-99789（玄学参数）" class="headerlink" title="1. 降温系数用0.99789（玄学参数）"></a>1. 降温系数用0.99789（玄学参数）</h3><h3 id="2-初温设置为1926（玄学参数）"><a href="#2-初温设置为1926（玄学参数）" class="headerlink" title="2. 初温设置为1926（玄学参数）"></a>2. 初温设置为1926（玄学参数）</h3><h3 id="3-退火的转移概率计算式-e-dE-kT）"><a href="#3-退火的转移概率计算式-e-dE-kT）" class="headerlink" title="3. 退火的转移概率计算式:e^(-dE/kT）"></a>3. 退火的转移概率计算式:e^(-dE/kT）</h3><h3 id="del-gt-0-exp-del-T-gt-double-rand-RAND-MAX"><a href="#del-gt-0-exp-del-T-gt-double-rand-RAND-MAX" class="headerlink" title="(del&gt;0)||exp(-del/T) &gt; (double)rand()/RAND_MAX"></a>(del&gt;0)||exp(-del/T) &gt; (double)rand()/RAND_MAX</h3><h3 id="4-最低温不要调的太低，不然妥妥的TLE"><a href="#4-最低温不要调的太低，不然妥妥的TLE" class="headerlink" title="4.最低温不要调的太低，不然妥妥的TLE"></a>4.最低温不要调的太低，不然妥妥的TLE</h3><h3 id="5-交一次不行说明rp不够你的时间不好，原代码再交一次也许-就行了呢"><a href="#5-交一次不行说明rp不够你的时间不好，原代码再交一次也许-就行了呢" class="headerlink" title="5.交一次不行说明rp不够你的时间不好，原代码再交一次也许 就行了呢"></a>5.交一次不行说明<del>rp不够</del>你的时间不好，原代码再交一次也许 就行了呢</h3><h3 id="6-别忘了洗脸rp"><a href="#6-别忘了洗脸rp" class="headerlink" title="6.别忘了洗脸rp++"></a><del>6.别忘了洗脸rp++</del></h3><h1 id="番外篇-论欧皇的养成"><a href="#番外篇-论欧皇的养成" class="headerlink" title="番外篇:论欧皇的养成"></a>番外篇:论欧皇的养成</h1><p>iewqufhiwefdiweduiqwediuqedwedjewui</p>
-<h3 id="被某个非酋网友摁在键盘上打-笑哭"><a href="#被某个非酋网友摁在键盘上打-笑哭" class="headerlink" title="(被某个非酋网友摁在键盘上打/笑哭)"></a>(被某个非酋网友摁在键盘上打/笑哭)</h3><p><img src="https://i.postimg.cc/Gpw8rX42/yls.png" alt></p>
-<h1 id="这是某个没洗脸的基佬的↑"><a href="#这是某个没洗脸的基佬的↑" class="headerlink" title="这是某个没洗脸的基佬的↑"></a>这是某个没洗脸的基佬的↑</h1><h1 id="这是我的↓"><a href="#这是我的↓" class="headerlink" title="这是我的↓"></a>这是我的↓</h1><p><img src="https://i.postimg.cc/05TCX1vM/fst.png" alt></p>
+<h3 id="被某个非酋网友摁在键盘上打-笑哭"><a href="#被某个非酋网友摁在键盘上打-笑哭" class="headerlink" title="(被某个非酋网友摁在键盘上打/笑哭)"></a>(被某个非酋网友摁在键盘上打/笑哭)</h3><p><img src="https://i.postimg.cc/Gpw8rX42/yls.png" alt=""></p>
+<h1 id="这是某个没洗脸的基佬的↑"><a href="#这是某个没洗脸的基佬的↑" class="headerlink" title="这是某个没洗脸的基佬的↑"></a>这是某个没洗脸的基佬的↑</h1><h1 id="这是我的↓"><a href="#这是我的↓" class="headerlink" title="这是我的↓"></a>这是我的↓</h1><p><img src="https://i.postimg.cc/05TCX1vM/fst.png" alt=""></p>
 <h2 id="溜了溜了……"><a href="#溜了溜了……" class="headerlink" title="溜了溜了……"></a>溜了溜了……</h2>]]></content>
       <categories>
         <category>随机化</category>
@@ -291,18 +323,18 @@
   <entry>
     <title>排列组合小记</title>
     <url>/2019/11/23/%E6%8E%92%E5%88%97%E7%BB%84%E5%90%88/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>话说回来，花了一个下午把练习册上几十页排列组合的题都做了的感觉还挺良好的呐……</p><p>毕竟是前OI选手，这种题秒不掉就有点淼了QAQ.</p><p>这里留下一些零碎的思想吧。</p><h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><p>在开始以前，为了方便描述，我们先给出几个定义：</p><ul>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>话说回来，花了一个下午把练习册上几十页排列组合的题都做了的感觉还挺良好的呐……</p>
+<p>毕竟是前OI选手，这种题秒不掉就有点淼了QAQ.</p>
+<p>这里留下一些零碎的思想吧。</p>
+<h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><p>在开始以前，为了方便描述，我们先给出几个定义：</p>
+<ul>
 <li><p>方案数用$N$表示</p>
 </li>
 <li><p>第i个子问题的方案数用$N_i$表示</p>
 </li>
 <li><p>排列，组合符号为$A$,$C$</p>
 </li>
-</ul><a id="more"></a>
-
-
-
-
+</ul>
 <h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><p>排列组合是组合数学中的基础。排列就是指从给定个数的元素中取出指定个数的元素进行排序；组合则是指从给定个数的元素中仅仅取出指定个数的元素，不考虑排序。排列组合的中心问题是研究给定要求的排列和组合可能出现的情况总数。排列组合与古典概率论关系密切。</p>
 <ul>
 <li><p>排列： $\large\mathrm A_n^m =\frac{n!}{(n - m)!}$</p>
@@ -394,11 +426,11 @@
 </blockquote>
 <h3 id="分块假设法"><a href="#分块假设法" class="headerlink" title="分块假设法"></a>分块假设法</h3><p>分块假设法，常常用于多块染色问题，此类问题的难点在于元素之间的牵制关系往往过多，用上述方法很难求解，而枚举又容易出错。分块假设法则是将多个元素整合成一块，讨论一个块的“外交关系”，如此将多块图的块数减少，再对于每一种假设在整合块内讨论+乘法原理得解。</p>
 <p>$P7.$现有四棱锥S-ABCD，其中ABCD为底面，用四种颜色给5个顶点分别上色，使得每条棱两端点颜色不同，问方案数。</p>
-<p><img src="https://i.loli.net/2019/12/01/OsRV1hJnF9drgcE.png" alt></p>
+<p><img src="https://i.loli.net/2019/12/01/OsRV1hJnF9drgcE.png" alt=""></p>
 <p>第一眼看到立体染色，我们首先想到的问题是：有没有办法<strong>降维</strong>？<code>答案是有的</code>。</p>
-<p><img src="https://i.loli.net/2019/12/01/k3YEQd1gHeGybUA.png" alt></p>
+<p><img src="https://i.loli.net/2019/12/01/k3YEQd1gHeGybUA.png" alt=""></p>
 <p>俯视图可见就是一个<strong>四分环套圆</strong>模型，把降维的图作出来：</p>
-<p><img src="https://i.loli.net/2019/12/01/O3kNo9yKHPwB7F1.png" alt></p>
+<p><img src="https://i.loli.net/2019/12/01/O3kNo9yKHPwB7F1.png" alt=""></p>
 <p>那么我们进行分块假设法解决此类问题：</p>
 <p>第一步，将SAB分为一块，讨论该块的可能数：</p>
 <p>$N_1=A_4^3$</p>
@@ -420,12 +452,12 @@
   <entry>
     <title>悬线法</title>
     <url>/2019/11/23/%E6%82%AC%E7%BA%BF%E6%B3%95/</url>
-    <content><![CDATA[<p>悬线法，这个名词是我在做<a href="https://www.luogu.org/problem/P4147" target="_blank" rel="noopener">P4147 玉蟾宫</a>时遇到的。</p><p>此题题目大概意思：计算01矩阵内最大的全0矩形面积。</p><p>本题自然是可以用单调栈做的了，此处不做赘述。重点讲下<strong>悬线法</strong>。</p><p>如果矩阵是n$<em>$m，则悬线法的时间复杂度最差情况是O($n</em>m$)。</p><p>其大致原理如下：</p><p>$\sf\color{darkviolet}{\text{悬线：指一条上端点覆盖了一个障碍点或与矩阵边界重合，且除端点外，不覆盖任何障碍点的竖线}}$</p><a id="more"></a>
-
-
-
-
-
+    <content><![CDATA[<p>悬线法，这个名词是我在做<a href="https://www.luogu.org/problem/P4147" target="_blank" rel="noopener">P4147 玉蟾宫</a>时遇到的。</p>
+<p>此题题目大概意思：计算01矩阵内最大的全0矩形面积。</p>
+<p>本题自然是可以用单调栈做的了，此处不做赘述。重点讲下<strong>悬线法</strong>。</p>
+<p>如果矩阵是n$<em>$m，则悬线法的时间复杂度最差情况是O($n</em>m$)。</p>
+<p>其大致原理如下：</p>
+<p>$\sf\color{darkviolet}{\text{悬线：指一条上端点覆盖了一个障碍点或与矩阵边界重合，且除端点外，不覆盖任何障碍点的竖线}}$</p>
 <p>$\sf\color{lime}{\text{几个关键字：以上界或某个障碍点作为上端点，除端点不覆盖任何障碍点，竖线。}}$</p>
 <p>所以就有了模糊的想法：<strong>以一条悬线左右平移直到遇到障碍点，直到其某个瞬间无法保持悬线定义为止。过程中扫过的矩形中必定包含了所求矩形。</strong></p>
 <p>则我们可以通过枚举悬线的下端点，进而枚举到悬线。下端点的数量不会超过n*m，而P4147这道题恰好是较密的障碍分布，所以枚举这步就已经达到了时限，试图O(1)完成直线的平移操作。</p>
@@ -471,12 +503,12 @@
   <entry>
     <title>圆锥曲线-东风快递</title>
     <url>/2019/11/23/%E5%9C%86%E9%94%A5%E6%9B%B2%E7%BA%BF-%E4%B8%9C%E9%A3%8E%E5%BF%AB%E9%80%92/</url>
-    <content><![CDATA[<h1 id="1-序言"><a href="#1-序言" class="headerlink" title="1.序言"></a>1.序言</h1><p>听名字就知道，本文要讲的是一些圆锥曲线的结论或计算技巧，能够有效加速解题效率。</p><h1 id="2-椭圆-sf-frac-x-2-a-2-frac-y-2-b-2-1"><a href="#2-椭圆-sf-frac-x-2-a-2-frac-y-2-b-2-1" class="headerlink" title="2.椭圆$\sf\frac{x^2}{a^2}+\frac{y^2}{b^2}=1$"></a>2.椭圆$\sf\frac{x^2}{a^2}+\frac{y^2}{b^2}=1$</h1><h2 id="1-对于-a-b-其中较大的一个所在的那个分数的分子所代表的轴就是椭圆的长轴"><a href="#1-对于-a-b-其中较大的一个所在的那个分数的分子所代表的轴就是椭圆的长轴" class="headerlink" title="1.对于$a$,$b$,其中较大的一个所在的那个分数的分子所代表的轴就是椭圆的长轴"></a>1.对于$a$,$b$,其中较大的一个所在的那个分数的分子所代表的轴就是椭圆的长轴</h2><h2 id="2-椭圆上点的性质"><a href="#2-椭圆上点的性质" class="headerlink" title="2.椭圆上点的性质"></a>2.椭圆上点的性质</h2><ul>
+    <content><![CDATA[<h1 id="1-序言"><a href="#1-序言" class="headerlink" title="1.序言"></a>1.序言</h1><p>听名字就知道，本文要讲的是一些圆锥曲线的结论或计算技巧，能够有效加速解题效率。</p>
+<h1 id="2-椭圆-sf-frac-x-2-a-2-frac-y-2-b-2-1"><a href="#2-椭圆-sf-frac-x-2-a-2-frac-y-2-b-2-1" class="headerlink" title="2.椭圆$\sf\frac{x^2}{a^2}+\frac{y^2}{b^2}=1$"></a>2.椭圆$\sf\frac{x^2}{a^2}+\frac{y^2}{b^2}=1$</h1><h2 id="1-对于-a-b-其中较大的一个所在的那个分数的分子所代表的轴就是椭圆的长轴"><a href="#1-对于-a-b-其中较大的一个所在的那个分数的分子所代表的轴就是椭圆的长轴" class="headerlink" title="1.对于$a$,$b$,其中较大的一个所在的那个分数的分子所代表的轴就是椭圆的长轴"></a>1.对于$a$,$b$,其中较大的一个所在的那个分数的分子所代表的轴就是椭圆的长轴</h2><h2 id="2-椭圆上点的性质"><a href="#2-椭圆上点的性质" class="headerlink" title="2.椭圆上点的性质"></a>2.椭圆上点的性质</h2><ul>
 <li>到两焦点的距离和相等($\sf|PF_1|+|PF_2|=2a$)</li>
 <li>到焦点和准线的距离比值一定($\sf\frac{\text{焦点距}}{\text{准线距}}=e$)</li>
 <li>与两焦点连线的斜率之积为固定负值($\sf k_1k_2=-\frac{b^2}{a^2}$)</li>
-</ul><a id="more"></a>
-
+</ul>
 <p><img src="https://i.loli.net/2019/10/10/VacEM8XY4DyRqZC.png" alt="ZZNGR_3_AX_4SB57B_ZN_HS.png"></p>
 <h2 id="3-焦半径的计算"><a href="#3-焦半径的计算" class="headerlink" title="3.焦半径的计算"></a>3.焦半径的计算</h2><h3 id="I-坐标法"><a href="#I-坐标法" class="headerlink" title="I.坐标法"></a>I.坐标法</h3><p>$\sf|PF_\text{左}|=a+ex_0$</p>
 <p>$\sf|PF_\text{右}|=a-ex_0$</p>
@@ -495,7 +527,7 @@
 <p>做AB在准线上的投影，以这段投影为直径的圆与AB相离</p>
 <p><img src="https://i.loli.net/2019/10/10/pHlXCkEBqsmyeO2.png" alt="0~DG04_M~7A_UX3Y_1XU44B.png"></p>
 <h2 id="6-焦点三角形的面积"><a href="#6-焦点三角形的面积" class="headerlink" title="6.焦点三角形的面积"></a>6.焦点三角形的面积</h2><p>$\sf S=b^2\tan{\theta}=c*y_P$</p>
-<p><img src="https://i.loli.net/2019/10/10/KncCdR4exGLuyfw.png" alt></p>
+<p><img src="https://i.loli.net/2019/10/10/KncCdR4exGLuyfw.png" alt=""></p>
 <h2 id="7-弦中点性质"><a href="#7-弦中点性质" class="headerlink" title="7.弦中点性质"></a>7.弦中点性质</h2><p>$\sf M=mid(A,B)$，则$\sf k_{AB}k_{OM}=-\frac{b^2}{a^2}$</p>
 <h2 id="8-弦长公式"><a href="#8-弦长公式" class="headerlink" title="8.弦长公式"></a>8.弦长公式</h2><p>$\sf\begin{cases}y=mx+n\\sf\frac{x^2}{a^2}+\frac{y^2}{b^2}=1\end{cases}$</p>
 <p>$\Large\sf |AB|=\sqrt{m^2+1}*\frac{\sqrt{\frac{1}{a^2}+\frac{m^2}{b^2}-\frac{n^2}{a^2b^2}}}{\frac{1}{a^2}+\frac{m^2}{b^2}}$</p>
@@ -509,14 +541,14 @@
 <p>过椭圆外一点$P$做其弦$AB$，并作出其极线与$AB$交于$Q$，此时$A,B;P,Q$成<code>调和点列</code>。</p>
 <p><img src="https://i.loli.net/2019/10/11/skRMdO4oX3YF1Cm.png" alt="0_C0_A13D_6_1X9G_L3Q75T.png"></p>
 <h2 id="9-焦点弦三角形的性质"><a href="#9-焦点弦三角形的性质" class="headerlink" title="9.焦点弦三角形的性质"></a>9.焦点弦三角形的性质</h2><p><code>待补</code></p>
-<p><img src="https://i.loli.net/2019/10/11/6iO7nS1wgU5HRqN.png" alt></p>
+<p><img src="https://i.loli.net/2019/10/11/6iO7nS1wgU5HRqN.png" alt=""></p>
 <hr>
 <h1 id="2-双曲线-sf-frac-x-2-a-2-frac-y-2-b-2-1"><a href="#2-双曲线-sf-frac-x-2-a-2-frac-y-2-b-2-1" class="headerlink" title="2.双曲线$\sf\frac{x^2}{a^2}-\frac{y^2}{b^2}=1$"></a>2.双曲线$\sf\frac{x^2}{a^2}-\frac{y^2}{b^2}=1$</h1><h2 id="1-对于-a-b-其中为正的一个所在的那个分数的分子所代表的轴就是双曲线的实轴"><a href="#1-对于-a-b-其中为正的一个所在的那个分数的分子所代表的轴就是双曲线的实轴" class="headerlink" title="1.对于$a$,$b$,其中为正的一个所在的那个分数的分子所代表的轴就是双曲线的实轴"></a>1.对于$a$,$b$,其中为正的一个所在的那个分数的分子所代表的轴就是双曲线的实轴</h2><h2 id="2-双曲线上点的性质"><a href="#2-双曲线上点的性质" class="headerlink" title="2.双曲线上点的性质"></a>2.双曲线上点的性质</h2><ul>
 <li>到两焦点的距离差的绝对值相等($\sf||PF_1|-|PF_2||=2a$)</li>
 <li>到焦点和准线的距离比值一定($\sf\frac{\text{焦点距}}{\text{准线距}}=e$)</li>
 </ul>
 <p>此处有$\sf a^2+b^2=c^2$</p>
-<p><img src="https://i.loli.net/2019/10/11/gAqQtjXDMHmcpUe.png" alt></p>
+<p><img src="https://i.loli.net/2019/10/11/gAqQtjXDMHmcpUe.png" alt=""></p>
 ]]></content>
       <categories>
         <category>随想</category>
@@ -529,18 +561,18 @@
   <entry>
     <title>博客_config.yml文件的配置</title>
     <url>/2019/11/23/%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>首先，我要在此恭喜一下自己，在大半年的不懈努力学习下，建站成功顺便学了一手html5。估计投入了约有40h的精力，但是由于操作失误导致其中的25h都是失败操作，意义不大。</p><p>为了防止大家出现无意义浪费时间的情况，我推了这则文章来简写一下<strong>博客根目录下</strong><code>_config.yml</code>文件的配置。</p><p>请注意：本博客内容将默认您已经成功安装hexo环境并且配置好了landscape默认主题。</p><a id="more"></a>
-
-
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>首先，我要在此恭喜一下自己，在大半年的不懈努力学习下，建站成功顺便学了一手html5。估计投入了约有40h的精力，但是由于操作失误导致其中的25h都是失败操作，意义不大。</p>
+<p>为了防止大家出现无意义浪费时间的情况，我推了这则文章来简写一下<strong>博客根目录下</strong><code>_config.yml</code>文件的配置。</p>
+<p>请注意：本博客内容将默认您已经成功安装hexo环境并且配置好了landscape默认主题。</p>
 <p>根据提示，我们成功安装了hexo并关联好了博客文件夹，在<strong>根目录</strong>下打开<code>_config.yml</code>文件，就可以看见<strong>博客信息</strong>的相关配置了。</p>
-<p><img src="https://i.loli.net/2019/11/17/vl32puDJyH5Kikt.png" alt></p>
+<p><img src="https://i.loli.net/2019/11/17/vl32puDJyH5Kikt.png" alt=""></p>
 <h2 id="基础信息配置："><a href="#基础信息配置：" class="headerlink" title="基础信息配置："></a>基础信息配置：</h2><figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Site</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">【网页标题】</span></span><br><span class="line"><span class="attr">subtitle:</span> <span class="string">【网页副标题】</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">【描述，可以是格言】</span></span><br><span class="line"><span class="attr">keywords:</span> <span class="string">【关键字，便于搜索引擎爬取】</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">【作者名，就是您】</span></span><br><span class="line"><span class="attr">language:</span> <span class="string">【主语言，简体中文是'zh-CN'】</span></span><br><span class="line"><span class="attr">timezone:</span> <span class="string">【时区，不写即默认所在地】</span></span><br></pre></td></tr></table></figure>
 
 <p>我配置完是这样的：</p>
 <figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Site</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">first's</span> <span class="string">blog</span></span><br><span class="line"><span class="attr">subtitle:</span> <span class="string">''</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">Just</span> <span class="string">Do</span> <span class="string">It,But</span> <span class="string">Not</span> <span class="string">Just</span> <span class="string">Do</span> <span class="string">It.</span></span><br><span class="line"><span class="attr">keywords:</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">first_fan</span></span><br><span class="line"><span class="attr">language:</span> <span class="string">zh-CN</span></span><br><span class="line"><span class="attr">timezone:</span> <span class="string">''</span></span><br></pre></td></tr></table></figure>
 
 <p>作用部位在图中指出[指向’首页’是指’home’变成了中文的’首页’]</p>
-<p><img src="https://i.loli.net/2019/11/17/yZkeuafx8DHFsRC.png" alt></p>
+<p><img src="https://i.loli.net/2019/11/17/yZkeuafx8DHFsRC.png" alt=""></p>
 <h2 id="网址链接配置"><a href="#网址链接配置" class="headerlink" title="网址链接配置"></a>网址链接配置</h2><figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># URL</span></span><br><span class="line"><span class="comment">## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'</span></span><br><span class="line"><span class="attr">url:</span> <span class="string">https://firstfan119.github.io</span> <span class="string">【此处改为自己的域名】</span></span><br><span class="line"><span class="attr">root:</span> <span class="string">/</span></span><br><span class="line"><span class="attr">permalink:</span> <span class="string">:year/:month/:day/:title/</span> <span class="string">【永久链接日期格式，非必要可以不改】</span></span><br><span class="line"><span class="attr">permalink_defaults:</span></span><br><span class="line"><span class="attr">pretty_urls:</span></span><br><span class="line">  <span class="attr">trailing_index:</span> <span class="literal">true</span> <span class="comment"># Set to false to remove trailing index.html from permalinks</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="写作配置"><a href="#写作配置" class="headerlink" title="写作配置"></a>写作配置</h2><figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Writing</span></span><br><span class="line"><span class="attr">new_post_name:</span> <span class="string">:title.md</span> <span class="string">【新稿件的默认名】</span></span><br><span class="line"><span class="attr">default_layout:</span> <span class="string">post</span></span><br><span class="line"><span class="attr">titlecase:</span> <span class="literal">false</span> <span class="comment"># Transform title into titlecase</span></span><br><span class="line"><span class="attr">external_link:</span> <span class="string">【点击文章时在新标签页内打开】</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span> <span class="string">【如果想在本标签页内打开请关闭】</span></span><br><span class="line">  <span class="attr">field:</span> <span class="string">site</span> <span class="string">【对整页有用】</span></span><br><span class="line">  <span class="attr">exclude:</span> <span class="string">''</span></span><br><span class="line"><span class="attr">filename_case:</span> <span class="number">0</span></span><br><span class="line"><span class="attr">render_drafts:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">relative_link:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">future:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">highlight:</span> <span class="string">【代码高光】</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span> <span class="string">【是否开启】</span></span><br><span class="line">  <span class="attr">line_number:</span> <span class="literal">true</span> <span class="string">【行号显示】</span></span><br><span class="line">  <span class="attr">auto_detect:</span> <span class="literal">false</span> <span class="string">【自动检测】</span></span><br><span class="line">  <span class="attr">tab_replace:</span> <span class="string">''</span> <span class="string">【替换tab】</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Home page setting</span></span><br><span class="line"><span class="comment"># path: Root path for your blogs index page. (default = '')</span></span><br><span class="line"><span class="comment"># per_page: Posts displayed per page. (0 = disable pagination)</span></span><br><span class="line"><span class="comment"># order_by: Posts order. (Order by date descending by default)</span></span><br><span class="line"><span class="attr">index_generator:</span></span><br><span class="line">  <span class="attr">path:</span> <span class="string">''</span></span><br><span class="line">  <span class="attr">per_page:</span> <span class="number">10</span></span><br><span class="line">  <span class="attr">order_by:</span> <span class="string">-date</span></span><br></pre></td></tr></table></figure>
@@ -565,18 +597,18 @@
     <url>/2019/11/23/%E5%8A%A8%E8%A7%84%E9%80%92%E6%8E%A8%E5%BC%8F%E6%B5%85%E8%A7%A3/</url>
     <content><![CDATA[<ul>
 <li>第一类斯特林数</li>
-</ul><h3 id="f-n-k-f-n−1-k-∗-n−1-f-n−1-k−1"><a href="#f-n-k-f-n−1-k-∗-n−1-f-n−1-k−1" class="headerlink" title="f[n][k]=f[n−1][k]∗(n−1)+f[n−1][k−1]"></a>f[n][k]=f[n−1][k]∗(n−1)+f[n−1][k−1]</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">n个不同元素k个不同环，环不空</span><br></pre></td></tr></table></figure><ul>
+</ul>
+<h3 id="f-n-k-f-n−1-k-∗-n−1-f-n−1-k−1"><a href="#f-n-k-f-n−1-k-∗-n−1-f-n−1-k−1" class="headerlink" title="f[n][k]=f[n−1][k]∗(n−1)+f[n−1][k−1]"></a>f[n][k]=f[n−1][k]∗(n−1)+f[n−1][k−1]</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">n个不同元素k个不同环，环不空</span><br></pre></td></tr></table></figure>
+
+<ul>
 <li>第二类斯特林数</li>
-</ul><h3 id="f-n-k-f-n-1-k-k-f-n-1-k-1"><a href="#f-n-k-f-n-1-k-k-f-n-1-k-1" class="headerlink" title="f[n][k]=f[n-1][k]*k+f[n-1][k-1]"></a>f[n][k]=f[n-1][k]*k+f[n-1][k-1]</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">n个不同元素k个相同集，集不空</span><br></pre></td></tr></table></figure><ul>
+</ul>
+<h3 id="f-n-k-f-n-1-k-k-f-n-1-k-1"><a href="#f-n-k-f-n-1-k-k-f-n-1-k-1" class="headerlink" title="f[n][k]=f[n-1][k]*k+f[n-1][k-1]"></a>f[n][k]=f[n-1][k]*k+f[n-1][k-1]</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">n个不同元素k个相同集，集不空</span><br></pre></td></tr></table></figure>
+
+<ul>
 <li>卡特兰数</li>
-</ul><h3 id="f-n-f-n-1-4n-2-n-1"><a href="#f-n-f-n-1-4n-2-n-1" class="headerlink" title="f[n]=f[n-1]*(4n-2)/(n+1)"></a>f[n]=f[n-1]*(4n-2)/(n+1)</h3><h3 id="f-n-C-2n-n-n-1"><a href="#f-n-C-2n-n-n-1" class="headerlink" title="f[n]=$C^{2n}_{n}/(n+1)$"></a>f[n]=$C^{2n}_{n}/(n+1)$</h3><a id="more"></a>
-
-
-
-
-
-
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">n对括号，正确匹配方案数</span><br><span class="line">n个节点，二叉树构造方案数</span><br><span class="line">n边形，凸多边形划分为三角形方案数</span><br><span class="line">n个元素，出栈序列种数</span><br><span class="line"><span class="number">2</span>n的(<span class="number">-1</span>,<span class="number">1</span>)序列，使任意前缀非负的方案数</span><br></pre></td></tr></table></figure>
+</ul>
+<h3 id="f-n-f-n-1-4n-2-n-1"><a href="#f-n-f-n-1-4n-2-n-1" class="headerlink" title="f[n]=f[n-1]*(4n-2)/(n+1)"></a>f[n]=f[n-1]*(4n-2)/(n+1)</h3><h3 id="f-n-C-2n-n-n-1"><a href="#f-n-C-2n-n-n-1" class="headerlink" title="f[n]=$C^{2n}_{n}/(n+1)$"></a>f[n]=$C^{2n}_{n}/(n+1)$</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">n对括号，正确匹配方案数</span><br><span class="line">n个节点，二叉树构造方案数</span><br><span class="line">n边形，凸多边形划分为三角形方案数</span><br><span class="line">n个元素，出栈序列种数</span><br><span class="line"><span class="number">2</span>n的(<span class="number">-1</span>,<span class="number">1</span>)序列，使任意前缀非负的方案数</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>01背包</li>
@@ -625,10 +657,10 @@
   <entry>
     <title>动态规划入门</title>
     <url>/2019/11/23/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%A5%E9%97%A8/</url>
-    <content><![CDATA[<h1 id="Content"><a href="#Content" class="headerlink" title="Content"></a>Content</h1><h2 id="1-从乘方和谚语说起"><a href="#1-从乘方和谚语说起" class="headerlink" title="1. 从乘方和谚语说起"></a>1. 从乘方和谚语说起</h2><h2 id="2-斐波那契数列：递归受到了挑战"><a href="#2-斐波那契数列：递归受到了挑战" class="headerlink" title="2. 斐波那契数列：递归受到了挑战"></a>2. 斐波那契数列：递归受到了挑战</h2><h2 id="3-动态规划的原理"><a href="#3-动态规划的原理" class="headerlink" title="3. 动态规划的原理"></a>3. 动态规划的原理</h2><h3 id="–3-1最优子结构"><a href="#–3-1最优子结构" class="headerlink" title="–3.1最优子结构"></a>–3.1最优子结构</h3><h3 id="–3-2重叠子问题"><a href="#–3-2重叠子问题" class="headerlink" title="–3.2重叠子问题"></a>–3.2重叠子问题</h3><h2 id="4-动态规划的应用"><a href="#4-动态规划的应用" class="headerlink" title="4.动态规划的应用"></a>4.动态规划的应用</h2><h3 id="–4-1背包模型"><a href="#–4-1背包模型" class="headerlink" title="–4.1背包模型"></a>–4.1背包模型</h3><h5 id="–4-1-1-零一背包"><a href="#–4-1-1-零一背包" class="headerlink" title="–4.1.1 零一背包"></a>–4.1.1 零一背包</h5><h5 id="–4-1-2-完全背包"><a href="#–4-1-2-完全背包" class="headerlink" title="–4.1.2 完全背包"></a>–4.1.2 完全背包</h5><h5 id="–4-1-3-多重背包"><a href="#–4-1-3-多重背包" class="headerlink" title="–4.1.3 多重背包"></a>–4.1.3 多重背包</h5><h3 id="–4-2线性动规"><a href="#–4-2线性动规" class="headerlink" title="–4.2线性动规"></a>–4.2线性动规</h3><h3 id="–4-3区间动规"><a href="#–4-3区间动规" class="headerlink" title="–4.3区间动规"></a>–4.3区间动规</h3><h2 id="5-入土"><a href="#5-入土" class="headerlink" title="5.入土"></a>5.入土</h2><hr><h1 id="1-从乘方和谚语说起-1"><a href="#1-从乘方和谚语说起-1" class="headerlink" title="1.从乘方和谚语说起"></a>1.从乘方和谚语说起</h1><h2 id="相信你们都学习过乘方，那么我们知道"><a href="#相信你们都学习过乘方，那么我们知道" class="headerlink" title="相信你们都学习过乘方，那么我们知道:"></a>相信你们都学习过乘方，那么我们知道:</h2><a id="more"></a>
-<h3 id="2-X-2-X-2-X-2-X-2-X-2-X-2-X-2-X-2-X-2-2-10-1024"><a href="#2-X-2-X-2-X-2-X-2-X-2-X-2-X-2-X-2-X-2-2-10-1024" class="headerlink" title="2 X 2 X 2 X 2 X 2 X 2 X 2 X 2 X 2 X 2 =2^10=1024"></a>2 X 2 X 2 X 2 X 2 X 2 X 2 X 2 X 2 X 2 =2^10=1024</h3><h3 id="那么2-11是多少呢？你会自然而然地答出2048"><a href="#那么2-11是多少呢？你会自然而然地答出2048" class="headerlink" title="那么2^11是多少呢？你会自然而然地答出2048!"></a>那么2^11是多少呢？你会自然而然地答出2048!</h3><h3 id="好的，祝贺你已经学会了动规初步！"><a href="#好的，祝贺你已经学会了动规初步！" class="headerlink" title="好的，祝贺你已经学会了动规初步！"></a>好的，祝贺你已经学会了动规初步！</h3><h1 id="为什么？"><a href="#为什么？" class="headerlink" title="为什么？"></a>为什么？</h1><h3 id="我们作为人，计算2-11自然不是2X2……X2-2048这样算的"><a href="#我们作为人，计算2-11自然不是2X2……X2-2048这样算的" class="headerlink" title="我们作为人，计算2^11自然不是2X2……X2=2048这样算的"></a>我们作为人，计算2^11自然不是2X2……X2=2048这样算的</h3><h3 id="而是通过已经给出的2-10-1024计算的：2X1024-2048。"><a href="#而是通过已经给出的2-10-1024计算的：2X1024-2048。" class="headerlink" title="而是通过已经给出的2^10=1024计算的：2X1024=2048。"></a>而是通过已经给出的2^10=1024计算的：2X1024=2048。</h3><h3 id="这个过程就包括了动规的核心思想之一："><a href="#这个过程就包括了动规的核心思想之一：" class="headerlink" title="这个过程就包括了动规的核心思想之一："></a>这个过程就包括了动规的核心思想之一：</h3><h3 id="记住子问题的解。"><a href="#记住子问题的解。" class="headerlink" title="记住子问题的解。"></a>记住子问题的解。</h3><h3 id="一句谚语解释："><a href="#一句谚语解释：" class="headerlink" title="一句谚语解释："></a>一句谚语解释：</h3><h5 id="Those-who-cannot-remember-the-past-are-doomed-to-repeat-it-–George-Santayana"><a href="#Those-who-cannot-remember-the-past-are-doomed-to-repeat-it-–George-Santayana" class="headerlink" title="Those who cannot remember the past, are doomed to repeat it.–George Santayana"></a>Those who cannot remember the past, are doomed to repeat it.–George Santayana</h5><h5 id="那些忘记过去的人注定要重蹈覆辙。"><a href="#那些忘记过去的人注定要重蹈覆辙。" class="headerlink" title="那些忘记过去的人注定要重蹈覆辙。"></a>那些忘记过去的人注定要重蹈覆辙。</h5><hr>
+    <content><![CDATA[<h1 id="Content"><a href="#Content" class="headerlink" title="Content"></a>Content</h1><h2 id="1-从乘方和谚语说起"><a href="#1-从乘方和谚语说起" class="headerlink" title="1. 从乘方和谚语说起"></a>1. 从乘方和谚语说起</h2><h2 id="2-斐波那契数列：递归受到了挑战"><a href="#2-斐波那契数列：递归受到了挑战" class="headerlink" title="2. 斐波那契数列：递归受到了挑战"></a>2. 斐波那契数列：递归受到了挑战</h2><h2 id="3-动态规划的原理"><a href="#3-动态规划的原理" class="headerlink" title="3. 动态规划的原理"></a>3. 动态规划的原理</h2><h3 id="–3-1最优子结构"><a href="#–3-1最优子结构" class="headerlink" title="–3.1最优子结构"></a>–3.1最优子结构</h3><h3 id="–3-2重叠子问题"><a href="#–3-2重叠子问题" class="headerlink" title="–3.2重叠子问题"></a>–3.2重叠子问题</h3><h2 id="4-动态规划的应用"><a href="#4-动态规划的应用" class="headerlink" title="4.动态规划的应用"></a>4.动态规划的应用</h2><h3 id="–4-1背包模型"><a href="#–4-1背包模型" class="headerlink" title="–4.1背包模型"></a>–4.1背包模型</h3><h5 id="–4-1-1-零一背包"><a href="#–4-1-1-零一背包" class="headerlink" title="–4.1.1 零一背包"></a>–4.1.1 零一背包</h5><h5 id="–4-1-2-完全背包"><a href="#–4-1-2-完全背包" class="headerlink" title="–4.1.2 完全背包"></a>–4.1.2 完全背包</h5><h5 id="–4-1-3-多重背包"><a href="#–4-1-3-多重背包" class="headerlink" title="–4.1.3 多重背包"></a>–4.1.3 多重背包</h5><h3 id="–4-2线性动规"><a href="#–4-2线性动规" class="headerlink" title="–4.2线性动规"></a>–4.2线性动规</h3><h3 id="–4-3区间动规"><a href="#–4-3区间动规" class="headerlink" title="–4.3区间动规"></a>–4.3区间动规</h3><h2 id="5-入土"><a href="#5-入土" class="headerlink" title="5.入土"></a>5.入土</h2><hr>
+<h1 id="1-从乘方和谚语说起-1"><a href="#1-从乘方和谚语说起-1" class="headerlink" title="1.从乘方和谚语说起"></a>1.从乘方和谚语说起</h1><h2 id="相信你们都学习过乘方，那么我们知道"><a href="#相信你们都学习过乘方，那么我们知道" class="headerlink" title="相信你们都学习过乘方，那么我们知道:"></a>相信你们都学习过乘方，那么我们知道:</h2><h3 id="2-X-2-X-2-X-2-X-2-X-2-X-2-X-2-X-2-X-2-2-10-1024"><a href="#2-X-2-X-2-X-2-X-2-X-2-X-2-X-2-X-2-X-2-2-10-1024" class="headerlink" title="2 X 2 X 2 X 2 X 2 X 2 X 2 X 2 X 2 X 2 =2^10=1024"></a>2 X 2 X 2 X 2 X 2 X 2 X 2 X 2 X 2 X 2 =2^10=1024</h3><h3 id="那么2-11是多少呢？你会自然而然地答出2048"><a href="#那么2-11是多少呢？你会自然而然地答出2048" class="headerlink" title="那么2^11是多少呢？你会自然而然地答出2048!"></a>那么2^11是多少呢？你会自然而然地答出2048!</h3><h3 id="好的，祝贺你已经学会了动规初步！"><a href="#好的，祝贺你已经学会了动规初步！" class="headerlink" title="好的，祝贺你已经学会了动规初步！"></a>好的，祝贺你已经学会了动规初步！</h3><h1 id="为什么？"><a href="#为什么？" class="headerlink" title="为什么？"></a>为什么？</h1><h3 id="我们作为人，计算2-11自然不是2X2……X2-2048这样算的"><a href="#我们作为人，计算2-11自然不是2X2……X2-2048这样算的" class="headerlink" title="我们作为人，计算2^11自然不是2X2……X2=2048这样算的"></a>我们作为人，计算2^11自然不是2X2……X2=2048这样算的</h3><h3 id="而是通过已经给出的2-10-1024计算的：2X1024-2048。"><a href="#而是通过已经给出的2-10-1024计算的：2X1024-2048。" class="headerlink" title="而是通过已经给出的2^10=1024计算的：2X1024=2048。"></a>而是通过已经给出的2^10=1024计算的：2X1024=2048。</h3><h3 id="这个过程就包括了动规的核心思想之一："><a href="#这个过程就包括了动规的核心思想之一：" class="headerlink" title="这个过程就包括了动规的核心思想之一："></a>这个过程就包括了动规的核心思想之一：</h3><h3 id="记住子问题的解。"><a href="#记住子问题的解。" class="headerlink" title="记住子问题的解。"></a>记住子问题的解。</h3><h3 id="一句谚语解释："><a href="#一句谚语解释：" class="headerlink" title="一句谚语解释："></a>一句谚语解释：</h3><h5 id="Those-who-cannot-remember-the-past-are-doomed-to-repeat-it-–George-Santayana"><a href="#Those-who-cannot-remember-the-past-are-doomed-to-repeat-it-–George-Santayana" class="headerlink" title="Those who cannot remember the past, are doomed to repeat it.–George Santayana"></a>Those who cannot remember the past, are doomed to repeat it.–George Santayana</h5><h5 id="那些忘记过去的人注定要重蹈覆辙。"><a href="#那些忘记过去的人注定要重蹈覆辙。" class="headerlink" title="那些忘记过去的人注定要重蹈覆辙。"></a>那些忘记过去的人注定要重蹈覆辙。</h5><hr>
 <h1 id="2-斐波那契数列：递归受到了挑战-1"><a href="#2-斐波那契数列：递归受到了挑战-1" class="headerlink" title="2. 斐波那契数列：递归受到了挑战"></a>2. 斐波那契数列：递归受到了挑战</h1><h2 id="对于斐波那契数列的求解，递归往往是最先考虑的解法，但是在1000ms的苛求下，递归O-2-n-的时间复杂度就比较麻烦了。"><a href="#对于斐波那契数列的求解，递归往往是最先考虑的解法，但是在1000ms的苛求下，递归O-2-n-的时间复杂度就比较麻烦了。" class="headerlink" title="对于斐波那契数列的求解，递归往往是最先考虑的解法，但是在1000ms的苛求下，递归O(2^n)的时间复杂度就比较麻烦了。"></a>对于斐波那契数列的求解，递归往往是最先考虑的解法，但是在1000ms的苛求下，递归O(2^n)的时间复杂度就比较麻烦了。</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//递归解斐波那契</span><br><span class="line">long long Fib(long long n)</span><br><span class="line">&#123;</span><br><span class="line">    if (n==1||n==2)</span><br><span class="line">        return 1;</span><br><span class="line">    else</span><br><span class="line">        return Fib(n - 1) + Fib(n - 2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="图解"><a href="#图解" class="headerlink" title="图解?"></a>图解?</h3><p><img src="https://upload-images.jianshu.io/upload_images/13681871-5e793aa7d967f719.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/939/format/webp" alt></p>
+<h3 id="图解"><a href="#图解" class="headerlink" title="图解?"></a>图解?</h3><p><img src="https://upload-images.jianshu.io/upload_images/13681871-5e793aa7d967f719.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/939/format/webp" alt=""></p>
 <h3 id="从图中可以看到，光是算fib-6-，就要重新算3遍fib-3-，时间复杂度就比较恶心了。对了，你想起什么没有？记住子问题的答案–动规登场！"><a href="#从图中可以看到，光是算fib-6-，就要重新算3遍fib-3-，时间复杂度就比较恶心了。对了，你想起什么没有？记住子问题的答案–动规登场！" class="headerlink" title="从图中可以看到，光是算fib(6)，就要重新算3遍fib(3)，时间复杂度就比较恶心了。对了，你想起什么没有？记住子问题的答案–动规登场！"></a>从图中可以看到，光是算fib(6)，就要重新算3遍fib(3)，时间复杂度就比较恶心了。对了，你想起什么没有？记住子问题的答案–动规登场！</h3><h4 id="1-子问题记忆法"><a href="#1-子问题记忆法" class="headerlink" title="1.子问题记忆法"></a>1.子问题记忆法</h4><h5 id="使用一个数组来记录各个子问题的解，当再一次遇到这一问题的时候直接查找数组来获得解避免多次计算子问题。"><a href="#使用一个数组来记录各个子问题的解，当再一次遇到这一问题的时候直接查找数组来获得解避免多次计算子问题。" class="headerlink" title="使用一个数组来记录各个子问题的解，当再一次遇到这一问题的时候直接查找数组来获得解避免多次计算子问题。"></a>使用一个数组来记录各个子问题的解，当再一次遇到这一问题的时候直接查找数组来获得解避免多次计算子问题。</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//动规解决斐波那契(子问题记忆法)</span><br><span class="line">int fib(int a[],int n)</span><br><span class="line">&#123;</span><br><span class="line">    if (n == 0)</span><br><span class="line">    &#123;</span><br><span class="line">        a[0] = 0;</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br><span class="line">    if (n == 1)</span><br><span class="line">    &#123;</span><br><span class="line">        a[1] = 1;</span><br><span class="line">        return 1;</span><br><span class="line">    &#125;</span><br><span class="line">    if (a[n] &gt;= 0)</span><br><span class="line">    &#123;</span><br><span class="line">        return a[n];</span><br><span class="line">    &#125;</span><br><span class="line">    a[n] = fib(a, n - 1) + fib(a, n - 2);</span><br><span class="line">    return fib(a, n - 1) + fib(a, n - 2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="2、自底向上解决方案"><a href="#2、自底向上解决方案" class="headerlink" title="2、自底向上解决方案"></a>2、自底向上解决方案</h4><h5 id="先求解子问题再根据子问题的解来求解父问题，斐波那契数列的子问题图如下："><a href="#先求解子问题再根据子问题的解来求解父问题，斐波那契数列的子问题图如下：" class="headerlink" title="先求解子问题再根据子问题的解来求解父问题，斐波那契数列的子问题图如下："></a>先求解子问题再根据子问题的解来求解父问题，斐波那契数列的子问题图如下：</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//动规解决斐波那契(自底向上解决)</span><br><span class="line">int fib(int a[],int n)</span><br><span class="line">&#123;</span><br><span class="line">    a[0] = 0;</span><br><span class="line">    a[1] = 1;</span><br><span class="line">    for (int i = 2; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        a[i] = a[i - 1] + a[i - 2];</span><br><span class="line">    &#125;</span><br><span class="line">    return a[n];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="自底向上的计算方法实现起来非常容易，分析算法，仅从形式上面分析算法可知，算法的时间主要消耗在计算数据规模为n的数组里面的数上面了，所以时间复杂度仅为-color-red-text-O-n-。递归在斐波那契的地位不保了！！"><a href="#自底向上的计算方法实现起来非常容易，分析算法，仅从形式上面分析算法可知，算法的时间主要消耗在计算数据规模为n的数组里面的数上面了，所以时间复杂度仅为-color-red-text-O-n-。递归在斐波那契的地位不保了！！" class="headerlink" title="自底向上的计算方法实现起来非常容易，分析算法，仅从形式上面分析算法可知，算法的时间主要消耗在计算数据规模为n的数组里面的数上面了，所以时间复杂度仅为:$\color{red}\text{O(n)}$。递归在斐波那契的地位不保了！！"></a>自底向上的计算方法实现起来非常容易，分析算法，仅从形式上面分析算法可知，算法的时间主要消耗在计算数据规模为n的数组里面的数上面了，所以时间复杂度仅为:$\color{red}\text{O(n)}$。递归在斐波那契的地位不保了！！</h4><h3 id="但是我们可以看到，在使用动规的时候，我们似乎多开了一个数组，那么空间是否会受到影响？答案是肯定的！但是在1000ms-256Mb的条件下，牺牲空间换取时间绝对是一笔很值的交♂易！"><a href="#但是我们可以看到，在使用动规的时候，我们似乎多开了一个数组，那么空间是否会受到影响？答案是肯定的！但是在1000ms-256Mb的条件下，牺牲空间换取时间绝对是一笔很值的交♂易！" class="headerlink" title="但是我们可以看到，在使用动规的时候，我们似乎多开了一个数组，那么空间是否会受到影响？答案是肯定的！但是在1000ms,256Mb的条件下，牺牲空间换取时间绝对是一笔很值的交♂易！"></a>但是我们可以看到，在使用动规的时候，我们似乎多开了一个数组，那么空间是否会受到影响？答案是肯定的！但是在1000ms,256Mb的条件下，牺牲空间换取时间绝对是一笔很值的交♂易！</h3><h3 id="练习-LuoGu3986-amp-钢条切割"><a href="#练习-LuoGu3986-amp-钢条切割" class="headerlink" title="练习:LuoGu3986&amp;钢条切割"></a>练习:<a href="https://www.luogu.org/problemnew/show/P3986" target="_blank" rel="noopener">LuoGu3986</a>&amp;<a href="https://www.cnblogs.com/mengwang024/p/4342796.html" target="_blank" rel="noopener">钢条切割</a></h3><hr>
@@ -651,17 +683,17 @@
   <entry>
     <title>动态规划优化</title>
     <url>/2019/11/23/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E4%BC%98%E5%8C%96/</url>
-    <content><![CDATA[<h2 id="1-前缀-后缀优化"><a href="#1-前缀-后缀优化" class="headerlink" title="1.前缀/后缀优化"></a>1.前缀/后缀优化</h2><p>利用O(n)预处理前缀/后缀信息，使得后续调用区段信息时可以O(1)完成。</p><p>思想比较简单，也比较容易想到，但是往往因为不想浪费一个线型数组的空间而弃用，其实完全没必要担心这样的空间……</p><blockquote>
+    <content><![CDATA[<h2 id="1-前缀-后缀优化"><a href="#1-前缀-后缀优化" class="headerlink" title="1.前缀/后缀优化"></a>1.前缀/后缀优化</h2><p>利用O(n)预处理前缀/后缀信息，使得后续调用区段信息时可以O(1)完成。</p>
+<p>思想比较简单，也比较容易想到，但是往往因为不想浪费一个线型数组的空间而弃用，其实完全没必要担心这样的空间……</p>
+<blockquote>
 <p>前缀/后缀优化 练习列表</p>
-</blockquote><blockquote>
+</blockquote>
+<blockquote>
 <p><a href="https://www.luogu.org/problem/P2513" target="_blank" rel="noopener">LuoGu2513 [HAOI2009]逆序对数列</a></p>
-</blockquote><blockquote>
+</blockquote>
+<blockquote>
 <p><a href="https://www.luogu.org/problem/P4099" target="_blank" rel="noopener">LuoGu4099 [HEOI2013]SAO</a></p>
-</blockquote><a id="more"></a>
-
-
-
-
+</blockquote>
 <blockquote>
 <p><a href="https://www.luogu.org/problem/P2511" target="_blank" rel="noopener">LuoGu2511 [HAOI2008]木棍分割</a></p>
 </blockquote>
@@ -839,7 +871,7 @@
 <h2 id="10-看看就好的优化"><a href="#10-看看就好的优化" class="headerlink" title="10.看看就好的优化"></a>10.看看就好的优化</h2><p>DP凸优化？</p>
 <p>WQS二分优化？</p>
 <p>带权二分优化？</p>
-<p><img src="https://cn.bing.com/th?id=OIP.8YjJYd0vp0QMGB2JJ1k1cgHaEL&pid=Api&rs=1" alt></p>
+<p><img src="https://cn.bing.com/th?id=OIP.8YjJYd0vp0QMGB2JJ1k1cgHaEL&pid=Api&rs=1" alt=""></p>
 ]]></content>
       <categories>
         <category>DP</category>
@@ -853,14 +885,14 @@
     <url>/2019/11/23/%E5%80%8D%E5%A2%9E%E6%B1%82lca/</url>
     <content><![CDATA[<blockquote>
 <p>如何求最近公共祖先？</p>
-</blockquote><blockquote>
+</blockquote>
+<blockquote>
 <p>朴素的想法:$dfs_1$标记深度，深度大的先跳到与深度小的一级，再同时向上跳，直到找到$LCA$。</p>
-</blockquote><p>怎么形容呢？一个字：<del>那是真的</del> <em>慢</em> <del>的要飞起</del></p><p>怎么办？考虑大步流星的跳：<strong>倍增</strong>。</p><p>倍增的过程，就是每次跳$2^?$深度，就能把效率提高到$\log$级。</p><p>怎么实现？<strong>类似动规思想</strong>，用$f[i][j]$来表示$i$的第$2^j$辈祖先。</p><a id="more"></a>
-
-
-
-
-
+</blockquote>
+<p>怎么形容呢？一个字：<del>那是真的</del> <em>慢</em> <del>的要飞起</del></p>
+<p>怎么办？考虑大步流星的跳：<strong>倍增</strong>。</p>
+<p>倍增的过程，就是每次跳$2^?$深度，就能把效率提高到$\log$级。</p>
+<p>怎么实现？<strong>类似动规思想</strong>，用$f[i][j]$来表示$i$的第$2^j$辈祖先。</p>
 <blockquote>
 <p>小小的特判：$f[i][0]$系$i$父结点，而不存在的节点记为$f[i][j]=0$。</p>
 </blockquote>
@@ -900,8 +932,8 @@
   <entry>
     <title>Size Balanced Tree</title>
     <url>/2019/11/23/%5B%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5DSize%20Balanced%20Tree/</url>
-    <content><![CDATA[<p>$\sf\large\text{Size Balanced Tree}$(节点大小平衡树，下简称SBT)是陈启峰在WC2007提出的一种新型平衡树。</p><p>SBT的高度为log n，其核心操作maintain()复杂度O(1)，其他操作均为O(log n)，所以是平衡树中非常优秀的一种。其主要通过子树大小来维持其平衡性质。</p><a id="more"></a>
-
+    <content><![CDATA[<p>$\sf\large\text{Size Balanced Tree}$(节点大小平衡树，下简称SBT)是陈启峰在WC2007提出的一种新型平衡树。</p>
+<p>SBT的高度为log n，其核心操作maintain()复杂度O(1)，其他操作均为O(log n)，所以是平衡树中非常优秀的一种。其主要通过子树大小来维持其平衡性质。</p>
 <p>和其他平衡树一样，SBT支持大部分较为常规的操作：</p>
 <ul>
 <li>“以x为根的子树”在下文中简称为”x子树”</li>
@@ -917,7 +949,7 @@
 
 <p>$\sf\large\text{2.SBT的左右旋}$</p>
 <p>SBT也是需要旋转的，且同样分为左右旋两种。</p>
-<p><img src="https://i.loli.net/2019/10/20/MU1AmnYzRbjoV6c.png" alt></p>
+<p><img src="https://i.loli.net/2019/10/20/MU1AmnYzRbjoV6c.png" alt=""></p>
 <p>我们列出旋转前后的状态，即</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">左旋前:</span><br><span class="line">根:rt	左子树的根:L</span><br><span class="line">右子树的根:R_rt	右子树的子树:R_l,R_r</span><br><span class="line">左旋后:</span><br><span class="line">根:R_rt	右子树的根:R_r</span><br><span class="line">左子树的根:rt	左子树的子树:L,R_l</span><br><span class="line"></span><br><span class="line">右旋前:</span><br><span class="line">根:rt	右子树的根:R</span><br><span class="line">左子树的根:L_rt	右子树的子树:L_l,L_r</span><br><span class="line">右旋后:</span><br><span class="line">根:L_rt	左子树的根:L_l</span><br><span class="line">右子树的根:rt	右子树的子树:L_r,R</span><br></pre></td></tr></table></figure>
 
@@ -926,7 +958,7 @@
 
 <p>$\sf\large\text{3.SBT的维护}$</p>
 <p>首先，假设一株满足条件的SBT长这样：</p>
-<p><img src="https://i.loli.net/2019/10/20/khYEgfinPvxerM3.png" alt></p>
+<p><img src="https://i.loli.net/2019/10/20/khYEgfinPvxerM3.png" alt=""></p>
 <p>此时有A.siz,B.siz≤R.siz并且C.siz,D.siz≤L.siz</p>
 <p>每当插入一个值的时候，平衡树的平衡性就可能被打破，所以我们要使用O(1)的<code>maintain(x)</code>对x子树进行修复操作。</p>
 <p>插入后，可能会出现以下的四种情况:</p>
@@ -936,15 +968,15 @@
 <p>$\sf 1.t[ls(ls(x))].siz&gt;t[rs(x)].siz$</p>
 <p>看到上图，对于T子树，此时的情况就是A.siz&gt;R.siz，显然此时就导致平衡性质受损。</p>
 <p>第一步，我们先将其右旋，得到下面这株可能仍然不满足性质的树：</p>
-<p><img src="https://i.loli.net/2019/10/20/AGUZCcN69DI2kjo.png" alt></p>
+<p><img src="https://i.loli.net/2019/10/20/AGUZCcN69DI2kjo.png" alt=""></p>
 <p>之所以说可能仍不满足性质，是因为C.siz&gt;B.siz或D.siz&gt;B.siz的情况可能发生，所以有必要再次使用maintain(T)。这样一来，L的右子树就会被多次调整，不过别担心，每次调整都是O(1)的。</p>
 <p>$\sf 1.t[rs(ls(x))].siz&gt;t[rs(x)].siz$</p>
 <p>（为了直观，此处增加结点数）上述情况在下图中表示为：B.siz&gt;R.siz</p>
-<p><img src="https://i.loli.net/2019/10/20/8VOo7kwPWxZFQCT.png" alt></p>
+<p><img src="https://i.loli.net/2019/10/20/8VOo7kwPWxZFQCT.png" alt=""></p>
 <p>那么对称地，我们先进行左旋，得到：</p>
-<p><img src="https://i.loli.net/2019/10/20/TMjQJtFUi1aRBXl.png" alt></p>
+<p><img src="https://i.loli.net/2019/10/20/TMjQJtFUi1aRBXl.png" alt=""></p>
 <p>不同的是，接下来我们还要进行一次右旋，得到:</p>
-<p><img src="https://i.loli.net/2019/10/20/rsWMngUahG2qvZw.png" alt></p>
+<p><img src="https://i.loli.net/2019/10/20/rsWMngUahG2qvZw.png" alt=""></p>
 <p>有同学可能就会问了：左旋右旋过后这棵树就很不稳定了，怎么办？</p>
 <p>答：没事，至少图中的小子树还是满足性质的，所以只要maintain一下L和T就可以让L,T子树平衡。最后再来一次maintain(B)即可。</p>
 <p>情况3,4与上述两种情况分别相反，对应操作即可，此处不再赘述。</p>
@@ -1006,8 +1038,8 @@
     <url>/2019/11/23/segment%20tree/</url>
     <content><![CDATA[<blockquote>
 <p>线段树是一种二叉搜索树，与区间树相似，它将一个区间划分成一些单元区间，每个单元区间对应线段树中的一个叶结点。使用线段树可以快速的查找某一个节点在若干条线段中出现的次数，时间复杂度为 $O(\log N)$ 。而未优化的空间复杂度为 $2N$ ，因此有时需要离散化让空间压缩。</p>
-</blockquote><h3 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h3><p>在 $\sf\ O(\log N)$ 的时间复杂度内实现：</p><a id="more"></a>
-
+</blockquote>
+<h3 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h3><p>在 $\sf\ O(\log N)$ 的时间复杂度内实现：</p>
 <p>单点修改、区间修改、区间查询$\sf\ etc.$</p>
 <p>线段树维护的信息需要满足<code>可加性</code>，如果使用标记，标记也要满足可加性。</p>
 <h3 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h3><p><strong>基本结构与建树</strong></p>
@@ -1021,7 +1053,7 @@
 <li><p>$d[i]$ 用来保存编号为 $i$ 的节点的值（这里节点的值就是这个节点所表示的区间总和）<br>如图所示：</p>
 </li>
 </ul>
-<p><img src="https://ww1.sinaimg.cn/large/007i4MEmgy1g24xita4czg31280lk7wo.gif" alt></p>
+<p><img src="https://ww1.sinaimg.cn/large/007i4MEmgy1g24xita4czg31280lk7wo.gif" alt=""></p>
 <p>设$\sf\ d[i]$是线段树中的结点。</p>
 <ul>
 <li><p>$\sf\ d[i]$ 的左节点是 $\sf\ d[ls(i)]$</p>
@@ -1040,7 +1072,7 @@
 </blockquote>
 <p><strong>如何实现？</strong></p>
 <p>如图</p>
-<p><img src="https://s2.ax1x.com/2019/11/16/Mwkdat.gif" alt></p>
+<p><img src="https://s2.ax1x.com/2019/11/16/Mwkdat.gif" alt=""></p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> leaf (l==r)</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r,<span class="keyword">int</span> p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(leaf)</span><br><span class="line">	&#123;</span><br><span class="line">		d[p]=a[s];</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> mid=(l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">	build(l,mid,ls(p));</span><br><span class="line">	build(mid+<span class="number">1</span>,r,rs(p));</span><br><span class="line">	d[p]=d[ls(p)]+d[rs(p)];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>关于线段树的空间: </p>
@@ -1048,7 +1080,7 @@
 <p>一般来说，开四倍是怎么样都够了的，但是在卡空间的题里要进行类似于动态开点的操作。</p>
 <p><strong>区间查询</strong></p>
 <p>区间查询，比如求区间 $\sf\ [l,r]$ 的和的操作。</p>
-<p><img src="https://s2.ax1x.com/2019/11/16/MwA7ff.gif" alt></p>
+<p><img src="https://s2.ax1x.com/2019/11/16/MwA7ff.gif" alt=""></p>
 <p>比如查询区间$\sf\ [3,5]$，把 $\sf\ [3,5]$ 拆成 $\sf\ [3,3]$ 和 $\sf\ [4,5]$ 就行了。</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getsum</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r,<span class="keyword">int</span> l_now,<span class="keyword">int</span> r_now,<span class="keyword">int</span> p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//[l,r]为查询区间,[l_now,r_now]为当前节点包含的区间,p为当前节点的编号</span></span><br><span class="line">	<span class="keyword">if</span>(l&lt;=l_now&amp;&amp;r_now&lt;=r)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> d[p];<span class="comment">//当前区间为询问区间的子集时直接返回当前区间的和</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> mid=(l_now+r_now)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">int</span> sum=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">if</span>(l&lt;=mid)</span><br><span class="line">	&#123;</span><br><span class="line">		sum+=getsum(l,r,l_now,mid,ls(p));</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//如果左儿子代表的区间[l,m]与询问区间有交集,则递归查询左儿子</span></span><br><span class="line">	<span class="keyword">if</span>(r&gt;mid)</span><br><span class="line">	&#123;</span><br><span class="line">		sum+=getsum(l,r,mid+<span class="number">1</span>,r_now,rs(p));</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//如果右儿子代表的区间[m+1,r]与询问区间有交集,则递归查询右儿子</span></span><br><span class="line">	<span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>主要思路是把区间拆成左右区间，再分别处理。(分治)</p>
@@ -1089,23 +1121,23 @@
   <entry>
     <title>SBT的时间/空间复杂度证明</title>
     <url>/2019/11/23/SBT%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/</url>
-    <content><![CDATA[<h2 id="1-对于SBT树高log-n的证明"><a href="#1-对于SBT树高log-n的证明" class="headerlink" title="1.对于SBT树高log n的证明"></a>1.对于SBT树高log n的证明</h2><p>设 f[x] 是高度为 x 的结点个数最少的 SBT 的结点个数。</p><p>f[x]有一个结论如下：</p><p>$\sf f[x]=\begin{cases}1,(x=0)\2,(x=1)\f[x-1]+f[x-2]+1,(x&gt;1)\end{cases}$</p><p>显然，f[0]=1,f[1]=2;</p><a id="more"></a>
-
-
-
+    <content><![CDATA[<h2 id="1-对于SBT树高log-n的证明"><a href="#1-对于SBT树高log-n的证明" class="headerlink" title="1.对于SBT树高log n的证明"></a>1.对于SBT树高log n的证明</h2><p>设 f[x] 是高度为 x 的结点个数最少的 SBT 的结点个数。</p>
+<p>f[x]有一个结论如下：</p>
+<p>$\sf f[x]=\begin{cases}1,(x=0)\2,(x=1)\f[x-1]+f[x-2]+1,(x&gt;1)\end{cases}$</p>
+<p>显然，f[0]=1,f[1]=2;</p>
 <p>f[x]=f[x-1]+f[x-2]+1(x&gt;1)的证明：</p>
 <p>对于每个x，设 t 指向一个高度为 x 的 SBT ，然后这个 SBT 包含一个高度为 x-1 的子树。不妨设它就是左子树。</p>
 <p>通过前面对于 f[x] 的定义，我们得到t[ls(x)].siz&gt;=f[x-1]，并且在左子树上有一棵高为 x-2 的子树，或者说有一棵大小（ siz ）至少为 f[x-1] 的子树在左子树上。由性质可得t[ls(x)].siz&gt;=f[x-2]。</p>
 <p>故而有f[x]=f[x-1]+f[x-2]+1(x&gt;1)。</p>
 <p>也可以通过构造特殊SBT进行证明：</p>
-<p><img src="https://i.loli.net/2019/10/20/Ho8dzTJycwKmRgb.png" alt></p>
+<p><img src="https://i.loli.net/2019/10/20/Ho8dzTJycwKmRgb.png" alt=""></p>
 <p>对于递推函数f,我们发现它具有斐波那契数列的相似性质，则利用特征根方程可以求出通项公式：</p>
 <p>$\sf\Large f[x]=\frac{u^{x+3}-v^{x+3}}{\sqrt5}-1=||\frac{u^{x+3}}{\sqrt 5}-1||$</p>
 <p>其中u=$\frac{1+\sqrt{5}}{2}$,v=$\frac{1-\sqrt{5}}{2}$。</p>
 <p>下面是一张计算表，可以看见f[x]较小的值</p>
-<p><img src="https://i.loli.net/2019/10/20/GWqVDzCvlu4PQeH.png" alt></p>
+<p><img src="https://i.loli.net/2019/10/20/GWqVDzCvlu4PQeH.png" alt=""></p>
 <p>那么接下来对于最差高度maxh进行证明(引自论文):</p>
-<p><img src="https://i.loli.net/2019/10/20/HF6A1WXr8p5lRym.png" alt></p>
+<p><img src="https://i.loli.net/2019/10/20/HF6A1WXr8p5lRym.png" alt=""></p>
 <p>可得最差树高是log n级别的。</p>
 <h2 id="2-对于SBT-maintain-时间复杂度O-1-的证明"><a href="#2-对于SBT-maintain-时间复杂度O-1-的证明" class="headerlink" title="2.对于SBT maintain()时间复杂度O(1)的证明"></a>2.对于SBT maintain()时间复杂度O(1)的证明</h2><p>通过前面的结论，我们可以很容易的证明 Maintain 过程是非常有效的 过程 。</p>
 <p>评价一棵 BST 时有一个非常重要的值，那就是 <code>结点的平均深度</code>。它是通过所有结点深度和除以总结点个数 n 获得的。通常它会很小，而 BST 会更小 。</p>
@@ -1113,12 +1145,12 @@
 <p>现在我们的目的是<code>削减结点深度和</code>，而它就是用来约束 Maintain 的次数。</p>
 <p>回顾一下 Maintain 中执行旋转的条件，会发现结点深度和在旋转后<code>总是在减小</code>。</p>
 <p>感性分析后，再进行理性证明(引自论文):</p>
-<p><img src="https://i.loli.net/2019/10/20/ta2mDnfZ68Gwp4z.png" alt></p>
+<p><img src="https://i.loli.net/2019/10/20/ta2mDnfZ68Gwp4z.png" alt=""></p>
 <p>可见maintain()函数均摊只有O(1)，非常快速。</p>
 <h2 id="3-SBT综合性能分析"><a href="#3-SBT综合性能分析" class="headerlink" title="3.SBT综合性能分析"></a>3.SBT综合性能分析</h2><p>一张图说明效率：</p>
-<p><img src="https://i.loli.net/2019/10/20/A79QNE61RvJC3Zr.png" alt></p>
+<p><img src="https://i.loli.net/2019/10/20/A79QNE61RvJC3Zr.png" alt=""></p>
 <p>两张表对比速度：</p>
-<p><img src="https://i.loli.net/2019/10/20/oPSfdFGhs5gtlwC.png" alt></p>
+<p><img src="https://i.loli.net/2019/10/20/oPSfdFGhs5gtlwC.png" alt=""></p>
 <p>这说明SBT在时间复杂度上胜于一般的平衡树。</p>
 <p>另外，不像一般平衡树，SBT只用维护一个额外的siz值即可，而siz值往往又是题目中要求的，所以可以视作不存储额外信息。而treap等则需要另外存储随机权值，颜色等等，空间上SBT也略胜一筹。</p>
 <h3 id="总结而言……SBT天下第一！"><a href="#总结而言……SBT天下第一！" class="headerlink" title="总结而言……SBT天下第一！"></a>总结而言……SBT天下第一！</h3>]]></content>
@@ -1133,12 +1165,12 @@
   <entry>
     <title>nexT主题下插件的引入</title>
     <url>/2019/11/23/nexT%E4%B8%BB%E9%A2%98%E4%B8%8B%E5%BC%95%E5%85%A5%E6%8F%92%E4%BB%B6%E9%9B%86%E5%90%88/</url>
-    <content><![CDATA[<p>nexT是一个自由度较高的hexo主题，我们可以对其引入一些插件来优化网页阅读体验。(<del>这哪里在重要啊喂？</del>)此处将详细描述如何引入我博客中的插件。</p><h2 id="鼠标点击の烟花效果"><a href="#鼠标点击の烟花效果" class="headerlink" title="鼠标点击の烟花效果"></a>鼠标点击の烟花效果</h2><p><img src="https://i.loli.net/2019/11/17/8QeDbVRgfjCuTKo.png" alt></p><p>之前我有在<a href="https://www.mina.moe/" target="_blank" rel="noopener">mina.moe</a>这个博客网页上写过博，对这个烟花点击效果很喜欢，就专门找了出来。</p><p>设置方法如下：</p><p>1.进入<code>themes/next/source/js</code>新建文件夹<code>src</code></p><a id="more"></a>
-
-
-
-
-<p><img src="https://i.loli.net/2019/11/17/HaSO5gytiDx6o8r.png" alt></p>
+    <content><![CDATA[<p>nexT是一个自由度较高的hexo主题，我们可以对其引入一些插件来优化网页阅读体验。(<del>这哪里在重要啊喂？</del>)此处将详细描述如何引入我博客中的插件。</p>
+<h2 id="鼠标点击の烟花效果"><a href="#鼠标点击の烟花效果" class="headerlink" title="鼠标点击の烟花效果"></a>鼠标点击の烟花效果</h2><p><img src="https://i.loli.net/2019/11/17/8QeDbVRgfjCuTKo.png" alt=""></p>
+<p>之前我有在<a href="https://www.mina.moe/" target="_blank" rel="noopener">mina.moe</a>这个博客网页上写过博，对这个烟花点击效果很喜欢，就专门找了出来。</p>
+<p>设置方法如下：</p>
+<p>1.进入<code>themes/next/source/js</code>新建文件夹<code>src</code></p>
+<p><img src="https://i.loli.net/2019/11/17/HaSO5gytiDx6o8r.png" alt=""></p>
 <p>2.在<code>/src</code>新建fireworks.js，内容为：</p>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="meta">"use strict"</span>;<span class="function"><span class="keyword">function</span> <span class="title">updateCoords</span>(<span class="params">e</span>)</span>&#123;pointerX=(e.clientX||e.touches[<span class="number">0</span>].clientX)-canvasEl.getBoundingClientRect().left,pointerY=e.clientY||e.touches[<span class="number">0</span>].clientY-canvasEl.getBoundingClientRect().top&#125;<span class="function"><span class="keyword">function</span> <span class="title">setParticuleDirection</span>(<span class="params">e</span>)</span>&#123;<span class="keyword">var</span> t=anime.random(<span class="number">0</span>,<span class="number">360</span>)*<span class="built_in">Math</span>.PI/<span class="number">180</span>,a=anime.random(<span class="number">50</span>,<span class="number">180</span>),n=[<span class="number">-1</span>,<span class="number">1</span>][anime.random(<span class="number">0</span>,<span class="number">1</span>)]*a;<span class="keyword">return</span>&#123;<span class="attr">x</span>:e.x+n*<span class="built_in">Math</span>.cos(t),<span class="attr">y</span>:e.y+n*<span class="built_in">Math</span>.sin(t)&#125;&#125;<span class="function"><span class="keyword">function</span> <span class="title">createParticule</span>(<span class="params">e,t</span>)</span>&#123;<span class="keyword">var</span> a=&#123;&#125;;<span class="keyword">return</span> a.x=e,a.y=t,a.color=colors[anime.random(<span class="number">0</span>,colors.length<span class="number">-1</span>)],a.radius=anime.random(<span class="number">16</span>,<span class="number">32</span>),a.endPos=setParticuleDirection(a),a.draw=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;ctx.beginPath(),ctx.arc(a.x,a.y,a.radius,<span class="number">0</span>,<span class="number">2</span>*<span class="built_in">Math</span>.PI,!<span class="number">0</span>),ctx.fillStyle=a.color,ctx.fill()&#125;,a&#125;<span class="function"><span class="keyword">function</span> <span class="title">createCircle</span>(<span class="params">e,t</span>)</span>&#123;<span class="keyword">var</span> a=&#123;&#125;;<span class="keyword">return</span> a.x=e,a.y=t,a.color=<span class="string">"#F00"</span>,a.radius=<span class="number">0.1</span>,a.alpha=<span class="number">0.5</span>,a.lineWidth=<span class="number">6</span>,a.draw=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;ctx.globalAlpha=a.alpha,ctx.beginPath(),ctx.arc(a.x,a.y,a.radius,<span class="number">0</span>,<span class="number">2</span>*<span class="built_in">Math</span>.PI,!<span class="number">0</span>),ctx.lineWidth=a.lineWidth,ctx.strokeStyle=a.color,ctx.stroke(),ctx.globalAlpha=<span class="number">1</span>&#125;,a&#125;<span class="function"><span class="keyword">function</span> <span class="title">renderParticule</span>(<span class="params">e</span>)</span>&#123;<span class="keyword">for</span>(<span class="keyword">var</span> t=<span class="number">0</span>;t&lt;e.animatables.length;t++)&#123;e.animatables[t].target.draw()&#125;&#125;<span class="function"><span class="keyword">function</span> <span class="title">animateParticules</span>(<span class="params">e,t</span>)</span>&#123;<span class="keyword">for</span>(<span class="keyword">var</span> a=createCircle(e,t),n=[],i=<span class="number">0</span>;i&lt;numberOfParticules;i++)&#123;n.push(createParticule(e,t))&#125;anime.timeline().add(&#123;<span class="attr">targets</span>:n,<span class="attr">x</span>:<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;<span class="keyword">return</span> e.endPos.x&#125;,<span class="attr">y</span>:<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;<span class="keyword">return</span> e.endPos.y&#125;,<span class="attr">radius</span>:<span class="number">0.1</span>,<span class="attr">duration</span>:anime.random(<span class="number">1200</span>,<span class="number">1800</span>),<span class="attr">easing</span>:<span class="string">"easeOutExpo"</span>,<span class="attr">update</span>:renderParticule&#125;).add(&#123;<span class="attr">targets</span>:a,<span class="attr">radius</span>:anime.random(<span class="number">80</span>,<span class="number">160</span>),<span class="attr">lineWidth</span>:<span class="number">0</span>,<span class="attr">alpha</span>:&#123;<span class="attr">value</span>:<span class="number">0</span>,<span class="attr">easing</span>:<span class="string">"linear"</span>,<span class="attr">duration</span>:anime.random(<span class="number">600</span>,<span class="number">800</span>)&#125;,<span class="attr">duration</span>:anime.random(<span class="number">1200</span>,<span class="number">1800</span>),<span class="attr">easing</span>:<span class="string">"easeOutExpo"</span>,<span class="attr">update</span>:renderParticule,<span class="attr">offset</span>:<span class="number">0</span>&#125;)&#125;<span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">e,t</span>)</span>&#123;<span class="keyword">var</span> a;<span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="keyword">var</span> n=<span class="keyword">this</span>,i=<span class="built_in">arguments</span>;clearTimeout(a),a=setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;e.apply(n,i)&#125;,t)&#125;&#125;<span class="keyword">var</span> canvasEl=<span class="built_in">document</span>.querySelector(<span class="string">".fireworks"</span>);<span class="keyword">if</span>(canvasEl)&#123;<span class="keyword">var</span> ctx=canvasEl.getContext(<span class="string">"2d"</span>),numberOfParticules=<span class="number">30</span>,pointerX=<span class="number">0</span>,pointerY=<span class="number">0</span>,tap=<span class="string">"mousedown"</span>,colors=[<span class="string">"#FF1461"</span>,<span class="string">"#18FF92"</span>,<span class="string">"#5A87FF"</span>,<span class="string">"#FBF38C"</span>],setCanvasSize=debounce(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;canvasEl.width=<span class="number">2</span>*<span class="built_in">window</span>.innerWidth,canvasEl.height=<span class="number">2</span>*<span class="built_in">window</span>.innerHeight,canvasEl.style.width=<span class="built_in">window</span>.innerWidth+<span class="string">"px"</span>,canvasEl.style.height=<span class="built_in">window</span>.innerHeight+<span class="string">"px"</span>,canvasEl.getContext(<span class="string">"2d"</span>).scale(<span class="number">2</span>,<span class="number">2</span>)&#125;,<span class="number">500</span>),render=anime(&#123;<span class="attr">duration</span>:<span class="number">1</span>/<span class="number">0</span>,<span class="attr">update</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;ctx.clearRect(<span class="number">0</span>,<span class="number">0</span>,canvasEl.width,canvasEl.height)&#125;&#125;);<span class="built_in">document</span>.addEventListener(tap,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;<span class="string">"sidebar"</span>!==e.target.id&amp;&amp;<span class="string">"toggle-sidebar"</span>!==e.target.id&amp;&amp;<span class="string">"A"</span>!==e.target.nodeName&amp;&amp;<span class="string">"IMG"</span>!==e.target.nodeName&amp;&amp;(render.play(),updateCoords(e),animateParticules(pointerX,pointerY))&#125;,!<span class="number">1</span>),setCanvasSize(),<span class="built_in">window</span>.addEventListener(<span class="string">"resize"</span>,setCanvasSize,!<span class="number">1</span>)&#125;<span class="string">"use strict"</span>;<span class="function"><span class="keyword">function</span> <span class="title">updateCoords</span>(<span class="params">e</span>)</span>&#123;pointerX=(e.clientX||e.touches[<span class="number">0</span>].clientX)-canvasEl.getBoundingClientRect().left,pointerY=e.clientY||e.touches[<span class="number">0</span>].clientY-canvasEl.getBoundingClientRect().top&#125;<span class="function"><span class="keyword">function</span> <span class="title">setParticuleDirection</span>(<span class="params">e</span>)</span>&#123;<span class="keyword">var</span> t=anime.random(<span class="number">0</span>,<span class="number">360</span>)*<span class="built_in">Math</span>.PI/<span class="number">180</span>,a=anime.random(<span class="number">50</span>,<span class="number">180</span>),n=[<span class="number">-1</span>,<span class="number">1</span>][anime.random(<span class="number">0</span>,<span class="number">1</span>)]*a;<span class="keyword">return</span>&#123;<span class="attr">x</span>:e.x+n*<span class="built_in">Math</span>.cos(t),<span class="attr">y</span>:e.y+n*<span class="built_in">Math</span>.sin(t)&#125;&#125;<span class="function"><span class="keyword">function</span> <span class="title">createParticule</span>(<span class="params">e,t</span>)</span>&#123;<span class="keyword">var</span> a=&#123;&#125;;<span class="keyword">return</span> a.x=e,a.y=t,a.color=colors[anime.random(<span class="number">0</span>,colors.length<span class="number">-1</span>)],a.radius=anime.random(<span class="number">16</span>,<span class="number">32</span>),a.endPos=setParticuleDirection(a),a.draw=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;ctx.beginPath(),ctx.arc(a.x,a.y,a.radius,<span class="number">0</span>,<span class="number">2</span>*<span class="built_in">Math</span>.PI,!<span class="number">0</span>),ctx.fillStyle=a.color,ctx.fill()&#125;,a&#125;<span class="function"><span class="keyword">function</span> <span class="title">createCircle</span>(<span class="params">e,t</span>)</span>&#123;<span class="keyword">var</span> a=&#123;&#125;;<span class="keyword">return</span> a.x=e,a.y=t,a.color=<span class="string">"#F00"</span>,a.radius=<span class="number">0.1</span>,a.alpha=<span class="number">0.5</span>,a.lineWidth=<span class="number">6</span>,a.draw=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;ctx.globalAlpha=a.alpha,ctx.beginPath(),ctx.arc(a.x,a.y,a.radius,<span class="number">0</span>,<span class="number">2</span>*<span class="built_in">Math</span>.PI,!<span class="number">0</span>),ctx.lineWidth=a.lineWidth,ctx.strokeStyle=a.color,ctx.stroke(),ctx.globalAlpha=<span class="number">1</span>&#125;,a&#125;<span class="function"><span class="keyword">function</span> <span class="title">renderParticule</span>(<span class="params">e</span>)</span>&#123;<span class="keyword">for</span>(<span class="keyword">var</span> t=<span class="number">0</span>;t&lt;e.animatables.length;t++)&#123;e.animatables[t].target.draw()&#125;&#125;<span class="function"><span class="keyword">function</span> <span class="title">animateParticules</span>(<span class="params">e,t</span>)</span>&#123;<span class="keyword">for</span>(<span class="keyword">var</span> a=createCircle(e,t),n=[],i=<span class="number">0</span>;i&lt;numberOfParticules;i++)&#123;n.push(createParticule(e,t))&#125;anime.timeline().add(&#123;<span class="attr">targets</span>:n,<span class="attr">x</span>:<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;<span class="keyword">return</span> e.endPos.x&#125;,<span class="attr">y</span>:<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;<span class="keyword">return</span> e.endPos.y&#125;,<span class="attr">radius</span>:<span class="number">0.1</span>,<span class="attr">duration</span>:anime.random(<span class="number">1200</span>,<span class="number">1800</span>),<span class="attr">easing</span>:<span class="string">"easeOutExpo"</span>,<span class="attr">update</span>:renderParticule&#125;).add(&#123;<span class="attr">targets</span>:a,<span class="attr">radius</span>:anime.random(<span class="number">80</span>,<span class="number">160</span>),<span class="attr">lineWidth</span>:<span class="number">0</span>,<span class="attr">alpha</span>:&#123;<span class="attr">value</span>:<span class="number">0</span>,<span class="attr">easing</span>:<span class="string">"linear"</span>,<span class="attr">duration</span>:anime.random(<span class="number">600</span>,<span class="number">800</span>)&#125;,<span class="attr">duration</span>:anime.random(<span class="number">1200</span>,<span class="number">1800</span>),<span class="attr">easing</span>:<span class="string">"easeOutExpo"</span>,<span class="attr">update</span>:renderParticule,<span class="attr">offset</span>:<span class="number">0</span>&#125;)&#125;<span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">e,t</span>)</span>&#123;<span class="keyword">var</span> a;<span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="keyword">var</span> n=<span class="keyword">this</span>,i=<span class="built_in">arguments</span>;clearTimeout(a),a=setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;e.apply(n,i)&#125;,t)&#125;&#125;<span class="keyword">var</span> canvasEl=<span class="built_in">document</span>.querySelector(<span class="string">".fireworks"</span>);<span class="keyword">if</span>(canvasEl)&#123;<span class="keyword">var</span> ctx=canvasEl.getContext(<span class="string">"2d"</span>),numberOfParticules=<span class="number">30</span>,pointerX=<span class="number">0</span>,pointerY=<span class="number">0</span>,tap=<span class="string">"mousedown"</span>,colors=[<span class="string">"#FF1461"</span>,<span class="string">"#18FF92"</span>,<span class="string">"#5A87FF"</span>,<span class="string">"#FBF38C"</span>],setCanvasSize=debounce(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;canvasEl.width=<span class="number">2</span>*<span class="built_in">window</span>.innerWidth,canvasEl.height=<span class="number">2</span>*<span class="built_in">window</span>.innerHeight,canvasEl.style.width=<span class="built_in">window</span>.innerWidth+<span class="string">"px"</span>,canvasEl.style.height=<span class="built_in">window</span>.innerHeight+<span class="string">"px"</span>,canvasEl.getContext(<span class="string">"2d"</span>).scale(<span class="number">2</span>,<span class="number">2</span>)&#125;,<span class="number">500</span>),render=anime(&#123;<span class="attr">duration</span>:<span class="number">1</span>/<span class="number">0</span>,<span class="attr">update</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;ctx.clearRect(<span class="number">0</span>,<span class="number">0</span>,canvasEl.width,canvasEl.height)&#125;&#125;);<span class="built_in">document</span>.addEventListener(tap,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;<span class="string">"sidebar"</span>!==e.target.id&amp;&amp;<span class="string">"toggle-sidebar"</span>!==e.target.id&amp;&amp;<span class="string">"A"</span>!==e.target.nodeName&amp;&amp;<span class="string">"IMG"</span>!==e.target.nodeName&amp;&amp;(render.play(),updateCoords(e),animateParticules(pointerX,pointerY))&#125;,!<span class="number">1</span>),setCanvasSize(),<span class="built_in">window</span>.addEventListener(<span class="string">"resize"</span>,setCanvasSize,!<span class="number">1</span>)&#125;;</span><br></pre></td></tr></table></figure>
 
@@ -1146,13 +1178,13 @@
 <p>3.打开<code>themes/next/layout/_layout.swig</code>，在<code>&lt;/body&gt;</code>前一点点（其实就是在<code>&lt;body&gt;&lt;/body&gt;</code>中间）插入语句：</p>
 <figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="string">&#123;%</span> <span class="string">if</span> <span class="string">theme.fireworks</span> <span class="string">%&#125;</span></span><br><span class="line">   <span class="string">&lt;canvas</span> <span class="string">class="fireworks"</span> <span class="string">style="position:</span> <span class="string">fixed;left:</span> <span class="number">0</span><span class="string">;top:</span> <span class="number">0</span><span class="string">;z-index:</span> <span class="number">1</span><span class="string">;</span> <span class="attr">pointer-events:</span> <span class="string">none;"</span> <span class="string">&gt;&lt;/canvas&gt;</span> </span><br><span class="line">   <span class="string">&lt;script</span> <span class="string">type="text/javascript"</span> <span class="string">src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"&gt;&lt;/script&gt;</span> </span><br><span class="line">   <span class="string">&lt;script</span> <span class="string">type="text/javascript"</span> <span class="string">src="/js/src/fireworks.js"&gt;&lt;/script&gt;</span></span><br><span class="line"><span class="string">&#123;%</span> <span class="string">endif</span> <span class="string">%&#125;</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="https://i.loli.net/2019/11/17/NiyadZc1zRw34tj.png" alt></p>
+<p><img src="https://i.loli.net/2019/11/17/NiyadZc1zRw34tj.png" alt=""></p>
 <p>4.打开<code>themes/next/_config.yml</code>，这是主题配置文件，在文末加上语句:</p>
 <figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Fireworks</span></span><br><span class="line"><span class="attr">fireworks:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 
 <p>5.如果需要加载别的点击效果，请将<code>true</code>更改为<code>false</code>即可。</p>
 <h2 id="看板娘"><a href="#看板娘" class="headerlink" title="看板娘"></a>看板娘</h2><p>我的博客内可以看见有两个“看板娘”：</p>
-<p><img src="https://i.loli.net/2019/11/17/GRJBdvoFlPfLhIn.png" alt></p>
+<p><img src="https://i.loli.net/2019/11/17/GRJBdvoFlPfLhIn.png" alt=""></p>
 <p>这就是接下来我要介绍的两种引入看板娘插件的方式</p>
 <h3 id="从stevenjoezhang的live2d-widget项目中直接调用"><a href="#从stevenjoezhang的live2d-widget项目中直接调用" class="headerlink" title="从stevenjoezhang的live2d-widget项目中直接调用"></a>从<a href="https://github.com/stevenjoezhang/live2d-widget" target="_blank" rel="noopener">stevenjoezhang的live2d-widget项目</a>中直接调用</h3><p>1.插件需要jQuery和font-awesome支持。打开<code>themes/next/layout/_layout.swig</code>，在<code>&lt;head&gt;</code>栏加入:</p>
 <figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -1162,7 +1194,7 @@
 <figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>3.提交以后就可见效果了，人物列表在项目中有列出，此处的33即此类live2d。</p>
-<p><img src="https://i.loli.net/2019/11/17/JMUFmg9l5QTAyXS.png" alt></p>
+<p><img src="https://i.loli.net/2019/11/17/JMUFmg9l5QTAyXS.png" alt=""></p>
 <h3 id="利用nodejs安装hexo-helper-live2d包"><a href="#利用nodejs安装hexo-helper-live2d包" class="headerlink" title="利用nodejs安装hexo-helper-live2d包"></a>利用<code>nodejs</code>安装<code>hexo-helper-live2d</code>包</h3><p>1.运行cmd.exe并cd到博客目录下，输入</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install --save hexo-helper-live2d</span><br></pre></td></tr></table></figure>
 
@@ -1177,14 +1209,14 @@
 <figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">live2d:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">scriptFrom:</span> <span class="string">local</span></span><br><span class="line">  <span class="attr">model:</span></span><br><span class="line">    <span class="attr">use:</span> <span class="string">live2d-widget-model-？</span> <span class="comment">#同理，这也要换</span></span><br><span class="line">  <span class="attr">display:</span></span><br><span class="line">    <span class="attr">position:</span> <span class="string">right</span></span><br><span class="line">    <span class="attr">width:</span> <span class="number">150</span></span><br><span class="line">    <span class="attr">height:</span> <span class="number">300</span> <span class="comment">#这是人物的位置</span></span><br><span class="line">  <span class="attr">mobile:</span></span><br><span class="line">    <span class="attr">show:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 
 <p>5.提交上传后就会出现人物啦~</p>
-<p><img src="https://i.loli.net/2019/11/17/wrkUsIjuRJbQZqc.png" alt></p>
+<p><img src="https://i.loli.net/2019/11/17/wrkUsIjuRJbQZqc.png" alt=""></p>
 <h2 id="网易云音乐播放器"><a href="#网易云音乐播放器" class="headerlink" title="网易云音乐播放器"></a>网易云音乐播放器</h2><p>网易云音乐本身提供音乐播放器的外链，方便了我们将歌曲播放器嵌入到博客中。</p>
-<p><img src="https://i.loli.net/2019/11/17/GD3HkC4FdhWys2f.png" alt></p>
+<p><img src="https://i.loli.net/2019/11/17/GD3HkC4FdhWys2f.png" alt=""></p>
 <p>1.首先在网易云上搜索你想放的歌曲，进入播放页面，点击<code>生成外链播放器</code></p>
-<p><img src="https://i.loli.net/2019/11/17/9FhnsHIWR7l485y.png" alt></p>
+<p><img src="https://i.loli.net/2019/11/17/9FhnsHIWR7l485y.png" alt=""></p>
 <p>此时有可能提示版权问题，如有此问题请更换曲目<del>或者采用技术手段</del></p>
 <p>2.复制其中的<code>html</code>代码</p>
-<p><img src="https://i.loli.net/2019/11/17/3kyMzKZCW9s6xDY.png" alt></p>
+<p><img src="https://i.loli.net/2019/11/17/3kyMzKZCW9s6xDY.png" alt=""></p>
 <p>3.打开<code>layout/_macro/sidebar.swig</code>并加入：</p>
 <figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"music163player"</span>&gt;</span></span><br><span class="line">    在这里放上你的html代码</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
@@ -1203,7 +1235,8 @@
   <entry>
     <title>七濑胡桃❤</title>
     <url>/2019/11/23/menhera/</url>
-    <content><![CDATA[<p><img src="https://i.loli.net/2019/07/18/5d300b9dd384516079.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300b9e1029594052.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300b9e28cf948090.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300b9e5bd2357156.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300b9e5bdba71125.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300b9e5bc8946438.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300b9e651f128326.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300b9e64c5372019.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300b9ed7cab30584.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300b9ed7cbb44446.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d140521b97727.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d141287480779.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d141ebd870653.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d142960a52393.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d1431e1f62600.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d143c3f327268.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d14434de77533.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d144e88543683.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d145687177804.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d14652d057801.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d31b3b0e32820.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d31be25083669.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d31c856041244.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d31d306b39874.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d31de13475839.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d31e8b2966180.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d3209b6171597.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d3219f8368532.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d3222ac227846.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d322d23895238.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d49a88be84777.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d49bfdde62065.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d49c875810894.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d49f1bcc82335.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d4a0ae3286953.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d4a2314a82394.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d4a3b69d85354.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d4a43c6b33981.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d4a5155925978.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d4a595d644326.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d63166b888873.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d632ba4377256.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d633f13b62360.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d63503d753961.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d635920a54719.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d6363d8c23482.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d636a2e814082.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d6373fef98640.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d638141c79263.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d6393bee22784.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d89da65180618.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d89e351446433.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d89e9d3847589.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d8a01f0653998.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d8a0a73f23477.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d8a11d3a52153.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d8a1e8a544492.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d8a2e32837131.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d8a35cd236843.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300d8a468cc30920.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300e305122359670.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300e3083f6b46251.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300e30b8b4f98166.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300e31252bd55886.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300e315711396714.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300e3168b2a49508.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300e3178bf397698.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300e318ca2921881.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300e31988d623390.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300e31a6b7857835.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300e527cf0a85087.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300e529000c11291.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300e52a118b22909.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300e52ad47625719.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300e52b9e2412065.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300e52c741377110.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300e52d2fc329787.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300e52e67ee72121.png" alt><br><img src="https://i.loli.net/2019/07/18/5d300e52f2a2063161.png" alt></p><h1 id="text-我永远喜欢"><a href="#text-我永远喜欢" class="headerlink" title="$\text{我永远喜欢}$"></a>$\text{我永远喜欢}$</h1><h1 id="mathcal-menhera-chan"><a href="#mathcal-menhera-chan" class="headerlink" title="$\mathcal menhera\ chan!$"></a>$\mathcal menhera\ chan!$</h1>]]></content>
+    <content><![CDATA[<p><img src="https://i.loli.net/2019/07/18/5d300b9dd384516079.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300b9e1029594052.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300b9e28cf948090.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300b9e5bd2357156.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300b9e5bdba71125.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300b9e5bc8946438.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300b9e651f128326.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300b9e64c5372019.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300b9ed7cab30584.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300b9ed7cbb44446.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d140521b97727.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d141287480779.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d141ebd870653.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d142960a52393.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d1431e1f62600.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d143c3f327268.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d14434de77533.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d144e88543683.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d145687177804.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d14652d057801.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d31b3b0e32820.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d31be25083669.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d31c856041244.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d31d306b39874.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d31de13475839.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d31e8b2966180.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d3209b6171597.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d3219f8368532.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d3222ac227846.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d322d23895238.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d49a88be84777.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d49bfdde62065.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d49c875810894.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d49f1bcc82335.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d4a0ae3286953.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d4a2314a82394.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d4a3b69d85354.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d4a43c6b33981.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d4a5155925978.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d4a595d644326.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d63166b888873.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d632ba4377256.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d633f13b62360.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d63503d753961.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d635920a54719.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d6363d8c23482.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d636a2e814082.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d6373fef98640.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d638141c79263.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d6393bee22784.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d89da65180618.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d89e351446433.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d89e9d3847589.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d8a01f0653998.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d8a0a73f23477.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d8a11d3a52153.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d8a1e8a544492.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d8a2e32837131.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d8a35cd236843.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300d8a468cc30920.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300e305122359670.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300e3083f6b46251.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300e30b8b4f98166.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300e31252bd55886.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300e315711396714.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300e3168b2a49508.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300e3178bf397698.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300e318ca2921881.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300e31988d623390.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300e31a6b7857835.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300e527cf0a85087.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300e529000c11291.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300e52a118b22909.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300e52ad47625719.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300e52b9e2412065.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300e52c741377110.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300e52d2fc329787.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300e52e67ee72121.png" alt=""><br><img src="https://i.loli.net/2019/07/18/5d300e52f2a2063161.png" alt=""></p>
+<h1 id="text-我永远喜欢"><a href="#text-我永远喜欢" class="headerlink" title="$\text{我永远喜欢}$"></a>$\text{我永远喜欢}$</h1><h1 id="mathcal-menhera-chan"><a href="#mathcal-menhera-chan" class="headerlink" title="$\mathcal menhera\ chan!$"></a>$\mathcal menhera\ chan!$</h1>]]></content>
       <categories>
         <category>Girls</category>
       </categories>
@@ -1215,14 +1248,14 @@
   <entry>
     <title>题解-LuoGu5021</title>
     <url>/2019/11/23/LG5021/</url>
-    <content><![CDATA[<p>$\tiny\text{似乎巨佬都没有翻译题目，其实部分难度在于题目翻译，所以:}$</p><h2 id="先翻译下本题的题意："><a href="#先翻译下本题的题意：" class="headerlink" title="先翻译下本题的题意："></a>先翻译下本题的题意：</h2><ul>
+    <content><![CDATA[<p>$\tiny\text{似乎巨佬都没有翻译题目，其实部分难度在于题目翻译，所以:}$</p>
+<h2 id="先翻译下本题的题意："><a href="#先翻译下本题的题意：" class="headerlink" title="先翻译下本题的题意："></a>先翻译下本题的题意：</h2><ul>
 <li>$n$个点，$n-1$条边，任意两点可以互相到达，每条道路仅从属于一条“赛道”。</li>
-</ul><p>眼熟？$\color{blue}\text{其实就是一棵树。}$</p><ul>
+</ul>
+<p>眼熟？$\color{blue}\text{其实就是一棵树。}$</p>
+<ul>
 <li>要建$m$条“赛道”，赛道无环，<strong>最大化</strong>最短道路。</li>
-</ul><a id="more"></a>
-
-
-
+</ul>
 <p>对了！$\color{red}\text{就是二分答案！}$</p>
 <p>那么整道题翻译出来就很简洁了：</p>
 <ul>
@@ -1238,7 +1271,7 @@
 </ul>
 <p>那么我们可以树形$DP$一次求出树的直径。</p>
 <p>比如我们拿$Sample\ 2$来讲：($len$是边长）</p>
-<p><img src="https://i.loli.net/2019/04/09/5cacb4ae5237f.png" alt></p>
+<p><img src="https://i.loli.net/2019/04/09/5cacb4ae5237f.png" alt=""></p>
 <p>那么我们可以看到，这棵树被切成了$3$条无交集的链，其中最短链是$1-&gt;2-&gt;7$，它的长度是$15$，此时最大化。</p>
 <p>这棵树的直径是$7-&gt;2-&gt;3-&gt;4-&gt;5$长度为$27$，那么二分最短边的长度就好了。</p>
 <ul>
@@ -1285,11 +1318,11 @@
     <title>题解-LuoGu3496</title>
     <url>/2019/11/23/LG3496/</url>
     <content><![CDATA[<blockquote>
-<h3 id="这是一个非黑即白的世界。"><a href="#这是一个非黑即白的世界。" class="headerlink" title="这是一个非黑即白的世界。"></a>这是一个非黑即白的世界。</h3></blockquote><p>想必各位都看过题目了，首先翻译下题意：</p><blockquote>
-<h3 id="给一幅无向图，你可以对其每个点染色，要求白黑必须挨着，灰色必须和黑白挨着，问能否染色以及染色方案。"><a href="#给一幅无向图，你可以对其每个点染色，要求白黑必须挨着，灰色必须和黑白挨着，问能否染色以及染色方案。" class="headerlink" title="给一幅无向图，你可以对其每个点染色，要求白黑必须挨着，灰色必须和黑白挨着，问能否染色以及染色方案。"></a>给一幅无向图，你可以对其每个点染色，要求白黑必须挨着，灰色必须和黑白挨着，问能否染色以及染色方案。</h3></blockquote><p>我们可以考虑到，灰色点必然可以被黑白交替的模式代替，所以我们只要黑白染色就好，灰色可以请出去了。怎么染色？要把每个点都要染到？还要交替染？</p><a id="more"></a>
-
-
-
+<h3 id="这是一个非黑即白的世界。"><a href="#这是一个非黑即白的世界。" class="headerlink" title="这是一个非黑即白的世界。"></a>这是一个非黑即白的世界。</h3></blockquote>
+<p>想必各位都看过题目了，首先翻译下题意：</p>
+<blockquote>
+<h3 id="给一幅无向图，你可以对其每个点染色，要求白黑必须挨着，灰色必须和黑白挨着，问能否染色以及染色方案。"><a href="#给一幅无向图，你可以对其每个点染色，要求白黑必须挨着，灰色必须和黑白挨着，问能否染色以及染色方案。" class="headerlink" title="给一幅无向图，你可以对其每个点染色，要求白黑必须挨着，灰色必须和黑白挨着，问能否染色以及染色方案。"></a>给一幅无向图，你可以对其每个点染色，要求白黑必须挨着，灰色必须和黑白挨着，问能否染色以及染色方案。</h3></blockquote>
+<p>我们可以考虑到，灰色点必然可以被黑白交替的模式代替，所以我们只要黑白染色就好，灰色可以请出去了。怎么染色？要把每个点都要染到？还要交替染？</p>
 <p>我们立即想到一个点的入度越少越好，因为这样一个点对于其周围点的影响最小。入度最小？如果图连通，我们可以把它降为1——$\color{red}\sf\large\text{生成树}$恰好满足这一性质。</p>
 <p><code>图不连通呢？</code>题上可是说了，如果不能成功染色，那么输出<code>NIE</code>退出就好，另外我们可以想到，联通的图一定是可以完成染色的，所以可以大胆输出<code>TAK</code></p>
 <p>那么！我们再回头看一眼题目，就是这样的：</p>
@@ -1312,15 +1345,15 @@
   <entry>
     <title>题解-LG3099</title>
     <url>/2019/11/23/LG3099/</url>
-    <content><![CDATA[<p>本题题意简单：给出两组大小为n的点集，问点集A中任取三点形成的三角形围住点集B中点的数量，以及B包A的数量。</p><p>其实题目可以进一步简化：我们来看一幅图（样例解释）</p><p><img src="https://i.loli.net/2019/09/15/k9uW1PR8hpZ5IfQ.png" alt></p><p>我们可以主观感受一下，红点被蓝点包了一个，蓝点被红点包了俩。</p><p>回想一下，我们是怎么判断的呢？一个个三角形枚举吗？$\sf\color{red}\text{并不是！}$</p><a id="more"></a>
-
-
-
-
+    <content><![CDATA[<p>本题题意简单：给出两组大小为n的点集，问点集A中任取三点形成的三角形围住点集B中点的数量，以及B包A的数量。</p>
+<p>其实题目可以进一步简化：我们来看一幅图（样例解释）</p>
+<p><img src="https://i.loli.net/2019/09/15/k9uW1PR8hpZ5IfQ.png" alt=""></p>
+<p>我们可以主观感受一下，红点被蓝点包了一个，蓝点被红点包了俩。</p>
+<p>回想一下，我们是怎么判断的呢？一个个三角形枚举吗？$\sf\color{red}\text{并不是！}$</p>
 <p>多感受几次，我们发现：如果一个点被异色点围成的一个多边形围住，那么它就被捕了（如下图）。<strong>但是为什么？</strong></p>
-<p><img src="https://i.loli.net/2019/09/15/DBA3CNYsJqWprxh.png" alt></p>
+<p><img src="https://i.loli.net/2019/09/15/DBA3CNYsJqWprxh.png" alt=""></p>
 <p>别忘了，当你把所有可能的三角形围出来的时候，就注定把这些点围成的多边形覆盖，因为所有的三角形边中一定包含了这个多边形的边。还是以图举例。</p>
-<p><img src="https://i.loli.net/2019/09/15/Jx8SYV6XMGznfgp.png" alt></p>
+<p><img src="https://i.loli.net/2019/09/15/Jx8SYV6XMGznfgp.png" alt=""></p>
 <p>显然这个五个点围出了五边形（为了美观，有部分三角形未画出）</p>
 <p>直入主题，这样的多边形我们称之为$\sf\color{red}\text{凸包}$。那么我们现在需要的就是<code>判断点是否在凸包内</code>了。</p>
 <p>关于凸包，网上已有详细的讲解，此处不作赘述。</p>
@@ -1345,9 +1378,9 @@
   <entry>
     <title>题解-LG1486</title>
     <url>/2019/11/23/LG1486/</url>
-    <content><![CDATA[<p>利用最近学的数据结构SBT过了此题，故来讲讲节点大小平衡树的做法。[<a href="https://www.luogu.org/blog/firstfan/size-balanced-tree" target="_blank" rel="noopener">戳我了解Size-Balanced-Tree</a>]</p><p>这道题考察了大部分平衡树的操作，如插入、删除、查第k大元素等，所以可以视为弱化版的模板。</p><p>此题特别的一点就是要用一个变量统计一下所有成员的工资，一个比较妙的操作是：在员工加入后直接存储他与最低工资的差值即可</p><a id="more"></a>
-
-
+    <content><![CDATA[<p>利用最近学的数据结构SBT过了此题，故来讲讲节点大小平衡树的做法。[<a href="https://www.luogu.org/blog/firstfan/size-balanced-tree" target="_blank" rel="noopener">戳我了解Size-Balanced-Tree</a>]</p>
+<p>这道题考察了大部分平衡树的操作，如插入、删除、查第k大元素等，所以可以视为弱化版的模板。</p>
+<p>此题特别的一点就是要用一个变量统计一下所有成员的工资，一个比较妙的操作是：在员工加入后直接存储他与最低工资的差值即可</p>
 <p>简析一下四种操作怎么处理：</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="number">1.</span>插入权值为k-min的结点</span><br><span class="line"></span><br><span class="line"><span class="number">2.</span>把SBT上所有结点的值加k</span><br><span class="line"></span><br><span class="line"><span class="number">3.</span>把SBT上所有结点的值减k，减完后把低于min的结点删除。</span><br><span class="line"></span><br><span class="line"><span class="number">4.</span>查询SBT第k大，可以转化为SBT第(siz-k)小。如果范围越树尺寸输出<span class="number">-1</span>就好。</span><br></pre></td></tr></table></figure>
 
@@ -1365,23 +1398,23 @@
   <entry>
     <title>LCA巧解RMQ问题</title>
     <url>/2019/11/23/lca&amp;rmq/</url>
-    <content><![CDATA[<p>最近在学$LCA$算法的时候发现了很有意思的一个方法：</p><p><strong>建树，利用$LCA$解决$RMQ$问题。</strong></p><p>现在就来讲讲$RMQ$问题的$LCA$解决。</p><p>先来个例子：</p><p>已知序列A={2,8,5,7,1,4}，求区间[l,r]之间的最小值。</p><ul>
+    <content><![CDATA[<p>最近在学$LCA$算法的时候发现了很有意思的一个方法：</p>
+<p><strong>建树，利用$LCA$解决$RMQ$问题。</strong></p>
+<p>现在就来讲讲$RMQ$问题的$LCA$解决。</p>
+<p>先来个例子：</p>
+<p>已知序列A={2,8,5,7,1,4}，求区间[l,r]之间的最小值。</p>
+<ul>
 <li>第一步：建立树$T$</li>
-</ul><p>我们把全局最小值$1$作为根节点，建立一棵<strong>优先级树</strong>。</p><p><img src="https://i.loli.net/2019/03/24/5c96f7d470280.png" alt></p><p>接下来，我们<strong>建立右子树</strong>，但$1$右侧只有一个结点可建：$4$</p><a id="more"></a>
-
-
-
-
-
-
-
-
-<p><img src="https://i.loli.net/2019/03/24/5c96f977d920b.png" alt></p>
+</ul>
+<p>我们把全局最小值$1$作为根节点，建立一棵<strong>优先级树</strong>。</p>
+<p><img src="https://i.loli.net/2019/03/24/5c96f7d470280.png" alt=""></p>
+<p>接下来，我们<strong>建立右子树</strong>，但$1$右侧只有一个结点可建：$4$</p>
+<p><img src="https://i.loli.net/2019/03/24/5c96f977d920b.png" alt=""></p>
 <p>下一步建立<strong>左子树</strong>，左子树有$4$个结点可建：$2,8,5,7$</p>
 <p>我们选择<strong>最小</strong>的$2$作为子树根结点建树</p>
-<p><img src="https://i.loli.net/2019/03/24/5c96fbad2123f.png" alt></p>
+<p><img src="https://i.loli.net/2019/03/24/5c96fbad2123f.png" alt=""></p>
 <p>下面递归建树即可：</p>
-<p><img src="https://i.loli.net/2019/03/24/5c96fd87ba3bc.png" alt></p>
+<p><img src="https://i.loli.net/2019/03/24/5c96fd87ba3bc.png" alt=""></p>
 <ul>
 <li>第二步：$LCA$</li>
 </ul>
@@ -1410,9 +1443,9 @@
 <p>如果对<strong>有根树</strong>$T$进行$DFS$，将遍历到的结点按照$DFS$序记下，我们将得到一个<strong>长度为$2N-1$的序列</strong>，称之为$T$的<strong>欧拉序列$F$</strong></p>
 <p><code>每个结点都在欧拉序列中出现</code>，记录结点$u$在欧拉序列中<strong>第一次出现的位置</strong>为$pos_u$</p>
 <p>就比如说这样（版权所有:$first_fan$）</p>
-<p><img src="https://s31.aconvert.com/convert/p3r68-cdx67/qkp6a-1guzn.gif" alt></p>
+<p><img src="https://s31.aconvert.com/convert/p3r68-cdx67/qkp6a-1guzn.gif" alt=""></p>
 <p>那么我们就可以得到欧拉序列$F$，深度序列$B$，以及首次出现位置$pos_u$</p>
-<p><img src="https://i.loli.net/2019/03/24/5c9715971f1fa.png" alt></p>
+<p><img src="https://i.loli.net/2019/03/24/5c9715971f1fa.png" alt=""></p>
 <p><strong>那么怎么转化为$RMQ?$</strong></p>
 <ul>
 <li><p>根据$DFS$的性质，对于两结点$u,v$，从$pos_u$遍历到$pos_v$的过程中经过$LCA(u, v)$<strong>有且仅有一次</strong>，且深度是深度序列$B[pos_u…pos_v]$中最小的</p>
@@ -1447,7 +1480,7 @@
   <entry>
     <title>DFS解数独</title>
     <url>/2019/11/23/DFS%E8%A7%A3%E6%95%B0%E7%8B%AC/</url>
-    <content><![CDATA[<h2 id="Step-1-通过judge判断是否合法"><a href="#Step-1-通过judge判断是否合法" class="headerlink" title="Step.1 通过judge判断是否合法"></a>Step.1 通过judge判断是否合法</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">judge</span><span class="params">(<span class="keyword">int</span> now)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> row = now / <span class="number">9</span>;</span><br><span class="line">	<span class="comment">//当前行</span></span><br><span class="line">	<span class="keyword">int</span> col = now % <span class="number">9</span>;</span><br><span class="line">	<span class="comment">//当前列</span></span><br><span class="line">	<span class="keyword">int</span> j;</span><br><span class="line">	<span class="keyword">for</span>(j = <span class="number">0</span>; j &lt; <span class="number">9</span>; ++j)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(maap[row][j] == maap[row][col] &amp;&amp; j != col)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;<span class="comment">//这是检查同一行中的重复</span></span><br><span class="line">	<span class="keyword">for</span>(j = <span class="number">0</span>; j &lt; <span class="number">9</span>; ++j)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(maap[j][col] == maap[row][col] &amp;&amp; j != row)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;<span class="comment">//这是检查同一列中的重复</span></span><br><span class="line">	<span class="keyword">int</span> tmp_row = row / <span class="number">3</span> * <span class="number">3</span>;</span><br><span class="line">	<span class="keyword">int</span> tmp_col = col / <span class="number">3</span> * <span class="number">3</span>;</span><br><span class="line">	<span class="keyword">for</span>(j = tmp_row; j &lt; tmp_row + <span class="number">3</span>;++j)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> k = tmp_col; k &lt; tmp_row + <span class="number">3</span>; ++k)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(maap[j][k] == maap[row][col] &amp;&amp; j != row &amp;&amp; k != col)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;<span class="comment">//这是检查同一3*3小格中的重复</span></span><br><span class="line">	<span class="comment">//经过三个判断如果可以放那么则返回真</span></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><a id="more"></a>
+    <content><![CDATA[<h2 id="Step-1-通过judge判断是否合法"><a href="#Step-1-通过judge判断是否合法" class="headerlink" title="Step.1 通过judge判断是否合法"></a>Step.1 通过judge判断是否合法</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">judge</span><span class="params">(<span class="keyword">int</span> now)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> row = now / <span class="number">9</span>;</span><br><span class="line">	<span class="comment">//当前行</span></span><br><span class="line">	<span class="keyword">int</span> col = now % <span class="number">9</span>;</span><br><span class="line">	<span class="comment">//当前列</span></span><br><span class="line">	<span class="keyword">int</span> j;</span><br><span class="line">	<span class="keyword">for</span>(j = <span class="number">0</span>; j &lt; <span class="number">9</span>; ++j)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(maap[row][j] == maap[row][col] &amp;&amp; j != col)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;<span class="comment">//这是检查同一行中的重复</span></span><br><span class="line">	<span class="keyword">for</span>(j = <span class="number">0</span>; j &lt; <span class="number">9</span>; ++j)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(maap[j][col] == maap[row][col] &amp;&amp; j != row)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;<span class="comment">//这是检查同一列中的重复</span></span><br><span class="line">	<span class="keyword">int</span> tmp_row = row / <span class="number">3</span> * <span class="number">3</span>;</span><br><span class="line">	<span class="keyword">int</span> tmp_col = col / <span class="number">3</span> * <span class="number">3</span>;</span><br><span class="line">	<span class="keyword">for</span>(j = tmp_row; j &lt; tmp_row + <span class="number">3</span>;++j)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> k = tmp_col; k &lt; tmp_row + <span class="number">3</span>; ++k)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(maap[j][k] == maap[row][col] &amp;&amp; j != row &amp;&amp; k != col)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;<span class="comment">//这是检查同一3*3小格中的重复</span></span><br><span class="line">	<span class="comment">//经过三个判断如果可以放那么则返回真</span></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="Step-2-利用flowback回溯"><a href="#Step-2-利用flowback回溯" class="headerlink" title="Step.2 利用flowback回溯"></a>Step.2 利用flowback回溯</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">flowback</span><span class="params">(<span class="keyword">int</span> now)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(now == <span class="number">81</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		print_map();</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;<span class="comment">//输出</span></span><br><span class="line">	<span class="keyword">int</span> row = now / <span class="number">9</span>;</span><br><span class="line">	<span class="keyword">int</span> col = now % <span class="number">9</span>;</span><br><span class="line">	<span class="keyword">if</span>(!vis[row][col])</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">9</span>; ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			vis[row][col]=<span class="literal">true</span>;</span><br><span class="line">			maap[row][col] = i;<span class="comment">//赋值</span></span><br><span class="line">			<span class="keyword">if</span>(judge(now))</span><br><span class="line">			&#123;<span class="comment">//可以放</span></span><br><span class="line">				flowback(now+<span class="number">1</span>);<span class="comment">//进入下一层</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		vis[row][col]=<span class="literal">false</span>;<span class="comment">//回溯</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		flowback(now+<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="Step-3-轻松愉快的输出print-map"><a href="#Step-3-轻松愉快的输出print-map" class="headerlink" title="Step.3 轻松愉快的输出print_map"></a>Step.3 轻松愉快的输出print_map</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_map</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">9</span>; ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j =  <span class="number">0</span>; j &lt; <span class="number">9</span>; ++j)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">cout</span>&lt;&lt;maap[i][j]&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="其实就是很简单的回溯，判重也超级简单，只是有可能跑得比较慢鹅已……"><a href="#其实就是很简单的回溯，判重也超级简单，只是有可能跑得比较慢鹅已……" class="headerlink" title="其实就是很简单的回溯，判重也超级简单，只是有可能跑得比较慢鹅已……"></a>其实就是很简单的回溯，判重也超级简单，只是有可能跑得比较慢鹅已……</h1><h1 id="最后还是良心的上个全代码，也请巨佬们在时间复杂度优化上加以指导！"><a href="#最后还是良心的上个全代码，也请巨佬们在时间复杂度优化上加以指导！" class="headerlink" title="最后还是良心的上个全代码，也请巨佬们在时间复杂度优化上加以指导！"></a>最后还是良心的上个全代码，也请巨佬们在时间复杂度优化上加以指导！</h1><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> maap[<span class="number">9</span>][<span class="number">9</span>];</span><br><span class="line"><span class="keyword">bool</span> vis[<span class="number">9</span>][<span class="number">9</span>];</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">judge</span><span class="params">(<span class="keyword">int</span> now)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> row = now / <span class="number">9</span>;</span><br><span class="line">	<span class="comment">//当前行</span></span><br><span class="line">	<span class="keyword">int</span> col = now % <span class="number">9</span>;</span><br><span class="line">	<span class="comment">//当前列</span></span><br><span class="line">	<span class="keyword">int</span> j;</span><br><span class="line">	<span class="comment">//同一行</span></span><br><span class="line">	<span class="keyword">for</span>(j = <span class="number">0</span>; j &lt; <span class="number">9</span>; ++j)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(maap[row][j] == maap[row][col] &amp;&amp; j != col)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//同一列</span></span><br><span class="line">	<span class="keyword">for</span>(j = <span class="number">0</span>; j &lt; <span class="number">9</span>; ++j)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(maap[j][col] == maap[row][col] &amp;&amp; j != row)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//同一小格</span></span><br><span class="line">	<span class="keyword">int</span> tmp_row = row / <span class="number">3</span> * <span class="number">3</span>;</span><br><span class="line">	<span class="keyword">int</span> tmp_col = col / <span class="number">3</span> * <span class="number">3</span>;</span><br><span class="line">	<span class="keyword">for</span>(j = tmp_row; j &lt; tmp_row + <span class="number">3</span>;++j)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> k = tmp_col; k &lt; tmp_row + <span class="number">3</span>; ++k)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(maap[j][k] == maap[row][col] &amp;&amp; j != row &amp;&amp; k != col)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//经过三个判断如果可以放那么则真的可以了</span></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_map</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">9</span>; ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j =  <span class="number">0</span>; j &lt; <span class="number">9</span>; ++j)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">cout</span>&lt;&lt;maap[i][j]&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">flowback</span><span class="params">(<span class="keyword">int</span> now)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(now == <span class="number">81</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		print_map();</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> row = now / <span class="number">9</span>;</span><br><span class="line">	<span class="keyword">int</span> col = now % <span class="number">9</span>;</span><br><span class="line">	<span class="keyword">if</span>(!vis[row][col])</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">9</span>; ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			vis[row][col]=<span class="literal">true</span>;</span><br><span class="line">			maap[row][col] = i;<span class="comment">//赋值</span></span><br><span class="line">			<span class="keyword">if</span>(judge(now))</span><br><span class="line">			&#123;<span class="comment">//可以放</span></span><br><span class="line">				flowback(now+<span class="number">1</span>);<span class="comment">//进入下一层</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		vis[row][col]=<span class="literal">false</span>;<span class="comment">//回溯</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		flowback(now+<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">9</span>; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">9</span>; ++j)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">cin</span>&gt;&gt;maap[i][j];</span><br><span class="line">			<span class="keyword">if</span>(maap[i][j])</span><br><span class="line">			&#123;</span><br><span class="line">				vis[i][j]=<span class="literal">true</span>;</span><br><span class="line">				<span class="comment">//有数的地方就不自己放了</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	flowback(<span class="number">0</span>);</span><br><span class="line">	<span class="comment">//从第0个数开始回溯</span></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -1466,7 +1499,8 @@
   <entry>
     <title>第一届CSP开幕在即！</title>
     <url>/2019/11/23/CSP2019!/</url>
-    <content><![CDATA[<h1 id="CSP-S将在2019-11-16举行，2d-3-5h-d-共七个小时的算法设计。"><a href="#CSP-S将在2019-11-16举行，2d-3-5h-d-共七个小时的算法设计。" class="headerlink" title="CSP-S将在2019.11.16举行，2d*3.5h/d.共七个小时的算法设计。"></a>CSP-S将在2019.11.16举行，2d*3.5h/d.共七个小时的算法设计。</h1><h1 id="在此，退役选手first-fan祝各位CSP2019-RP-！"><a href="#在此，退役选手first-fan祝各位CSP2019-RP-！" class="headerlink" title="在此，退役选手first_fan祝各位CSP2019 RP++！"></a>在此，退役选手first_fan祝各位CSP2019 RP++！</h1><p><img src="https://i.loli.net/2019/11/15/A4oC8NLuvfbR327.png" alt></p>]]></content>
+    <content><![CDATA[<h1 id="CSP-S将在2019-11-16举行，2d-3-5h-d-共七个小时的算法设计。"><a href="#CSP-S将在2019-11-16举行，2d-3-5h-d-共七个小时的算法设计。" class="headerlink" title="CSP-S将在2019.11.16举行，2d*3.5h/d.共七个小时的算法设计。"></a>CSP-S将在2019.11.16举行，2d*3.5h/d.共七个小时的算法设计。</h1><h1 id="在此，退役选手first-fan祝各位CSP2019-RP-！"><a href="#在此，退役选手first-fan祝各位CSP2019-RP-！" class="headerlink" title="在此，退役选手first_fan祝各位CSP2019 RP++！"></a>在此，退役选手first_fan祝各位CSP2019 RP++！</h1><p><img src="https://i.loli.net/2019/11/15/A4oC8NLuvfbR327.png" alt=""></p>
+]]></content>
       <categories>
         <category>随想</category>
       </categories>
@@ -1477,11 +1511,11 @@
   <entry>
     <title>题解-CF888E</title>
     <url>/2019/11/23/CF888E/</url>
-    <content><![CDATA[<p>咳咳…这道题的正解是meet-in-middle折半搜索</p><h3 id="但是！！我要讲讲大家喜闻乐见的玄学算法：随机化"><a href="#但是！！我要讲讲大家喜闻乐见的玄学算法：随机化" class="headerlink" title="但是！！我要讲讲大家喜闻乐见的玄学算法：随机化"></a>但是！！我要讲讲大家喜闻乐见的玄学算法：随机化</h3><p>随机化的代码一般很简短，仅仅是简单的模拟而已。</p><p>$Q1$：为什么这题可以随机化？</p><p>$A1$：这道题题目简单，数据种类少，数据关联性小，正常遍历数量大，所以考虑随机化优化时间复杂度。</p><p>$Q2$：随机化不是很玄吗？$WA$会不会霸屏？</p><a id="more"></a>
-
-
-
-
+    <content><![CDATA[<p>咳咳…这道题的正解是meet-in-middle折半搜索</p>
+<h3 id="但是！！我要讲讲大家喜闻乐见的玄学算法：随机化"><a href="#但是！！我要讲讲大家喜闻乐见的玄学算法：随机化" class="headerlink" title="但是！！我要讲讲大家喜闻乐见的玄学算法：随机化"></a>但是！！我要讲讲大家喜闻乐见的玄学算法：随机化</h3><p>随机化的代码一般很简短，仅仅是简单的模拟而已。</p>
+<p>$Q1$：为什么这题可以随机化？</p>
+<p>$A1$：这道题题目简单，数据种类少，数据关联性小，正常遍历数量大，所以考虑随机化优化时间复杂度。</p>
+<p>$Q2$：随机化不是很玄吗？$WA$会不会霸屏？</p>
 <p>$A2$：就一般的随机化而言，$WA$是在所难免的，由于随机化属于骗分技巧，所以可以说你的$rp$和调参水平决定了你的分数。</p>
 <hr>
 <p>那么这道题怎么随机化？</p>
@@ -1491,7 +1525,7 @@
 <p>$rand()$重复次数，$rand()$选择个数，$rand()$选择数字。</p>
 </blockquote>
 <p>三重$rand()$的稳定性较低，所以循环常数不能小。但是循环常数大了容易$TLE$，所以调参对于一名合格的<del>randomer</del>OIer相当重要，这里我开的常数在$50000±3000$，能够保证在500ms左右，正确率$80%-90%$。</p>
-<p><img src="https://i.loli.net/2019/03/24/5c973d7c60899.png" alt></p>
+<p><img src="https://i.loli.net/2019/03/24/5c973d7c60899.png" alt=""></p>
 <p>Here’s my code:</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ri register int</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> GCC optimize(<span class="meta-string">"O3"</span>)<span class="comment">//O3优化对于平时练习时的卡常有奇效</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">read</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> num=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">char</span> c=getchar();</span><br><span class="line">	<span class="keyword">while</span>(!<span class="built_in">isdigit</span>(c))</span><br><span class="line">	&#123;</span><br><span class="line">		c=getchar();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">while</span>(<span class="built_in">isdigit</span>(c))</span><br><span class="line">	&#123;</span><br><span class="line">		num=(num&lt;&lt;<span class="number">1</span>)+(num&lt;&lt;<span class="number">3</span>)+(c^<span class="number">48</span>);</span><br><span class="line">		c=getchar();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> num;</span><br><span class="line">&#125;<span class="comment">//快读</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn=<span class="number">20031125</span>;</span><br><span class="line"><span class="keyword">int</span> a[maxn];</span><br><span class="line"><span class="keyword">bool</span> vis[maxn];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	srand((time)(<span class="number">0</span>));</span><br><span class="line">	<span class="keyword">int</span> n=read();</span><br><span class="line">	<span class="keyword">int</span> mod=read();</span><br><span class="line">	<span class="keyword">for</span>(ri i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		a[i]=read();</span><br><span class="line">	&#125;<span class="comment">//输入数据</span></span><br><span class="line">	<span class="keyword">int</span> rnd=rand()%<span class="number">3000</span>;</span><br><span class="line">	<span class="keyword">int</span> ans=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(ri i=<span class="number">1</span>;i&lt;=<span class="number">50000</span>+rnd;i++)<span class="comment">//随机循环次数</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(ri j=<span class="number">1</span>;j&lt;=n;j++)<span class="comment">//清空vis数组</span></span><br><span class="line">		&#123;</span><br><span class="line">			vis[j]=<span class="number">0</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span>(ri j=<span class="number">1</span>;j&lt;=rand()%n+<span class="number">1</span>;j++)<span class="comment">//随机选择个数</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">int</span> rd=rand()%n+<span class="number">1</span>;<span class="comment">//随机选择数字</span></span><br><span class="line">			<span class="keyword">if</span>(vis[rd])<span class="comment">//剪枝</span></span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">continue</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			ans=max(ans,(ans+a[rd])%mod);<span class="comment">//更新答案</span></span><br><span class="line">			vis[rd]=<span class="literal">true</span>;<span class="comment">//打标记</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//结束</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
@@ -1505,7 +1539,7 @@
   <entry>
     <title>题解-CF154D</title>
     <url>/2019/11/23/CF154D/</url>
-    <content><![CDATA[<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">题意翻译（略长，请耐心看完）</span><br><span class="line"></span><br><span class="line">一个独木桥上甲乙二人在玩传送游戏，其规则如下：</span><br><span class="line"></span><br><span class="line"><span class="number">1.</span>开始时，甲乙二人分别位于x1,x2处，且甲先手。</span><br><span class="line"></span><br><span class="line"><span class="number">2.</span>根据给定的参数a,b，二人可以在桥上传送：每一回合中，假定甲乙现在坐标为x1,x2，那么甲可以传送到[x1+a,x1+b]这一区间内的任一点上，而乙则可以传送到[x2-b,x2-a]上的任一点上，传送时允许跨越对手所在点（毕竟是传送）。</span><br><span class="line"></span><br><span class="line"><span class="number">3.</span>胜利的条件：在本方传送后成功到达对手所在点(把对手挤下桥)。</span><br><span class="line"></span><br><span class="line">现问：在双方都足够聪明的情况下，谁会胜利？</span><br><span class="line"></span><br><span class="line">----</span><br><span class="line"></span><br><span class="line">输出格式：</span><br><span class="line"></span><br><span class="line">若甲胜利，输出“FIRST”，并在下一行指出此时甲第一步应该传送到的坐标。</span><br><span class="line"></span><br><span class="line">若乙胜利，输出“SECOND”。</span><br><span class="line"></span><br><span class="line">若比赛无法结束，输出“DRAW”。（注意：仅甲胜利时需要输出第二行。）</span><br><span class="line"></span><br><span class="line">-----</span><br><span class="line"></span><br><span class="line">数据：</span><br><span class="line">输入仅一行四个整数：x1,x2,a,b。上述量均在[<span class="number">-1e9</span>,<span class="number">1e9</span>]范围内，且保证a≤b</span><br><span class="line"></span><br><span class="line">* 特殊地，当a,b异号时，呆在原地不动也是合法操作。</span><br></pre></td></tr></table></figure><a id="more"></a>
+    <content><![CDATA[<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">题意翻译（略长，请耐心看完）</span><br><span class="line"></span><br><span class="line">一个独木桥上甲乙二人在玩传送游戏，其规则如下：</span><br><span class="line"></span><br><span class="line"><span class="number">1.</span>开始时，甲乙二人分别位于x1,x2处，且甲先手。</span><br><span class="line"></span><br><span class="line"><span class="number">2.</span>根据给定的参数a,b，二人可以在桥上传送：每一回合中，假定甲乙现在坐标为x1,x2，那么甲可以传送到[x1+a,x1+b]这一区间内的任一点上，而乙则可以传送到[x2-b,x2-a]上的任一点上，传送时允许跨越对手所在点（毕竟是传送）。</span><br><span class="line"></span><br><span class="line"><span class="number">3.</span>胜利的条件：在本方传送后成功到达对手所在点(把对手挤下桥)。</span><br><span class="line"></span><br><span class="line">现问：在双方都足够聪明的情况下，谁会胜利？</span><br><span class="line"></span><br><span class="line">----</span><br><span class="line"></span><br><span class="line">输出格式：</span><br><span class="line"></span><br><span class="line">若甲胜利，输出“FIRST”，并在下一行指出此时甲第一步应该传送到的坐标。</span><br><span class="line"></span><br><span class="line">若乙胜利，输出“SECOND”。</span><br><span class="line"></span><br><span class="line">若比赛无法结束，输出“DRAW”。（注意：仅甲胜利时需要输出第二行。）</span><br><span class="line"></span><br><span class="line">-----</span><br><span class="line"></span><br><span class="line">数据：</span><br><span class="line">输入仅一行四个整数：x1,x2,a,b。上述量均在[<span class="number">-1e9</span>,<span class="number">1e9</span>]范围内，且保证a≤b</span><br><span class="line"></span><br><span class="line">* 特殊地，当a,b异号时，呆在原地不动也是合法操作。</span><br></pre></td></tr></table></figure>
 
 <p>题目描述在暗示a,b的符号性很重要，我们就以此分类：</p>
 <h3 id="此处设dis为二人初始位置差，即x2-x1"><a href="#此处设dis为二人初始位置差，即x2-x1" class="headerlink" title="*此处设dis为二人初始位置差，即x2-x1"></a>*此处设dis为二人初始位置差，即x2-x1</h3><ul>
@@ -1549,19 +1583,19 @@
   <entry>
     <title>汉诺塔问题的二进制解法</title>
     <url>/2019/11/23/binary_hanoi/</url>
-    <content><![CDATA[<h3 id="想必来到这篇文章的人都知道汉诺塔是什么："><a href="#想必来到这篇文章的人都知道汉诺塔是什么：" class="headerlink" title="想必来到这篇文章的人都知道汉诺塔是什么："></a>想必来到这篇文章的人都知道汉诺塔是什么：</h3><p>三根柱子，一摞盘子，小盘在大盘上，挪到目标柱上。</p><p>如图：</p><p><img src="https://ww1.sinaimg.cn/large/007i4MEmly1g1l7lbfvmhg30ie0cidp0.gif" alt></p><p>这是学习语言理解递归最最基本的一个程序。</p><p>想想正常的做法：</p><ul>
+    <content><![CDATA[<h3 id="想必来到这篇文章的人都知道汉诺塔是什么："><a href="#想必来到这篇文章的人都知道汉诺塔是什么：" class="headerlink" title="想必来到这篇文章的人都知道汉诺塔是什么："></a>想必来到这篇文章的人都知道汉诺塔是什么：</h3><p>三根柱子，一摞盘子，小盘在大盘上，挪到目标柱上。</p>
+<p>如图：</p>
+<p><img src="https://ww1.sinaimg.cn/large/007i4MEmly1g1l7lbfvmhg30ie0cidp0.gif" alt=""></p>
+<p>这是学习语言理解递归最最基本的一个程序。</p>
+<p>想想正常的做法：</p>
+<ul>
 <li><p>视角换至最底层盘，则要把所有上面的盘移动至无关盘上。</p>
 </li>
 <li><p>随后把最底层盘挪至目标处，转换为少一个盘的相同问题。</p>
 </li>
 <li><p>重复上述操作，直到只剩1个，放到目标盘即可。</p>
 </li>
-</ul><a id="more"></a>
-
-
-
-
-
+</ul>
 <p>典型的递归思路。</p>
 <hr>
 <p>但我接下来要说的是它与<strong>二进制数</strong>的关系</p>
@@ -1570,41 +1604,41 @@
 <ul>
 <li>未挪动时</li>
 </ul>
-<p><img src="https://i.loli.net/2019/03/30/5c9f63145c15d.png" alt></p>
+<p><img src="https://i.loli.net/2019/03/30/5c9f63145c15d.png" alt=""></p>
 <ul>
 <li>挪动$1$号盘至$C$柱</li>
 </ul>
-<p><img src="https://i.loli.net/2019/03/30/5c9f6386960e5.png" alt></p>
+<p><img src="https://i.loli.net/2019/03/30/5c9f6386960e5.png" alt=""></p>
 <ul>
 <li>挪动$2$号盘到$B$柱</li>
 </ul>
-<p><img src="https://i.loli.net/2019/03/30/5c9f63b76187c.png" alt></p>
+<p><img src="https://i.loli.net/2019/03/30/5c9f63b76187c.png" alt=""></p>
 <ul>
 <li>挪动$1$号盘到$B$柱</li>
 </ul>
-<p><img src="https://i.loli.net/2019/03/30/5c9f63ef17142.png" alt></p>
+<p><img src="https://i.loli.net/2019/03/30/5c9f63ef17142.png" alt=""></p>
 <ul>
 <li>挪动$3$号盘到$C$柱</li>
 </ul>
-<p><img src="https://i.loli.net/2019/03/30/5c9f6428ce753.png" alt></p>
+<p><img src="https://i.loli.net/2019/03/30/5c9f6428ce753.png" alt=""></p>
 <ul>
 <li>挪动$1$号盘到$A$柱</li>
 </ul>
-<p><img src="https://i.loli.net/2019/03/30/5c9f648e5c78e.png" alt></p>
+<p><img src="https://i.loli.net/2019/03/30/5c9f648e5c78e.png" alt=""></p>
 <ul>
 <li>挪动$2$号盘到$C$柱</li>
 </ul>
-<p><img src="https://i.loli.net/2019/03/30/5c9f64d6e773b.png" alt></p>
+<p><img src="https://i.loli.net/2019/03/30/5c9f64d6e773b.png" alt=""></p>
 <ul>
 <li>挪动$1$号盘到$C$柱</li>
 </ul>
-<p><img src="https://i.loli.net/2019/03/30/5c9f65154ce95.png" alt></p>
+<p><img src="https://i.loli.net/2019/03/30/5c9f65154ce95.png" alt=""></p>
 <ul>
 <li>$The$ $End$</li>
 </ul>
 <p>那么，我们来看看，这跟二进制又有什么关系呢？</p>
 <p>先看挪$1$号盘时出现的变化：</p>
-<p><img src="https://i.loli.net/2019/03/30/5c9f66427ea5f.png" alt></p>
+<p><img src="https://i.loli.net/2019/03/30/5c9f66427ea5f.png" alt=""></p>
 <p>怎样？是不是发现了什么？</p>
 <p>没错！就是说：当$lowbit(cnt)=10_{(2)}$时，即第二位为1时，下一次就要挪动$1$号盘。</p>
 <p><code>再具体一点，我们甚至可以知道怎么挪一号盘</code></p>
@@ -1626,7 +1660,7 @@
 <li>当$lowbit(cnt)=10_{(2)}$时，即第二位为1时，我们把$1$盘向左移动，其移动方向为$C-&gt;B-&gt;A-&gt;C$的一个<strong>环路径</strong>。</li>
 </ul>
 <p>那我们继续，看盘$2$的移动:</p>
-<p><img src="https://i.loli.net/2019/03/30/5c9f6d184f5b2.png" alt></p>
+<p><img src="https://i.loli.net/2019/03/30/5c9f6d184f5b2.png" alt=""></p>
 <p>我们发现，二号盘总是被迫挪动到<strong>唯一的能挪动到的盘</strong>。</p>
 <p>继而发现$2-n$号盘具有同一特性：总是被迫挪动到<strong>唯一的能挪动到的盘</strong>。</p>
 <p>好了！现在我们可以进行非递归的解决了！</p>
@@ -1664,7 +1698,7 @@
 </ul>
 <p>我们在挪动汉诺塔时，挪动从上到下第$m$个盘时，要把它上面的所有$m-1$个盘都挪走！那么就是要把前面$m-1$位的$1$全部进位。</p>
 <p>原理也解释完毕了，想必大家也理解了，下面有一个$6$盘汉诺塔，大家可以手动试试看。</p>
-<p><img src="https://img2018.cnblogs.com/blog/1151747/201811/1151747-20181112155128542-1721696370.gif" alt></p>
+<p><img src="https://img2018.cnblogs.com/blog/1151747/201811/1151747-20181112155128542-1721696370.gif" alt=""></p>
 <table>
 <thead>
 <tr>
@@ -1704,7 +1738,7 @@
   <entry>
     <title>Hello World</title>
     <url>/2019/11/23/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><a id="more"></a>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
 
 <p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
