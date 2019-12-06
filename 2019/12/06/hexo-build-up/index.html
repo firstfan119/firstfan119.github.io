@@ -73,7 +73,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;ae01.alicdn.com&#x2F;kf&#x2F;H594a4fa6e92e4ebf9cd929ea387d85f9c.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;12&#x2F;06&#x2F;4TxPvHB9SwkguIb.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;ae01.alicdn.com&#x2F;kf&#x2F;H710413b632644dcbbe585b07d1a76081q.png">
-<meta property="og:updated_time" content="2019-12-06T15:01:32.564Z">
+<meta property="og:updated_time" content="2019-12-06T16:53:50.935Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;programmerblog.net&#x2F;wp-content&#x2F;uploads&#x2F;2017&#x2F;07&#x2F;generate-pdf-using-nodejs-thumbnail.png">
 
@@ -253,10 +253,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2019-12-06 15:26:30 / 修改时间：23:01:32" itemprop="dateCreated datePublished" datetime="2019-12-06T15:26:30+08:00">2019-12-06</time>
+              <time title="创建时间：2019-12-06 15:26:30" itemprop="dateCreated datePublished" datetime="2019-12-06T15:26:30+08:00">2019-12-06</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-07 00:53:50" itemprop="dateModified" datetime="2019-12-07T00:53:50+08:00">2019-12-07</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -376,8 +382,16 @@
 <p>安装完毕后，输入两个命令行进行github-ssh绑定：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.email &quot;name@mail.com&quot;</span><br><span class="line">*此处邮箱填写github相关邮箱</span><br><span class="line">git config --global user.name &quot;username&quot;</span><br><span class="line">*此处username填写github用户名</span><br></pre></td></tr></table></figure>
 
+<p>接下来我要简单介绍下hexo的三个常用指令：</p>
+<h3 id="hexo-g"><a href="#hexo-g" class="headerlink" title="hexo g"></a>hexo g</h3><p>将_posts中的文章按日期归档，集合生成一个index.html下的页面树形结构（可以视作生成链接逻辑结构）。</p>
+<h3 id="hexo-d"><a href="#hexo-d" class="headerlink" title="hexo d"></a>hexo d</h3><p>将目前生成的文章及插件、配置等更新并push到username.github.io上。</p>
+<h3 id="hexo-s"><a href="#hexo-s" class="headerlink" title="hexo s"></a>hexo s</h3><p>将博客映射到本地局域网(localhost)的4000端口上(4000是默认值，也可以设置为别的端口)。</p>
+<p>特别的是，当你修改并保存文章、配置时，刷新localhost页面，效果会直接改变，从而达到查看效果的功能：在localhost查看，修改好了再push到github上。</p>
+<p>此处，我们需要先后输入命令行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
 
-
+<p>如果是第一次操作，会要求登录GitHub账号，按要求登录对应账号即可。</p>
+<p>现在，我们可以登陆到username.github.io看看你的上传是否成功啦~（若不显示请稍等1-2min）</p>
 <h2 id="视频教程"><a href="#视频教程" class="headerlink" title="视频教程"></a>视频教程</h2>
 
 <iframe src="//player.bilibili.com/player.html?aid=24897960&cid=42007944&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
@@ -445,7 +459,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#序"><span class="nav-number">1.</span> <span class="nav-text">序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作"><span class="nav-number">2.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ⅰ-github的SSH-key设置"><span class="nav-number">3.</span> <span class="nav-text">Ⅰ.github的SSH key设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ⅱ-配置hexo"><span class="nav-number">4.</span> <span class="nav-text">Ⅱ.配置hexo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ⅲ-hexo上传"><span class="nav-number">5.</span> <span class="nav-text">Ⅲ.hexo上传</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#视频教程"><span class="nav-number">6.</span> <span class="nav-text">视频教程</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#序"><span class="nav-number">1.</span> <span class="nav-text">序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作"><span class="nav-number">2.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ⅰ-github的SSH-key设置"><span class="nav-number">3.</span> <span class="nav-text">Ⅰ.github的SSH key设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ⅱ-配置hexo"><span class="nav-number">4.</span> <span class="nav-text">Ⅱ.配置hexo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ⅲ-hexo上传"><span class="nav-number">5.</span> <span class="nav-text">Ⅲ.hexo上传</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#hexo-g"><span class="nav-number">5.1.</span> <span class="nav-text">hexo g</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hexo-d"><span class="nav-number">5.2.</span> <span class="nav-text">hexo d</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hexo-s"><span class="nav-number">5.3.</span> <span class="nav-text">hexo s</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#视频教程"><span class="nav-number">6.</span> <span class="nav-text">视频教程</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

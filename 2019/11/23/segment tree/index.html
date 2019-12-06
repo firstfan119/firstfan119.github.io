@@ -279,8 +279,8 @@
       
         <blockquote>
 <p>线段树是一种二叉搜索树，与区间树相似，它将一个区间划分成一些单元区间，每个单元区间对应线段树中的一个叶结点。使用线段树可以快速的查找某一个节点在若干条线段中出现的次数，时间复杂度为 $O(\log N)$ 。而未优化的空间复杂度为 $2N$ ，因此有时需要离散化让空间压缩。</p>
-</blockquote>
-<h3 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h3><p>在 $\sf\ O(\log N)$ 的时间复杂度内实现：</p>
+</blockquote><h3 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h3><p>在 $\sf\ O(\log N)$ 的时间复杂度内实现：</p><a id="more"></a>
+
 <p>单点修改、区间修改、区间查询$\sf\ etc.$</p>
 <p>线段树维护的信息需要满足<code>可加性</code>，如果使用标记，标记也要满足可加性。</p>
 <h3 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h3><p><strong>基本结构与建树</strong></p>
@@ -294,7 +294,7 @@
 <li><p>$d[i]$ 用来保存编号为 $i$ 的节点的值（这里节点的值就是这个节点所表示的区间总和）<br>如图所示：</p>
 </li>
 </ul>
-<p><img src="https://ww1.sinaimg.cn/large/007i4MEmgy1g24xita4czg31280lk7wo.gif" alt=""></p>
+<p><img src="https://ww1.sinaimg.cn/large/007i4MEmgy1g24xita4czg31280lk7wo.gif" alt></p>
 <p>设$\sf\ d[i]$是线段树中的结点。</p>
 <ul>
 <li><p>$\sf\ d[i]$ 的左节点是 $\sf\ d[ls(i)]$</p>
@@ -313,7 +313,7 @@
 </blockquote>
 <p><strong>如何实现？</strong></p>
 <p>如图</p>
-<p><img src="https://s2.ax1x.com/2019/11/16/Mwkdat.gif" alt=""></p>
+<p><img src="https://s2.ax1x.com/2019/11/16/Mwkdat.gif" alt></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> leaf (l==r)</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r,<span class="keyword">int</span> p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(leaf)</span><br><span class="line">	&#123;</span><br><span class="line">		d[p]=a[s];</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> mid=(l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">	build(l,mid,ls(p));</span><br><span class="line">	build(mid+<span class="number">1</span>,r,rs(p));</span><br><span class="line">	d[p]=d[ls(p)]+d[rs(p)];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>关于线段树的空间: </p>
@@ -321,7 +321,7 @@
 <p>一般来说，开四倍是怎么样都够了的，但是在卡空间的题里要进行类似于动态开点的操作。</p>
 <p><strong>区间查询</strong></p>
 <p>区间查询，比如求区间 $\sf\ [l,r]$ 的和的操作。</p>
-<p><img src="https://s2.ax1x.com/2019/11/16/MwA7ff.gif" alt=""></p>
+<p><img src="https://s2.ax1x.com/2019/11/16/MwA7ff.gif" alt></p>
 <p>比如查询区间$\sf\ [3,5]$，把 $\sf\ [3,5]$ 拆成 $\sf\ [3,3]$ 和 $\sf\ [4,5]$ 就行了。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getsum</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r,<span class="keyword">int</span> l_now,<span class="keyword">int</span> r_now,<span class="keyword">int</span> p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//[l,r]为查询区间,[l_now,r_now]为当前节点包含的区间,p为当前节点的编号</span></span><br><span class="line">	<span class="keyword">if</span>(l&lt;=l_now&amp;&amp;r_now&lt;=r)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> d[p];<span class="comment">//当前区间为询问区间的子集时直接返回当前区间的和</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> mid=(l_now+r_now)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">int</span> sum=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">if</span>(l&lt;=mid)</span><br><span class="line">	&#123;</span><br><span class="line">		sum+=getsum(l,r,l_now,mid,ls(p));</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//如果左儿子代表的区间[l,m]与询问区间有交集,则递归查询左儿子</span></span><br><span class="line">	<span class="keyword">if</span>(r&gt;mid)</span><br><span class="line">	&#123;</span><br><span class="line">		sum+=getsum(l,r,mid+<span class="number">1</span>,r_now,rs(p));</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//如果右儿子代表的区间[m+1,r]与询问区间有交集,则递归查询右儿子</span></span><br><span class="line">	<span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>主要思路是把区间拆成左右区间，再分别处理。(分治)</p>

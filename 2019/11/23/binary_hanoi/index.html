@@ -275,19 +275,19 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="想必来到这篇文章的人都知道汉诺塔是什么："><a href="#想必来到这篇文章的人都知道汉诺塔是什么：" class="headerlink" title="想必来到这篇文章的人都知道汉诺塔是什么："></a>想必来到这篇文章的人都知道汉诺塔是什么：</h3><p>三根柱子，一摞盘子，小盘在大盘上，挪到目标柱上。</p>
-<p>如图：</p>
-<p><img src="https://ww1.sinaimg.cn/large/007i4MEmly1g1l7lbfvmhg30ie0cidp0.gif" alt=""></p>
-<p>这是学习语言理解递归最最基本的一个程序。</p>
-<p>想想正常的做法：</p>
-<ul>
+        <h3 id="想必来到这篇文章的人都知道汉诺塔是什么："><a href="#想必来到这篇文章的人都知道汉诺塔是什么：" class="headerlink" title="想必来到这篇文章的人都知道汉诺塔是什么："></a>想必来到这篇文章的人都知道汉诺塔是什么：</h3><p>三根柱子，一摞盘子，小盘在大盘上，挪到目标柱上。</p><p>如图：</p><p><img src="https://ww1.sinaimg.cn/large/007i4MEmly1g1l7lbfvmhg30ie0cidp0.gif" alt></p><p>这是学习语言理解递归最最基本的一个程序。</p><p>想想正常的做法：</p><ul>
 <li><p>视角换至最底层盘，则要把所有上面的盘移动至无关盘上。</p>
 </li>
 <li><p>随后把最底层盘挪至目标处，转换为少一个盘的相同问题。</p>
 </li>
 <li><p>重复上述操作，直到只剩1个，放到目标盘即可。</p>
 </li>
-</ul>
+</ul><a id="more"></a>
+
+
+
+
+
 <p>典型的递归思路。</p>
 <hr>
 <p>但我接下来要说的是它与<strong>二进制数</strong>的关系</p>
@@ -296,41 +296,41 @@
 <ul>
 <li>未挪动时</li>
 </ul>
-<p><img src="https://i.loli.net/2019/03/30/5c9f63145c15d.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/03/30/5c9f63145c15d.png" alt></p>
 <ul>
 <li>挪动$1$号盘至$C$柱</li>
 </ul>
-<p><img src="https://i.loli.net/2019/03/30/5c9f6386960e5.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/03/30/5c9f6386960e5.png" alt></p>
 <ul>
 <li>挪动$2$号盘到$B$柱</li>
 </ul>
-<p><img src="https://i.loli.net/2019/03/30/5c9f63b76187c.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/03/30/5c9f63b76187c.png" alt></p>
 <ul>
 <li>挪动$1$号盘到$B$柱</li>
 </ul>
-<p><img src="https://i.loli.net/2019/03/30/5c9f63ef17142.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/03/30/5c9f63ef17142.png" alt></p>
 <ul>
 <li>挪动$3$号盘到$C$柱</li>
 </ul>
-<p><img src="https://i.loli.net/2019/03/30/5c9f6428ce753.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/03/30/5c9f6428ce753.png" alt></p>
 <ul>
 <li>挪动$1$号盘到$A$柱</li>
 </ul>
-<p><img src="https://i.loli.net/2019/03/30/5c9f648e5c78e.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/03/30/5c9f648e5c78e.png" alt></p>
 <ul>
 <li>挪动$2$号盘到$C$柱</li>
 </ul>
-<p><img src="https://i.loli.net/2019/03/30/5c9f64d6e773b.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/03/30/5c9f64d6e773b.png" alt></p>
 <ul>
 <li>挪动$1$号盘到$C$柱</li>
 </ul>
-<p><img src="https://i.loli.net/2019/03/30/5c9f65154ce95.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/03/30/5c9f65154ce95.png" alt></p>
 <ul>
 <li>$The$ $End$</li>
 </ul>
 <p>那么，我们来看看，这跟二进制又有什么关系呢？</p>
 <p>先看挪$1$号盘时出现的变化：</p>
-<p><img src="https://i.loli.net/2019/03/30/5c9f66427ea5f.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/03/30/5c9f66427ea5f.png" alt></p>
 <p>怎样？是不是发现了什么？</p>
 <p>没错！就是说：当$lowbit(cnt)=10_{(2)}$时，即第二位为1时，下一次就要挪动$1$号盘。</p>
 <p><code>再具体一点，我们甚至可以知道怎么挪一号盘</code></p>
@@ -352,7 +352,7 @@
 <li>当$lowbit(cnt)=10_{(2)}$时，即第二位为1时，我们把$1$盘向左移动，其移动方向为$C-&gt;B-&gt;A-&gt;C$的一个<strong>环路径</strong>。</li>
 </ul>
 <p>那我们继续，看盘$2$的移动:</p>
-<p><img src="https://i.loli.net/2019/03/30/5c9f6d184f5b2.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/03/30/5c9f6d184f5b2.png" alt></p>
 <p>我们发现，二号盘总是被迫挪动到<strong>唯一的能挪动到的盘</strong>。</p>
 <p>继而发现$2-n$号盘具有同一特性：总是被迫挪动到<strong>唯一的能挪动到的盘</strong>。</p>
 <p>好了！现在我们可以进行非递归的解决了！</p>
@@ -390,7 +390,7 @@
 </ul>
 <p>我们在挪动汉诺塔时，挪动从上到下第$m$个盘时，要把它上面的所有$m-1$个盘都挪走！那么就是要把前面$m-1$位的$1$全部进位。</p>
 <p>原理也解释完毕了，想必大家也理解了，下面有一个$6$盘汉诺塔，大家可以手动试试看。</p>
-<p><img src="https://img2018.cnblogs.com/blog/1151747/201811/1151747-20181112155128542-1721696370.gif" alt=""></p>
+<p><img src="https://img2018.cnblogs.com/blog/1151747/201811/1151747-20181112155128542-1721696370.gif" alt></p>
 <table>
 <thead>
 <tr>

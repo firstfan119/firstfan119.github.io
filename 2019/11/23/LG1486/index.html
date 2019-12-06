@@ -273,9 +273,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>利用最近学的数据结构SBT过了此题，故来讲讲节点大小平衡树的做法。[<a href="https://www.luogu.org/blog/firstfan/size-balanced-tree" target="_blank" rel="noopener">戳我了解Size-Balanced-Tree</a>]</p>
-<p>这道题考察了大部分平衡树的操作，如插入、删除、查第k大元素等，所以可以视为弱化版的模板。</p>
-<p>此题特别的一点就是要用一个变量统计一下所有成员的工资，一个比较妙的操作是：在员工加入后直接存储他与最低工资的差值即可</p>
+        <p>利用最近学的数据结构SBT过了此题，故来讲讲节点大小平衡树的做法。[<a href="https://www.luogu.org/blog/firstfan/size-balanced-tree" target="_blank" rel="noopener">戳我了解Size-Balanced-Tree</a>]</p><p>这道题考察了大部分平衡树的操作，如插入、删除、查第k大元素等，所以可以视为弱化版的模板。</p><p>此题特别的一点就是要用一个变量统计一下所有成员的工资，一个比较妙的操作是：在员工加入后直接存储他与最低工资的差值即可</p><a id="more"></a>
+
+
 <p>简析一下四种操作怎么处理：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>插入权值为k-min的结点</span><br><span class="line"></span><br><span class="line"><span class="number">2.</span>把SBT上所有结点的值加k</span><br><span class="line"></span><br><span class="line"><span class="number">3.</span>把SBT上所有结点的值减k，减完后把低于min的结点删除。</span><br><span class="line"></span><br><span class="line"><span class="number">4.</span>查询SBT第k大，可以转化为SBT第(siz-k)小。如果范围越树尺寸输出<span class="number">-1</span>就好。</span><br></pre></td></tr></table></figure>
 

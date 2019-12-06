@@ -280,23 +280,23 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="1-对于SBT树高log-n的证明"><a href="#1-对于SBT树高log-n的证明" class="headerlink" title="1.对于SBT树高log n的证明"></a>1.对于SBT树高log n的证明</h2><p>设 f[x] 是高度为 x 的结点个数最少的 SBT 的结点个数。</p>
-<p>f[x]有一个结论如下：</p>
-<p>$\sf f[x]=\begin{cases}1,(x=0)\2,(x=1)\f[x-1]+f[x-2]+1,(x&gt;1)\end{cases}$</p>
-<p>显然，f[0]=1,f[1]=2;</p>
+        <h2 id="1-对于SBT树高log-n的证明"><a href="#1-对于SBT树高log-n的证明" class="headerlink" title="1.对于SBT树高log n的证明"></a>1.对于SBT树高log n的证明</h2><p>设 f[x] 是高度为 x 的结点个数最少的 SBT 的结点个数。</p><p>f[x]有一个结论如下：</p><p>$\sf f[x]=\begin{cases}1,(x=0)\2,(x=1)\f[x-1]+f[x-2]+1,(x&gt;1)\end{cases}$</p><p>显然，f[0]=1,f[1]=2;</p><a id="more"></a>
+
+
+
 <p>f[x]=f[x-1]+f[x-2]+1(x&gt;1)的证明：</p>
 <p>对于每个x，设 t 指向一个高度为 x 的 SBT ，然后这个 SBT 包含一个高度为 x-1 的子树。不妨设它就是左子树。</p>
 <p>通过前面对于 f[x] 的定义，我们得到t[ls(x)].siz&gt;=f[x-1]，并且在左子树上有一棵高为 x-2 的子树，或者说有一棵大小（ siz ）至少为 f[x-1] 的子树在左子树上。由性质可得t[ls(x)].siz&gt;=f[x-2]。</p>
 <p>故而有f[x]=f[x-1]+f[x-2]+1(x&gt;1)。</p>
 <p>也可以通过构造特殊SBT进行证明：</p>
-<p><img src="https://i.loli.net/2019/10/20/Ho8dzTJycwKmRgb.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/10/20/Ho8dzTJycwKmRgb.png" alt></p>
 <p>对于递推函数f,我们发现它具有斐波那契数列的相似性质，则利用特征根方程可以求出通项公式：</p>
 <p>$\sf\Large f[x]=\frac{u^{x+3}-v^{x+3}}{\sqrt5}-1=||\frac{u^{x+3}}{\sqrt 5}-1||$</p>
 <p>其中u=$\frac{1+\sqrt{5}}{2}$,v=$\frac{1-\sqrt{5}}{2}$。</p>
 <p>下面是一张计算表，可以看见f[x]较小的值</p>
-<p><img src="https://i.loli.net/2019/10/20/GWqVDzCvlu4PQeH.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/10/20/GWqVDzCvlu4PQeH.png" alt></p>
 <p>那么接下来对于最差高度maxh进行证明(引自论文):</p>
-<p><img src="https://i.loli.net/2019/10/20/HF6A1WXr8p5lRym.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/10/20/HF6A1WXr8p5lRym.png" alt></p>
 <p>可得最差树高是log n级别的。</p>
 <h2 id="2-对于SBT-maintain-时间复杂度O-1-的证明"><a href="#2-对于SBT-maintain-时间复杂度O-1-的证明" class="headerlink" title="2.对于SBT maintain()时间复杂度O(1)的证明"></a>2.对于SBT maintain()时间复杂度O(1)的证明</h2><p>通过前面的结论，我们可以很容易的证明 Maintain 过程是非常有效的 过程 。</p>
 <p>评价一棵 BST 时有一个非常重要的值，那就是 <code>结点的平均深度</code>。它是通过所有结点深度和除以总结点个数 n 获得的。通常它会很小，而 BST 会更小 。</p>
@@ -304,12 +304,12 @@
 <p>现在我们的目的是<code>削减结点深度和</code>，而它就是用来约束 Maintain 的次数。</p>
 <p>回顾一下 Maintain 中执行旋转的条件，会发现结点深度和在旋转后<code>总是在减小</code>。</p>
 <p>感性分析后，再进行理性证明(引自论文):</p>
-<p><img src="https://i.loli.net/2019/10/20/ta2mDnfZ68Gwp4z.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/10/20/ta2mDnfZ68Gwp4z.png" alt></p>
 <p>可见maintain()函数均摊只有O(1)，非常快速。</p>
 <h2 id="3-SBT综合性能分析"><a href="#3-SBT综合性能分析" class="headerlink" title="3.SBT综合性能分析"></a>3.SBT综合性能分析</h2><p>一张图说明效率：</p>
-<p><img src="https://i.loli.net/2019/10/20/A79QNE61RvJC3Zr.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/10/20/A79QNE61RvJC3Zr.png" alt></p>
 <p>两张表对比速度：</p>
-<p><img src="https://i.loli.net/2019/10/20/oPSfdFGhs5gtlwC.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/10/20/oPSfdFGhs5gtlwC.png" alt></p>
 <p>这说明SBT在时间复杂度上胜于一般的平衡树。</p>
 <p>另外，不像一般平衡树，SBT只用维护一个额外的siz值即可，而siz值往往又是题目中要求的，所以可以视作不存储额外信息。而treap等则需要另外存储随机权值，颜色等等，空间上SBT也略胜一筹。</p>
 <h3 id="总结而言……SBT天下第一！"><a href="#总结而言……SBT天下第一！" class="headerlink" title="总结而言……SBT天下第一！"></a>总结而言……SBT天下第一！</h3>

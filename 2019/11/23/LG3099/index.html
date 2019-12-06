@@ -277,15 +277,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>本题题意简单：给出两组大小为n的点集，问点集A中任取三点形成的三角形围住点集B中点的数量，以及B包A的数量。</p>
-<p>其实题目可以进一步简化：我们来看一幅图（样例解释）</p>
-<p><img src="https://i.loli.net/2019/09/15/k9uW1PR8hpZ5IfQ.png" alt=""></p>
-<p>我们可以主观感受一下，红点被蓝点包了一个，蓝点被红点包了俩。</p>
-<p>回想一下，我们是怎么判断的呢？一个个三角形枚举吗？$\sf\color{red}\text{并不是！}$</p>
+        <p>本题题意简单：给出两组大小为n的点集，问点集A中任取三点形成的三角形围住点集B中点的数量，以及B包A的数量。</p><p>其实题目可以进一步简化：我们来看一幅图（样例解释）</p><p><img src="https://i.loli.net/2019/09/15/k9uW1PR8hpZ5IfQ.png" alt></p><p>我们可以主观感受一下，红点被蓝点包了一个，蓝点被红点包了俩。</p><p>回想一下，我们是怎么判断的呢？一个个三角形枚举吗？$\sf\color{red}\text{并不是！}$</p><a id="more"></a>
+
+
+
+
 <p>多感受几次，我们发现：如果一个点被异色点围成的一个多边形围住，那么它就被捕了（如下图）。<strong>但是为什么？</strong></p>
-<p><img src="https://i.loli.net/2019/09/15/DBA3CNYsJqWprxh.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/09/15/DBA3CNYsJqWprxh.png" alt></p>
 <p>别忘了，当你把所有可能的三角形围出来的时候，就注定把这些点围成的多边形覆盖，因为所有的三角形边中一定包含了这个多边形的边。还是以图举例。</p>
-<p><img src="https://i.loli.net/2019/09/15/Jx8SYV6XMGznfgp.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/09/15/Jx8SYV6XMGznfgp.png" alt></p>
 <p>显然这个五个点围出了五边形（为了美观，有部分三角形未画出）</p>
 <p>直入主题，这样的多边形我们称之为$\sf\color{red}\text{凸包}$。那么我们现在需要的就是<code>判断点是否在凸包内</code>了。</p>
 <p>关于凸包，网上已有详细的讲解，此处不作赘述。</p>

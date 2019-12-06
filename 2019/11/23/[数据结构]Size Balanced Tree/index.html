@@ -280,8 +280,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>$\sf\large\text{Size Balanced Tree}$(节点大小平衡树，下简称SBT)是陈启峰在WC2007提出的一种新型平衡树。</p>
-<p>SBT的高度为log n，其核心操作maintain()复杂度O(1)，其他操作均为O(log n)，所以是平衡树中非常优秀的一种。其主要通过子树大小来维持其平衡性质。</p>
+        <p>$\sf\large\text{Size Balanced Tree}$(节点大小平衡树，下简称SBT)是陈启峰在WC2007提出的一种新型平衡树。</p><p>SBT的高度为log n，其核心操作maintain()复杂度O(1)，其他操作均为O(log n)，所以是平衡树中非常优秀的一种。其主要通过子树大小来维持其平衡性质。</p><a id="more"></a>
+
 <p>和其他平衡树一样，SBT支持大部分较为常规的操作：</p>
 <ul>
 <li>“以x为根的子树”在下文中简称为”x子树”</li>
@@ -297,7 +297,7 @@
 
 <p>$\sf\large\text{2.SBT的左右旋}$</p>
 <p>SBT也是需要旋转的，且同样分为左右旋两种。</p>
-<p><img src="https://i.loli.net/2019/10/20/MU1AmnYzRbjoV6c.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/10/20/MU1AmnYzRbjoV6c.png" alt></p>
 <p>我们列出旋转前后的状态，即</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">左旋前:</span><br><span class="line">根:rt	左子树的根:L</span><br><span class="line">右子树的根:R_rt	右子树的子树:R_l,R_r</span><br><span class="line">左旋后:</span><br><span class="line">根:R_rt	右子树的根:R_r</span><br><span class="line">左子树的根:rt	左子树的子树:L,R_l</span><br><span class="line"></span><br><span class="line">右旋前:</span><br><span class="line">根:rt	右子树的根:R</span><br><span class="line">左子树的根:L_rt	右子树的子树:L_l,L_r</span><br><span class="line">右旋后:</span><br><span class="line">根:L_rt	左子树的根:L_l</span><br><span class="line">右子树的根:rt	右子树的子树:L_r,R</span><br></pre></td></tr></table></figure>
 
@@ -306,7 +306,7 @@
 
 <p>$\sf\large\text{3.SBT的维护}$</p>
 <p>首先，假设一株满足条件的SBT长这样：</p>
-<p><img src="https://i.loli.net/2019/10/20/khYEgfinPvxerM3.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/10/20/khYEgfinPvxerM3.png" alt></p>
 <p>此时有A.siz,B.siz≤R.siz并且C.siz,D.siz≤L.siz</p>
 <p>每当插入一个值的时候，平衡树的平衡性就可能被打破，所以我们要使用O(1)的<code>maintain(x)</code>对x子树进行修复操作。</p>
 <p>插入后，可能会出现以下的四种情况:</p>
@@ -316,15 +316,15 @@
 <p>$\sf 1.t[ls(ls(x))].siz&gt;t[rs(x)].siz$</p>
 <p>看到上图，对于T子树，此时的情况就是A.siz&gt;R.siz，显然此时就导致平衡性质受损。</p>
 <p>第一步，我们先将其右旋，得到下面这株可能仍然不满足性质的树：</p>
-<p><img src="https://i.loli.net/2019/10/20/AGUZCcN69DI2kjo.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/10/20/AGUZCcN69DI2kjo.png" alt></p>
 <p>之所以说可能仍不满足性质，是因为C.siz&gt;B.siz或D.siz&gt;B.siz的情况可能发生，所以有必要再次使用maintain(T)。这样一来，L的右子树就会被多次调整，不过别担心，每次调整都是O(1)的。</p>
 <p>$\sf 1.t[rs(ls(x))].siz&gt;t[rs(x)].siz$</p>
 <p>（为了直观，此处增加结点数）上述情况在下图中表示为：B.siz&gt;R.siz</p>
-<p><img src="https://i.loli.net/2019/10/20/8VOo7kwPWxZFQCT.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/10/20/8VOo7kwPWxZFQCT.png" alt></p>
 <p>那么对称地，我们先进行左旋，得到：</p>
-<p><img src="https://i.loli.net/2019/10/20/TMjQJtFUi1aRBXl.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/10/20/TMjQJtFUi1aRBXl.png" alt></p>
 <p>不同的是，接下来我们还要进行一次右旋，得到:</p>
-<p><img src="https://i.loli.net/2019/10/20/rsWMngUahG2qvZw.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/10/20/rsWMngUahG2qvZw.png" alt></p>
 <p>有同学可能就会问了：左旋右旋过后这棵树就很不稳定了，怎么办？</p>
 <p>答：没事，至少图中的小子树还是满足性质的，所以只要maintain一下L和T就可以让L,T子树平衡。最后再来一次maintain(B)即可。</p>
 <p>情况3,4与上述两种情况分别相反，对应操作即可，此处不再赘述。</p>
