@@ -1,6 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>浅究HAc+NaOH水解平衡离子含量</title>
+    <url>/2019/12/10/%E9%86%8B%E9%85%B8%E5%92%8C%E6%B0%A2%E6%B0%A7%E5%8C%96%E9%92%A0%E6%B7%B7%E5%90%88%E7%9A%84%E6%B0%B4%E8%A7%A3%E5%B9%B3%E8%A1%A1/</url>
+    <content><![CDATA[<h2 id="题目背景"><a href="#题目背景" class="headerlink" title="题目背景"></a>题目背景</h2><p>最近，我们的wjd王先生被一道高中的水解平衡题目的离子含量定性比较给难住了，在下觉得解答的过程很精妙，于是在此做出此题的解答。</p><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>王先生喜欢中和反应。他左手有一瓶pH=2的HAc(CH3COOH)溶液，右手有一瓶pH=12的NaOH溶液，且这两瓶溶液体积相同。</p><p>王先生喜欢变魔术，于是他把两瓶溶液倒在了一起。他想知道，此时溶液中各离子的含量大小关系，请你来帮他一下。</p><a id="more"></a>
+
+
+<h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><h3 id="酸碱性"><a href="#酸碱性" class="headerlink" title="酸碱性"></a>酸碱性</h3><p>显然，这是个水解平衡问题，如果是强酸强碱中和，那么pH应当为7，显中性，但是醋酸是弱酸，为了表现出pH=2，它需要比pH=2的盐酸溶液更高的HAc浓度。</p>
+<p>也就是说，如果是盐酸，而这反应完毕后就是<del>一锅汤</del>NaCl溶液，显中性，但是此时弱酸过量，也就是说反应后$c(H^+)&gt;c(OH^-)$。</p>
+<h3 id="过量的醋酸根"><a href="#过量的醋酸根" class="headerlink" title="过量的醋酸根"></a>过量的醋酸根</h3><p>随后，我们发现NaOH和HAc的反应是这样的：</p>
+<p>$NaOH+HAc==NaAc+H_2O$</p>
+<p>也就是说，现在溶液中有多少$Na^+$，就有多少的$HAc$发生了中和反应。从上文可以知道还有一部分没发生反应的HAc会电离出$Ac^-$，所以溶液中$c(Ac^-)&gt;c(Na^+)$。</p>
+<h3 id="阳离子浓度比较"><a href="#阳离子浓度比较" class="headerlink" title="阳离子浓度比较"></a>阳离子浓度比较</h3><p>最麻烦的问题来了：如何比较$c(Na^+)$和$c(H^+)$的大小？</p>
+<p>这就需要一定的数学推导了(思路来自数竞大佬kjy)</p>
+<p>首先写下电离方程式：</p>
+<p><img src="https://i.loli.net/2019/12/10/inUeCvAsjEySaG2.png" alt="电离方程式"></p>
+<p>然后我们此处已知氢离子浓度/pH，但是我们假装不知道，假设混合之前，在wjd手上的那瓶HAc中，HAc的浓度是x，$H^+$和$Ac^-$的浓度都是y。</p>
+<p>所以我们可以得到醋酸的电离平衡常数：</p>
+<p><img src="https://i.loli.net/2019/12/10/iQqyJlgYOBxshk1.png" alt="电离平衡常数"></p>
+<p>继续，我们按照步骤把溶液中和，此时HAc过量，上述的电离仍然在进行，由于温度并没有发生改变，$K_a$仍然不变。</p>
+<p>但是在等体积的两种溶液混合后，不考虑生成的水，所有溶质的浓度都要折半，而氢离子被完全消耗，即：</p>
+<p>$$\left{\begin{matrix}c(HAc)=\frac{x}{2}\c(H^+)=0\c(Ac^-)=\frac{y}{2}\end{matrix}\right.$$</p>
+<p>那么我们假设有$\omega$浓度的HAc被转化，写出三段式：</p>
+<p><img src="https://i.loli.net/2019/12/10/Nhc7paxM4gIJ9fY.png" alt="三段式"></p>
+<p>那么由于$K_a$没有发生变化，我们可以得到关系式：</p>
+<p><img src="https://i.loli.net/2019/12/10/Ukg2WXTIGcH3uwS.png" alt="电离常数不变的关系转化"></p>
+<p>那么我们来分步解方程，首先是$\Delta$。</p>
+<p><img src="https://i.loli.net/2019/12/10/pfSIy7UajgV5WwJ.png" alt="解delta"></p>
+<p>发现$\Delta$有一步奇妙的一次放缩机会，仿佛……求根公式中可以抵消掉一点什么！</p>
+<p><img src="https://i.loli.net/2019/12/10/8VTsAhQnYgqtk4N.png" alt="求根公式"></p>
+<p>回头看一眼$\frac{y}{2}$的含义？竟然是$\large\text{钠离子浓度！}$</p>
+<p>因为此时的氢离子全部被转化而来，所以$\omega$就是$\large\text{氢离子浓度！}$</p>
+<p>所以我们得到了结论：</p>
+<p>$$\huge c(Na^+)&gt;c(H^+)$$</p>
+<p>最后，我们进行一次完整的排序：</p>
+<p>$$\Large c(Ac^-)&gt;c(Na^+)&gt;c(H^+)&gt;c(OH^-)$$</p>
+<p>得到最终答案。</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>简而言之，要定性分析离子浓度并不麻烦，只要能把握住<strong>平衡常数</strong>这样的不变量进行混合前混合后的分析，加之解方程求解范围即可，此题比较特殊，是一个恒成立现象。</p>
+<p>你发现了吗？在忽略水的电离的条件下，其实pH对$c(Na^+)$和$c(H^+)$的大小关系并无影响，所以只要保证混合前二者pH不接近于pH=7，上述的关系就一定存在啦~</p>
+<p>By first_fan</p>
+<p>2019.12.10</p>
+]]></content>
+      <categories>
+        <category>随想</category>
+      </categories>
+      <tags>
+        <tag>数学</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Github+Hexo搭博教程</title>
     <url>/2019/12/06/hexo-build-up/</url>
     <content><![CDATA[<h2 id="序"><a href="#序" class="headerlink" title="序"></a>序</h2><p>这里介绍了一种利用github托管的hexo静态博客搭建方法，也是此博客的搭建方法，较为易懂。</p><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
@@ -291,8 +339,8 @@
         <category>随机化</category>
       </categories>
       <tags>
-        <tag>随机化</tag>
         <tag>思路</tag>
+        <tag>随机化</tag>
       </tags>
   </entry>
   <entry>
@@ -321,8 +369,8 @@
         <category>随机化</category>
       </categories>
       <tags>
-        <tag>随机化</tag>
         <tag>思路</tag>
+        <tag>随机化</tag>
       </tags>
   </entry>
   <entry>
@@ -559,8 +607,8 @@
         <category>随想</category>
       </categories>
       <tags>
-        <tag>思路</tag>
         <tag>数学</tag>
+        <tag>思路</tag>
       </tags>
   </entry>
   <entry>
@@ -1314,8 +1362,8 @@
         <category>题解</category>
       </categories>
       <tags>
-        <tag>动态规划</tag>
         <tag>二分</tag>
+        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
@@ -1477,8 +1525,8 @@
         <category>数据结构</category>
       </categories>
       <tags>
-        <tag>随机化</tag>
         <tag>思路</tag>
+        <tag>随机化</tag>
       </tags>
   </entry>
   <entry>
@@ -1496,8 +1544,8 @@
         <category>搜索</category>
       </categories>
       <tags>
-        <tag>思路</tag>
         <tag>搜索</tag>
+        <tag>思路</tag>
       </tags>
   </entry>
   <entry>
@@ -1535,8 +1583,8 @@
         <category>题解</category>
       </categories>
       <tags>
-        <tag>随机化</tag>
         <tag>思路</tag>
+        <tag>随机化</tag>
       </tags>
   </entry>
   <entry>
